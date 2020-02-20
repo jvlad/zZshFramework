@@ -1,9 +1,12 @@
 ###### Fri Jan 24 04:52:59 MSK 2020
 
 # zZshFramework  
-Command line utilities to work with files, strings, clipboard, git, etc.
+Command line utilities for Zsh (Z-Shell) to work with files, strings, clipboard, git and other applications.  
 
-How to enable zZshFramework on Unix based system:  
+## User NOTE  
+> These tools were developed, used and tested under MacOS. I'm not sure how well it plays in other environments.  
+
+## How to enable zZshFramework on Unix based system  
 1. locate or create `.zhsrc` file at your user home directory 
 
 2. open .zshrc in any text editor and add to the end:  
