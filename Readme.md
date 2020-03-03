@@ -14,7 +14,7 @@ Command line utilities for Zsh (Z-Shell) to work with files, strings, clipboard,
     ``` bash
     # in ~/.zshrc
     
-    source "<path/to/this/dir/src/1_zZshFramework_main.sh>"
+    source "<PATH_TO_THIS_DIR>/src/1_zZshFramework_main.sh"
     ```
 
     E. g. 
@@ -25,7 +25,7 @@ Command line utilities for Zsh (Z-Shell) to work with files, strings, clipboard,
     source ~/.zshrc
     ```
 
-4. Recheck zZshFramework enabled by running:  
+4. Ensure zZshFramework enabled:    
     ```
     version__zsf
     ```
