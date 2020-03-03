@@ -1,5 +1,5 @@
-###### Fri Jan 24 04:52:59 MSK 2020 created  
-###### Thu Feb 20 09:09:48 MSK 2020 updated  
+created ###### Fri Jan 24 04:52:59 MSK 2020
+updated ###### Tue Mar  3 17:49:30 MSK 2020
 
 # zZshFramework  
 Command line utilities for Zsh (Z-Shell) to work with files, strings, clipboard, git and other applications.  
