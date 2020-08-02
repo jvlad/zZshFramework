@@ -24,7 +24,7 @@
 _main_1_zZshFramework_main() {
 
     version__zsf() {
-        print "zZshFramework 1.3.6.20200126"
+        print "zZshFramework 1.4.7.202000802_zsf_zsh"
     }
 
     edit__zsf() {
