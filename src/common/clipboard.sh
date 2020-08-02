@@ -8,7 +8,7 @@ _main_clipboard() {
             if [[ -z $file ]]; then
                 pbcopy
             else
-                echo $file | pbcopy
+                echo $file | tr -d '\n' | pbcopy
             fi
         elif [[ $OSTYPE == cygwin* ]] ;then
             if [[ -z $file ]]; then

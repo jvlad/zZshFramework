@@ -6,23 +6,28 @@ _main_git_log() {
         git log --pretty=fuller $@
     }
     alias gl="gitLog_args --stat"
-    alias glg="gitLog_args --all --graph --decorate --stat"
+    alias glg="gitLog_args --graph --decorate --stat"
+    alias glga="gitLog_args --all --graph --decorate --stat"
+    alias gr="git remote"
     
     gitLog_upToCommit_numberOfCommits() {
         local args=${@:3}  
-        _gitLogExtract_logRetrieverFunc_upToCommit_numberOfCommits \
-            gitLogToConsole "$1" "$2" "$args"
+        _gitLogExtract_logRetrieverFunc_upToCommit_numberOfCommits_prefix_postfix \
+            gitLogToConsole "$1" "$2" \
+                "    \`\`\`\n    " \
+                "\n    \`\`\`" \
+                "$args"
     }
     alias glc="gitLog_upToCommit_numberOfCommits"
 
     gitLogShort_upToCommit_numberOfCommits() {
-        _gitLogExtract_logRetrieverFunc_upToCommit_numberOfCommits \
+        _gitLogExtract_logRetrieverFunc_upToCommit_numberOfCommits_prefix_postfix \
             gitLogShortToConsole "$1" "$2"
     }
     alias glsc="gitLogShort_upToCommit_numberOfCommits"
 
     gitLogHeadline_upToCommit_numberOfCommits() {
-        _gitLogExtract_logRetrieverFunc_upToCommit_numberOfCommits \
+        _gitLogExtract_logRetrieverFunc_upToCommit_numberOfCommits_prefix_postfix \
             gitLogHeadlineToConsole "$1" "$2"
     }
 
@@ -147,16 +152,18 @@ _main_git_log() {
         gitLog_args --decorate --pretty=format:"$1" --date=format:%H:%M\ %a\ %b\ %d\ %Y ${@:2}
     }
 
-    _gitLogExtract_logRetrieverFunc_upToCommit_numberOfCommits() {
+    _gitLogExtract_logRetrieverFunc_upToCommit_numberOfCommits_prefix_postfix() {
         debugFunc:Args_array "$@"
-        local args=${@:4}  
+        local args=${@:6}  
         local gitLogExtract=`$1 -"$3" "$args" "$2"`
         if isEmpty_String__i "$3" ;then
             local gitLogExtract=`$1 "$args" "$2"`
         else
             local gitLogExtract=`$1 -"$3" "$args" "$2"`
         fi
-        print__i "\`\`\`\n    $gitLogExtract\n    \`\`\`" | trimEndSpaces__i
+        isEmpty_String__i $gitLogExtract \
+            && return 1 \
+            || print__i "$4$gitLogExtract$5" | trimEndSpaces__i
     }
 
     gitLogWithMessagesContain_Text() {
