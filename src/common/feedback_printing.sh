@@ -19,7 +19,7 @@ _main_feedback_printing() {
         local subject="$2"
         isEmpty:String $subject \
             && print__zsf "$prefix" \
-            || print__zsf "$prefix: $subject\n"
+            || print__zsf "$prefix:\n$subject\n"
     }
 
     callStackMessage_index() {

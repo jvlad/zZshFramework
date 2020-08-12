@@ -103,47 +103,51 @@ _main_FilesOperations() {
     }
 
     isPointsToCurrentDir:Path() {
-        if isStringEqualTo:String "$1" "." || isEmpty:String "$1"; then
-            return 0;
-        else
-            return 1;
-        fi
+        isStringEqualTo:String "$1" "." || isEmpty:String "$1" && return 0 || return 1;
     }
 
     filePrint:Text:ToFile() {
+        fileCreateAt_path "$2"
         print__zsf "$1" >> "$2"
     }
 
     fileCopyPathOfEnclosingDir:RelativePathToFile(){
-        local absolutePathToEnclosingDirectory
-        if isEmpty:String $1 ;then
-            cd ..
-            absolutePathToEnclosingDirectory=`systemGetCurrentDirectoryPath`
-            cd -
-        else
-            local relativePathToEnclosingDirectory=`fileBasePartOf:Path "$1"`
-            cd "$relativePathToEnclosingDirectory"
-            absolutePathToEnclosingDirectory=`systemGetCurrentDirectoryPath`
-            cd -
-        fi
-        sysClipboardCopy:Arg_array "$absolutePathToEnclosingDirectory"
+        sysClipboardCopy:Arg_array "`fileEnclosingDirPath_relativePath $1`"
     }
     alias cld="fileCopyPathOfEnclosingDir:RelativePathToFile"
 
+    fileEnclosingDirPath_relativePath() {
+        if isPointsToCurrentDir:Path "$1" ;then
+            fileBasePartOf:Path `fileCurrentDirPath`
+        else
+            fileBasePartOf:Path "`fileCurrentDirPath`/$1"
+        fi
+    }
+
+    fileCurrentDirPath(){
+        print `pwd`
+    }
+
+    fileEnclosingDirName_Path() {
+        fileLastPartOf:Path `fileEnclosingDirPath_relativePath $1`
+    }
+
+    fileCreateAt_path() {
+        filePrepareDirAt:Path "`fileBasePartOf:Path $1`"
+        fileCreateNewWith:Name "$1"
+    }
+
     filePrepareDirWithKeepFileAt:Path() {
         filePrepareDirAt:Path "$1"
-        if ! isFileExistAt:Path "$1/.keep" ;then
-            fileCreateNewWith:Name "$1/.keep"
+        local fileName=".keep"
+        if ! isFileExistAt:Path "$1/$fileName" ;then
+            fileCreateNewWith:Name "$1/$fileName"
         fi
-        printSuccessAdding:Message ".keep file is ready at path: $1/.keep"
+        printSuccessAdding:Message "$fileName file is ready at path: $1/$fileName"
     }
 
     filePrepareDirAt:Path() {
-        if ! isDir_path "$1" ;then
-            print__zsf "Preparing dir at: $1"
-            mkdir -p "$1"
-        fi
-        printSuccessAdding:Message "Directory prepared at path: $1"
+        mkdir -p "$1"
     }
 
     fileCopy:Soruce:ToDestination(){
