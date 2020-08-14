@@ -36,4 +36,4 @@ _main_clipboard() {
         fi
     }
 }
-_callAndForget_function _main_clipboard
+_callAndForget_functions _main_clipboard

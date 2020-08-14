@@ -36,4 +36,4 @@ _main_feedback_printing() {
         fi
     }
 }
-_callAndForget_function _main_feedback_printing
+_callAndForget_functions _main_feedback_printing

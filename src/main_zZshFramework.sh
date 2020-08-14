@@ -5,10 +5,10 @@
 # 1. locate or create `.zhsrc` file at your user home directory 
 #
 # 2. open .zshrc in any text editor and add to the end:  
-#   source "<path/to/this/file>"
+#   source "<PATH_TO_THIS_FILE_DIR>/main_zZshFramework.sh"
 #
 #   E. g. 
-#     source "/Users/JohnDoe/zZshFramework/src/1_zZshFramework_main.sh"
+#     source "/Users/JohnDoe/zZshFramework/src/main_zZshFramework.sh"
 #
 # 3. Reopen your terminal or relaunch ZSH 
 #   Alternatively, run:  
@@ -21,7 +21,8 @@
 #       zZshFramework x.x.x.xxxxxxxx
 #
 
-_main_1_zZshFramework_main() {
+_main_zZshFramework_srcDir() {
+    export srcDir__zsf="$1"
 
     version__zsf() {
         print "zZshFramework 1.4.7.202000802_zsf_zsh"
@@ -38,17 +39,34 @@ _main_1_zZshFramework_main() {
     tempDir__zsf() {
         print__zsf "/Users/`whoami`/.zShellFramework/temp"
     }
-    
-    local d="$zsf_dir"
 
-    source "$d/common/import.sh"
+    userLibraryDir() {
+        print "`userHomeDir`/Library"
+    }
+
+    userPrefsDir() {
+        print "`userLibraryDir`/Preferences"
+    }
+
+    userDesktopDir() {
+        print "`userHomeDir`/Desktop"
+    }
+
+    userAppsDir(){
+        print "`userHomeDir`/Applications"
+    }
+    
+    source "$srcDir__zsf/common/import.sh"
     _import_shFilesPaths \
-        "$d/common/clipboard" \
-        "$d/common/debug" \
-        "$d/common/feedback_printing" \
-        "$d/common/files" \
-        "$d/common/string_manipulations" \
-        "$d/git/git_log" \
+        "$srcDir__zsf/common/clipboard" \
+        "$srcDir__zsf/common/debug" \
+        "$srcDir__zsf/common/feedback_printing" \
+        "$srcDir__zsf/common/files" \
+        "$srcDir__zsf/common/android" \
+        "$srcDir__zsf/common/string_manipulations" \
+        "$srcDir__zsf/git/gitLog" \
+        "$srcDir__zsf/git/gitHooks" \
+
 
 }
 
@@ -66,6 +84,5 @@ If you don't have brew, check https://brew.sh/
     return 1
 fi
 
-local zsf_dir="`dirname $0`"
-_main_1_zZshFramework_main
-_unset_functions _main_1_zZshFramework_main
+_main_zZshFramework_srcDir "`dirname $0`"  
+_unset_functions _main_zZshFramework_srcDir  

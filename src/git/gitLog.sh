@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-_main_git_log() {
+_main_gitLog() {  
 
     gitLog_args() {
         git log --pretty=fuller $@
@@ -140,7 +140,7 @@ _main_git_log() {
     }
 
     gitLog_format_args() {
-        debugFunc:Args_array "$@"
+        # debugFunc:Args_array "$@"
         # %h = abbreviated commit hash
         # %x09 = tab (character for code 9)
         # %an = author name
@@ -153,7 +153,7 @@ _main_git_log() {
     }
 
     _gitLogExtract_logRetrieverFunc_upToCommit_numberOfCommits_prefix_postfix() {
-        debugFunc:Args_array "$@"
+        # debugFunc:Args_array "$@"
         local args=${@:6}  
         local gitLogExtract=`$1 -"$3" "$args" "$2"`
         if isEmpty_String__i "$3" ;then
@@ -186,4 +186,4 @@ _main_git_log() {
     print__i() { print__zsf $@; }
     trimEndSpaces__i() { trimEndSpaces $@; }
 }
-_callAndForget_function _main_git_log  
+_callAndForget_functions _main_gitLog  

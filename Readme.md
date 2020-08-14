@@ -21,11 +21,11 @@ Command line utilities for Zsh (Z-Shell) to work with files, strings, clipboard,
     ``` bash
     # in ~/.zshrc
     
-    source "<path/to/this/dir/src/1_zZshFramework_main.sh>"
+    source "<$PATH_TO_THIS_DIR>/src/main_zZshFramework.sh"  
     ```
 
     E. g. 
-    `source "/Users/JohnDoe/zZshFramework/src/1_zZshFramework_main.sh"`
+    `source "/Users/JohnDoe/zZshFramework/src/main_zZshFramework.sh"`  
 
 3. Reopen your terminal or relaunch ZSH. Alternatively, run:  
     ```

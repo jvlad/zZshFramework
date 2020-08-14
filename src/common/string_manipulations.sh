@@ -38,4 +38,4 @@ _main_string_manipulations() {
     #     sed -e '/^'"$1"'/d'
     # }
 }
-_callAndForget_function _main_string_manipulations
+_callAndForget_functions _main_string_manipulations

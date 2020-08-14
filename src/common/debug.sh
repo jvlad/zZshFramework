@@ -1,15 +1,14 @@
 #!/usr/bin/env zsh
 
 _main_DebugShell() {
-    _IS_DEBUG_ENABLED="NO"
 
     debugTurnON() {
-        _IS_DEBUG_ENABLED="YES"
+        export _IS_DEBUG_ENABLED="YES"
         debugPrintEnabledStatus
     }
 
     debugTurnOFF() {
-        _IS_DEBUG_ENABLED="NO"
+        export _IS_DEBUG_ENABLED="NO"
         debugPrintEnabledStatus
     }
 
@@ -24,15 +23,15 @@ _main_DebugShell() {
 
     debugPrintEnabledStatus() {
         if isDebugEnabled; then
-            local debugstatus="ON"
+            print__zsf "DEBUG is ON"
         else 
-            local debugstatus="OFF"
+            print__zsf "DEBUG is OFF"
         fi
-        print__zsf "DEBUG is $debugstatus"
     }
 
     debugFunc:Args_array() {
         if ! isDebugEnabled; then
+            printError_message "Debug isn't enabled"
             return 1
         fi
         local argsInfo=""
@@ -44,7 +43,7 @@ _main_DebugShell() {
 
     debugCacheClean() {
         if ! isDebugEnabled; then
-            print__zsf "Debug isn't enabled"
+            printError_message "Debug isn't enabled"
             return 1
         fi
         del "`debugCachePath`"
@@ -54,7 +53,7 @@ _main_DebugShell() {
 
     debugCacheAppendDivider() {
         if ! isDebugEnabled; then
-            print__zsf "Debug isn't enabled"
+            printError_message "Debug isn't enabled"
             return 1
         fi
         print__zsf "\n\n===========================\n===========================\n===========================" >> "`debugCachePath`"
@@ -62,7 +61,7 @@ _main_DebugShell() {
 
     debugLog() {
         if ! isDebugEnabled; then
-            print__zsf "Debug isn't enabled"
+            printError_message "Debug isn't enabled"
             return 1
         fi
         local cacheDir="`debugCachePath`"

@@ -129,7 +129,17 @@ _main_FilesOperations() {
     }
 
     fileEnclosingDirName_Path() {
-        fileLastPartOf:Path `fileEnclosingDirPath_relativePath $1`
+        if isPointsToCurrentDir:Path "$1" ;then
+            fileName:Path
+        else 
+            fileLastPartOf:Path `fileEnclosingDirPath_relativePath "$1"`
+        fi
+    }
+
+    isEnclosingDirNameEqualsTo_name() {
+        isStringEqualTo:String `fileEnclosingDirName_Path` "$1" \
+            && return 0 \
+            || return 1
     }
 
     fileCreateAt_path() {
@@ -150,7 +160,7 @@ _main_FilesOperations() {
         mkdir -p "$1"
     }
 
-    fileCopy:Soruce:ToDestination(){
+    fileCopy_source_destination(){
         cp -r "$1" "$2"
         local fileName=`fileLastPartOf:Path "$1"`
         printSuccessAdding:Message "Copied $fileName -->\n$2"
@@ -245,4 +255,4 @@ _main_FilesOperations() {
         fi
     }
 }
-_callAndForget_function _main_FilesOperations
+_callAndForget_functions _main_FilesOperations

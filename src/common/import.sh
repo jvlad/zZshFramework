@@ -1,13 +1,14 @@
 #!/usr/bin/env zsh
 
-_main_shell_import() {
+_main_shellImport() {
     
-    _callAndForget_function() {
+    _callAndForget_function_argsArray() {
         "$1" ${@:2}
         _unset_functions $1
     }
 
     _callAndForget_functions() {
+        # debugFunc:Args_array "$@"
         for func in $@; do
             "$func"
         done
@@ -21,6 +22,7 @@ _main_shell_import() {
     }
 
     _import_shFile_args() {
+        # debugFunc:Args_array "$@"
         local fileToImport="$1.sh"
         # echo "fileToImport: $fileToImport"
         source "$fileToImport" "${@:2}"
@@ -33,5 +35,5 @@ _main_shell_import() {
         done
     }
 }
-_main_shell_import
-_unset_functions _main_shell_import
+_main_shellImport
+_unset_functions _main_shellImport
