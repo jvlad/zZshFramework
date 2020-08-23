@@ -60,13 +60,13 @@ _main_zZshFramework_srcDir() {
     _import_shFilesPaths \
         "$srcDir__zsf/common/clipboard" \
         "$srcDir__zsf/common/debug" \
-        "$srcDir__zsf/common/feedback_printing" \
+        "$srcDir__zsf/common/printer" \
         "$srcDir__zsf/common/files" \
         "$srcDir__zsf/common/android" \
         "$srcDir__zsf/common/string_manipulations" \
         "$srcDir__zsf/git/gitLog" \
         "$srcDir__zsf/git/gitHooks" \
-
+        "$srcDir__zsf/git/gitCommonAliases" \
 
 }
 

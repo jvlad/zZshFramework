@@ -8,7 +8,6 @@ _main_gitLog() {
     alias gl="gitLog_args --stat"
     alias glg="gitLog_args --graph --decorate --stat"
     alias glga="gitLog_args --all --graph --decorate --stat"
-    alias gr="git remote"
     
     gitLog_upToCommit_numberOfCommits() {
         local args=${@:3}  

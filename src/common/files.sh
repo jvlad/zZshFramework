@@ -1,6 +1,10 @@
 #!/usr/bin/env zsh
 
-_main_FilesOperations() {
+_main_FilesOperations() {  
+
+    fileFind_name() {
+        find . -name "$1"
+    }
 
     userHomeDir(){
         print__zsf "/Users/`whoami`"
@@ -160,7 +164,7 @@ _main_FilesOperations() {
         mkdir -p "$1"
     }
 
-    fileCopy_source_destination(){
+    fileCopy_source_destination() {
         cp -r "$1" "$2"
         local fileName=`fileLastPartOf:Path "$1"`
         printSuccessAdding:Message "Copied $fileName -->\n$2"
