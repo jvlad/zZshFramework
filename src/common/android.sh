@@ -155,8 +155,8 @@ _main_android() {
         adbRunOnAllConnectedDevices:Commands shell pm reset-permissions "$1"
     }
 
-    facebookAndroidKeyHashcode:KeyAlias:KeystoreFilePath(){
-        do_facebookAndroidKeyHashcode:KeyAlias:KeystoreFilePath(){
+    facebookAndroidKeyHashcode:KeyAlias:KeystoreFilePath() {
+        do_facebookAndroidKeyHashcode:KeyAlias:KeystoreFilePath() {
             keytool -exportcert -alias "$1" -keystore "$2" | openssl sha1 -binary | openssl base64
         }
         if isEmpty:String $1 || isEmpty:String $2; then
