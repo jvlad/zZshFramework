@@ -127,6 +127,11 @@ _main_android() {
         adbRunOnAllConnectedDevices:Commands uninstall "$1"
     }
 
+    adbRemoveFromAllDevicesIncludingDebug_appPackageId() {
+        adbRemoveFromAllDevices:AppPackageId "$1"
+        adbRemoveFromAllDevices:AppPackageId "$1.debug"
+    }
+
     adbInstallOn:DeviceId:Apk() {
         adbRunOn:DeviceId:Commands "$1" install "$2"
     }
