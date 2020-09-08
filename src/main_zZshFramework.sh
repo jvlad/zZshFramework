@@ -25,7 +25,7 @@ _main_zZshFramework_srcDir() {
     export srcDir__zsf="$1"
 
     version__zsf() {
-        print "zZshFramework 2.2.9.202000823_zsf_zsh"
+        print "zZshFramework 2.3.10.20200908_zsf_zsh"
     }
 
     edit__zsf() {
