@@ -66,7 +66,7 @@ _main_zZshFramework_srcDir() {
         "$srcDir__zsf/common/string_manipulations" \
         "$srcDir__zsf/git/gitLog" \
         "$srcDir__zsf/git/gitHooks" \
-        "$srcDir__zsf/git/gitCommonAliases" \
+        "$srcDir__zsf/git/gitBasic" \
 
 }
 
