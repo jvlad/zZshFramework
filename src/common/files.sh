@@ -26,7 +26,7 @@ _main_FilesOperations() {
         
         rsync -r --delete --exclude='/.git' \
             --exclude='*.iml' \
-            --filter="- .gitignore" \
+            --exclude-from="$srcDir/.gitignore" \
             "$srcDir/" "$targetDir/"
     }
 
