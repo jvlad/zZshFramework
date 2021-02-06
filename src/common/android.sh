@@ -165,8 +165,8 @@ _main_android() {
             keytool -exportcert -alias "$1" -keystore "$2" | openssl sha1 -binary | openssl base64
         }
         if isEmpty:String $1 || isEmpty:String $2; then
-            print "Looking for DEBUG key. Use 'Android' as a password"
-            do_facebookAndroidKeyHashcode:KeyAlias:KeystoreFilePath androiddebugkey "~/.android/debug.keystore"
+            print "Looking for DEBUG key. Use 'android' as a password"
+            do_facebookAndroidKeyHashcode:KeyAlias:KeystoreFilePath androiddebugkey "`userHomeDir`/.android/debug.keystore"
         else
             do_facebookAndroidKeyHashcode:KeyAlias:KeystoreFilePath "$1" "$2"
         fi
@@ -214,6 +214,10 @@ _main_android() {
 
     adbLogsFetchFromDevicesTo:File() {
         adbRunOnAllConnectedDevices:Commands logcat >> "$1"
+    }
+
+    adbLogFrom_device_toFile() {
+        adbRunOn:DeviceId:Commands "$1" logcat >> "$2"
     }
 
     adbRunOn:DeviceId:Commands() {

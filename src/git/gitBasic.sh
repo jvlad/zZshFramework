@@ -8,6 +8,12 @@ alias gco="git checkout"
 alias gm="git merge"  
 alias grb="git rebase"
 alias grc="git rebase --continue"  
+alias gs="git status"
+alias gss="gitListStaged"
+
+gitListStaged() {
+    git diff --name-status --cached | cat
+}
 
 ggpull() {
     git pull --no-edit origin `gitCurrentBranch`

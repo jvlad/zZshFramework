@@ -8,6 +8,7 @@ _main_gitLog() {
     alias gl="gitLog_args --stat"
     alias glg="gitLog_args --graph --decorate --stat"
     alias glga="gitLog_args --all --graph --decorate --stat"
+    alias grl="git reflog"
     
     gitLog_upToCommit_numberOfCommits() {
         local args=${@:3}  
@@ -130,13 +131,13 @@ _main_gitLog() {
     gitLogShortToConsole() {
         gitLogShort $@ | trimEndSpaces__i
     }
-    alias gls="gitLogShort"
 
     gitLogShort() {
         local repo_top_level=`git rev-parse --show-toplevel`
         local repo_name=`basename $repo_top_level`
         gitLog_format_args "%h  %ad $repo_name  %s" $@
     }
+    alias gls="gitLogShort"
 
     gitLog_format_args() {
         # debugFunc:Args_array "$@"
