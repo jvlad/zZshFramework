@@ -4,24 +4,37 @@ _main_clipboard() {
     
     sysClipboardCopy:Arg_array() {
         local file="$@"
+        sysClipboardCopy_isRemovingLinebreaks_args false "$file"
+    }
+
+    sysClipboardCopy_isRemovingLinebreaks_args() {
+        local content="${@:2}"
+        if $1 ;then
+            content=`echo "$content" | tr -d '\n'`
+        fi
+        _sysClipboardCopy_args "$content"  
+    }
+
+    _sysClipboardCopy_args() {
+        local content="$@"
         if [[ $OSTYPE == darwin* ]] ;then
             if [[ -z $file ]]; then
                 pbcopy
             else
-                echo $file | tr -d '\n' | pbcopy
+                echo "$file" | pbcopy
             fi
         elif [[ $OSTYPE == cygwin* ]] ;then
             if [[ -z $file ]]; then
                 echo > /dev/clipboard
             else
-                echo $file > /dev/clipboard
+                echo "$file" > /dev/clipboard
             fi
         else
             if (( $+commands[xclip] )) ;then
             if [[ -z $file ]]; then
                 xclip -in -selection clipboard
             else
-                xclip -in -selection clipboard $file
+                xclip -in -selection clipboard "$file"
             fi
             elif (( $+commands[xsel] )) ;then
             if [[ -z $file ]]; then

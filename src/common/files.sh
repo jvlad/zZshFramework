@@ -6,6 +6,10 @@ _main_FilesOperations() {
         find . -name "$1"
     }
 
+    fileFind_name_inDir() {
+        find "$2" -name "$1"
+    }
+
     userHomeDir(){
         print__zsf "/Users/`whoami`"
     }

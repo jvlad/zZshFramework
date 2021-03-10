@@ -11,6 +11,26 @@ alias grc="git rebase --continue"
 alias gs="git status"
 alias gss="gitListStaged"
 
+## Experimental
+gitRebaseOnCurrentBranchFrom_branchToRebase() {
+    local branchToRebase="$1"
+    local currentBranch="`gitCurrentBranch`"
+    
+    ggpull && \
+    git checkout "$branchToRebase" && \
+    ggpull && \
+    git rebase "$currentBranch"
+}
+
+## Experimental
+gitMergeCurrentBranchIntoPrevious() {
+    local currentBranch="`gitCurrentBranch`"
+    
+    git checkout - && \
+    git merge "$currentBranch" && \
+    sysClipboardCopy:Arg_array "$currentBranch" 
+}
+
 gitListStaged() {
     git diff --name-status --cached | cat
 }

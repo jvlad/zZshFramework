@@ -5,17 +5,17 @@ _main_gitLog() {
     gitLog_args() {
         git log --pretty=fuller $@
     }
-    alias gl="gitLog_args --stat"
-    alias glg="gitLog_args --graph --decorate --stat"
-    alias glga="gitLog_args --all --graph --decorate --stat"
+    alias gl="gitLog_args --name-status"
+    alias glg="gitLog_args --graph --decorate --name-status"
+    alias glga="gitLog_args --all --graph --decorate --name-status"
     alias grl="git reflog"
     
     gitLog_upToCommit_numberOfCommits() {
         local args=${@:3}  
         _gitLogExtract_logRetrieverFunc_upToCommit_numberOfCommits_prefix_postfix \
             gitLogToConsole "$1" "$2" \
-                "    \`\`\`\n    " \
-                "\n    \`\`\`" \
+                "\`\`\`\n  " \
+                "\n\`\`\`  " \
                 "$args"
     }
     alias glc="gitLog_upToCommit_numberOfCommits"

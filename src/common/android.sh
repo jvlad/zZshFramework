@@ -12,6 +12,38 @@ _main_android() {
         export ANDROID_SDK_ROOT="$ANDROID_HOME"
     }
 
+    androidBuildRelease_buildNumber_moduleName_apkTargetDir_buildLogFilePath() {
+        debugFunc:Args_array "$@"
+        local buildNumber="$1"
+        local moduleName="$2"
+        local apkTargetDir="$3"
+        local buildLogFilePath="$4"
+        local postBuildHook="${@:5}"
+        
+        fileCreateAt_path "$buildLogFilePath"
+
+        androidCleanReleaseArtifact_moduleName "$moduleName"
+        runGradle:PathToBuildLogFile:GradleTaskToRun \
+            "$buildLogFilePath" :"$moduleName":assembleRelease && \
+        androidCopyReleaseBuildArtifactsFrom:AppModuleDirTo:BuildNumber:TargetDir \
+            "./$moduleName/" "$buildNumber" "$apkTargetDir"
+    }
+
+    androidCopyReleaseBuildArtifactsFrom:AppModuleDirTo:BuildNumber:TargetDir() {
+        targetDir="$3/$2"
+        filePrepareDirAt:Path "$targetDir"
+        copyFiles:FromDir:NameMatchingPattern:ToDir \
+                "$1/build/outputs/apk/release/" \
+                "*$2*.apk" \
+                "$targetDir" && \
+        cp "$1/build/outputs/mapping/release/mapping.txt" "$targetDir"
+    }
+
+    androidCleanReleaseArtifact_moduleName() {
+        local moduleName="$1"
+        del "$moduleName/build/outputs/apk/release"
+    }
+
     androidStudioOpen:ProjectDir_optional() {
         macOpen:AppName:Args_array "android studio" "$1"
     }
@@ -136,6 +168,11 @@ _main_android() {
         adbRunOn:DeviceId:Commands "$1" install "$2"
     }
 
+    adbInstallAndStartOnAllDevices_apk_packageName_mainActivityClassFullName() {
+        adbInstallOnAllDevices_apk "$1" && \
+        adbStartOnAllDevices_packageName_mainActivityClassFullName "$2" "$3"
+    }
+
     adbInstallOnAllDevices_apk() {
         adbRunOnAllConnectedDevices:Commands install -r "$1"
     }
@@ -227,16 +264,6 @@ _main_android() {
 
     adbListAllInstalledApps() {
         adbRunOnAllConnectedDevices:Commands shell pm list packages -f
-    }
-
-    androidCopyReleaseBuildArtifactsFrom:AppModuleDirTo:BuildNumber:TargetDir() {
-        targetDir="$3/`monthDirName`/$2"
-        filePrepareDirAt:Path "$targetDir"
-        copyFiles:FromDir:NameMatchingPattern:ToDir \
-                "$1/build/outputs/apk/release/" \
-                "*$2*.apk" \
-                "$targetDir" && \
-        cp "$1/build/outputs/mapping/release/mapping.txt" "$targetDir"
     }
 
     androidCheckSignatureOf:APK() {
