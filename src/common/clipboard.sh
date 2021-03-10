@@ -8,20 +8,17 @@ _main_clipboard() {
     }
 
     sysClipboardCopy_isRemovingLinebreaks_args() {
-        local content="${@:2}"
-        if $1 ;then
-            content=`echo "$content" | tr -d '\n'`
-        fi
-        _sysClipboardCopy_args "$content"  
-    }
-
-    _sysClipboardCopy_args() {
-        local content="$@"
+        local isRemovingLinebreaks="$1"
+        local file="${@:2}"
         if [[ $OSTYPE == darwin* ]] ;then
             if [[ -z $file ]]; then
                 pbcopy
             else
-                echo "$file" | pbcopy
+                if $isRemovingLinebreaks ;then
+                    echo "$file" | tr -d '\n' | pbcopy
+                else
+                    echo "$file" | pbcopy
+                fi
             fi
         elif [[ $OSTYPE == cygwin* ]] ;then
             if [[ -z $file ]]; then
