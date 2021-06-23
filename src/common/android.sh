@@ -13,7 +13,6 @@ _main_android() {
     }
 
     androidBuildRelease_buildNumber_moduleName_apkTargetDir_buildLogFilePath() {
-        debugFunc:Args_array "$@"
         local buildNumber="$1"
         local moduleName="$2"
         local apkTargetDir="$3"
@@ -26,7 +25,7 @@ _main_android() {
         runGradle:PathToBuildLogFile:GradleTaskToRun \
             "$buildLogFilePath" :"$moduleName":assembleRelease && \
         androidCopyReleaseBuildArtifactsFrom:AppModuleDirTo:BuildNumber:TargetDir \
-            "./$moduleName/" "$buildNumber" "$apkTargetDir"
+            "./$moduleName" "$buildNumber" "$apkTargetDir"
     }
 
     androidCopyReleaseBuildArtifactsFrom:AppModuleDirTo:BuildNumber:TargetDir() {
@@ -169,6 +168,7 @@ _main_android() {
     }
 
     adbInstallAndStartOnAllDevices_apk_packageName_mainActivityClassFullName() {
+        adbRemoveFromAllDevicesIncludingDebug_appPackageId "$2"
         adbInstallOnAllDevices_apk "$1" && \
         adbStartOnAllDevices_packageName_mainActivityClassFullName "$2" "$3"
     }

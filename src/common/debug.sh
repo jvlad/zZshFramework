@@ -31,7 +31,7 @@ _main_DebugShell() {
 
     debugFunc:Args_array() {
         if ! isDebugEnabled; then
-            printError_message "Debug isn't enabled"
+            printException_message "Debug isn't enabled"
             return 1
         fi
         local argsInfo=""

@@ -9,10 +9,6 @@ _main_FilesOperations() {
     fileFind_name_inDir() {
         find "$2" -name "$1"
     }
-
-    userHomeDir(){
-        print__zsf "/Users/`whoami`"
-    }
     
     fileSizeOf:File() {
         du -sh "$1" 2>/dev/null

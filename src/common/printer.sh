@@ -10,6 +10,10 @@ _main_feedback_printing() {
         print_prefix_message "ERROR" "$1"
     }
 
+    printException_message() {
+        print_prefix_message "Exception: " "$1"
+    }
+
     print_prefix_message() {
         local callStack=`callStackMessage_index 4`
         isEmpty:String $callStack \

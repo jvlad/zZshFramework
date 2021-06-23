@@ -25,7 +25,7 @@ _main_zZshFramework_srcDir() {
     export srcDir__zsf="$1"
 
     version__zsf() {
-        print "zZshFramework 2.6.15.20210310_zsf_zsh"
+        print "zZshFramework 2.7.16.20210623_zsf_zsh"
     }
 
     edit__zsf() {
@@ -48,8 +48,12 @@ _main_zZshFramework_srcDir() {
         print "`userLibraryDir`/Preferences"
     }
 
+    userHomeDir() {
+        print__zsf "/Users/`whoami`"
+    }
+
     userDesktopDir() {
-        print "`userHomeDir`/Desktop"
+        print__zsf "`userHomeDir`/Desktop"
     }
 
     userAppsDir(){
@@ -64,6 +68,7 @@ _main_zZshFramework_srcDir() {
         "$srcDir__zsf/common/files" \
         "$srcDir__zsf/common/android" \
         "$srcDir__zsf/common/string_manipulations" \
+        "$srcDir__zsf/common/networking" \
         "$srcDir__zsf/git/gitLog" \
         "$srcDir__zsf/git/gitHooks" \
         "$srcDir__zsf/git/gitBasic" \

@@ -3,8 +3,13 @@
 _main_clipboard() {
     
     sysClipboardCopy:Arg_array() {
-        local file="$@"
-        sysClipboardCopy_isRemovingLinebreaks_args false "$file"
+        local content="$@"
+        sysClipboardCopy_isRemovingLinebreaks_args false "$content"
+    }
+
+    sysClipboardCopyRemovingLinebreaks_args() {
+        local content="$@"
+        sysClipboardCopy_isRemovingLinebreaks_args true "$content"
     }
 
     sysClipboardCopy_isRemovingLinebreaks_args() {
