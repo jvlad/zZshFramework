@@ -11,6 +11,8 @@ alias grc="git rebase --continue"
 alias gs="git status"
 alias gss="gitListStaged"
 alias gcm="gitCheckoutToMaster"
+alias gst="git stash"
+alias gstl="git stash list | cat"
 
 gitCheckoutToMaster() {
     git checkout master && ggpull
@@ -18,26 +20,17 @@ gitCheckoutToMaster() {
 
 ## Experimental
 gitRebaseOnMaster() {
-    _gitRebaseCurrentBranch_onBranch "master" || git checkout -
+    _gitRebaseCurrentBranch_onBranch "master"
 }
 
 ## Experimental
 _gitRebaseCurrentBranch_onBranch() {
-    local branchToRebase="`gitCurrentBranch`"
     local baseBranch="$1"
     git checkout "$baseBranch"
-    _gitRebaseOnCurrentBranchFrom_branchToRebase "$branchToRebase"
-}
-
-## Experimental
-_gitRebaseOnCurrentBranchFrom_branchToRebase() {
-    local branchToRebase="$1"
-    local currentBranch="`gitCurrentBranch`"
-    
     ggpull && \
-    git checkout "$branchToRebase" && \
-    ggpull && \
-    git rebase "$currentBranch"
+    git checkout - && \
+    git rebase "$baseBranch" || git checkout - # if rebase didn't go well, we still checkout back to the initial branch  
+    gitLogLatestCommits_count 1
 }
 
 ## Experimental

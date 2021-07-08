@@ -18,7 +18,6 @@ _main_gitLog() {
                 "\n\`\`\`  " \
                 "$args"
     }
-    alias glc="gitLog_upToCommit_numberOfCommits"
 
     gitLogShort_upToCommit_numberOfCommits() {
         _gitLogExtract_logRetrieverFunc_upToCommit_numberOfCommits_prefix_postfix \
@@ -93,7 +92,7 @@ _main_gitLog() {
         local args=${@:2} 
         gitLog_upToCommit_numberOfCommits HEAD "$1" "$args"
     }
-    alias gllc="gitLogLatestCommits_count"
+    alias glc="gitLogLatestCommits_count"
 
     gitLogShortLatestCommits_count() {
         gitLogShort_upToCommit_numberOfCommits HEAD "$1"
