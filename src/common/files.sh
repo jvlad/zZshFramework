@@ -66,8 +66,7 @@ _main_FilesOperations() {
     fileCopyPathToClipboard_file(){
         local pathToCopy;
         pathToCopy="`fileAbsolutePathOf:File $1`"
-        sysClipboardCopy:Arg_array "$pathToCopy"
-        print__zsf "$pathToCopy\nis copied to clipboard"
+        sysClipboardCopyVerbose_argsArray "$pathToCopy"
     }
     alias cl="fileCopyPathToClipboard_file"
 

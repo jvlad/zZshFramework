@@ -72,7 +72,8 @@ _main_zZshFramework_srcDir() {
         "$srcDir__zsf/git/gitLog" \
         "$srcDir__zsf/git/gitHooks" \
         "$srcDir__zsf/git/gitBasic" \
-
+        "$srcDir__zsf/macOS_specific/adb_convenience_macOS" \
+        
 }
 
 if [ -z "$ZSH_NAME" ] ;then

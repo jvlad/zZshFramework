@@ -1,6 +1,11 @@
 #!/usr/bin/env zsh
 
 _main_clipboard() {
+
+    sysClipboardCopyVerbose_argsArray() {
+        sysClipboardCopy:Arg_array "$@"
+        print__zsf "$@\nis copied to clipboard"
+    }
     
     sysClipboardCopy:Arg_array() {
         local content="$@"

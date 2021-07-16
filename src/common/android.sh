@@ -107,6 +107,17 @@ _main_android() {
     }
     alias adb="`androidPlatformToolsDir`/adb"
 
+    adbScreenshot_filePath() {
+        local targetPath="$1.png"
+        adb exec-out screencap -p > "$targetPath"
+        print__zsf "$targetPath"
+    }
+
+    adbScreenrecord_outputDir_FileName() {
+        # tbd
+        # doesn't work: adb exec-out screenrecord > "$1/$2.mp4"
+    }
+
     adbRunOnAllConnectedDevices:Commands(){
         adb devices | while read line
         do
