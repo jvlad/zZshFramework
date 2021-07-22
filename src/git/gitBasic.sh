@@ -14,13 +14,42 @@ alias gcm="gitCheckoutToMaster"
 alias gst="git stash"
 alias gstl="git stash list | cat"
 
-gitCheckoutToMaster() {
-    git checkout master && ggpull
+gitCheckoutToUpdatedMaster() {
+    gitCheckoutToUpdated_branch master
+}
+
+gitCheckoutToUpdatedDev() {
+    gitCheckoutToUpdated_branch dev
+}
+
+gitCheckoutToUpdated_branch() {
+    git checkout "$1" && ggpull
 }
 
 ## Experimental
 gitRebaseOnMaster() {
     _gitRebaseCurrentBranch_onBranch "master"
+}
+
+gitRebaseOnDev() {
+    _gitRebaseCurrentBranch_onBranch "dev"
+}
+
+gitMergeToDev() {
+    _gitMergeToShared_branch "dev"
+}
+
+gitMergeToMaster() {
+    _gitMergeToShared_branch "master"
+}
+
+_gitMergeToShared_branch() {
+    local sourceBranch="`gitCurrentBranch`"
+    local destinationBranch="$1"
+    _gitRebaseCurrentBranch_onBranch "$destinationBranch"
+    git checkout "$destinationBranch"
+    gm "$sourceBranch"
+    ggpush
 }
 
 ## Experimental
