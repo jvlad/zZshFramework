@@ -25,7 +25,7 @@ _main_zZshFramework_srcDir() {
     export srcDir__zsf="$1"
 
     version__zsf() {
-        print "zZshFramework 2.8.17.20210716_zsf_zsh"
+        print__zsf "zZshFramework 2.8.17.20210716_zsf_zsh"
     }
 
     edit__zsf() {
@@ -41,11 +41,11 @@ _main_zZshFramework_srcDir() {
     }
 
     userLibraryDir() {
-        print "`userHomeDir`/Library"
+        print__zsf "`userHomeDir`/Library"
     }
 
     userPrefsDir() {
-        print "`userLibraryDir`/Preferences"
+        print__zsf "`userLibraryDir`/Preferences"
     }
 
     userHomeDir() {
@@ -57,7 +57,7 @@ _main_zZshFramework_srcDir() {
     }
 
     userAppsDir(){
-        print "`userHomeDir`/Applications"
+        print__zsf "`userHomeDir`/Applications"
     }
     
     source "$srcDir__zsf/common/import.sh"

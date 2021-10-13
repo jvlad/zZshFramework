@@ -128,7 +128,7 @@ _main_FilesOperations() {
     }
 
     fileCurrentDirPath(){
-        print `pwd`
+        print__zsf `pwd`
     }
 
     fileEnclosingDirName_Path() {

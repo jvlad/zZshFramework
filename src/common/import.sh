@@ -31,7 +31,7 @@ _main_shellImport() {
 
     _unset_functions() {
         for func in $@; do
-            # print "unsetting func $func"
+            # print__zsf "unsetting func $func"
             unset -f "$func" 2> /dev/null
         done
     }

@@ -3,7 +3,7 @@
 _main_android() {
     
     androidSDKDir() {
-        print "`userLibraryDir`/Android/sdk"
+        print__zsf "`userLibraryDir`/Android/sdk"
     }
 
     androidSDKSetupEnv() {
@@ -64,7 +64,7 @@ _main_android() {
     }
 
     androidStudioSettingsBackupDir() {
-        print "`linuxConfigDir`/IDESettings/AndroidStudio"
+        print__zsf "`linuxConfigDir`/IDESettings/AndroidStudio"
     }
 
     androidStudioDocumentationSettingsEdit(){
@@ -72,11 +72,11 @@ _main_android() {
     }
 
     androidStudioDocumentationSettingsFile() {
-        print "`androidStudioSettingsDir`/options/jdk.table.xml"
+        print__zsf "`androidStudioSettingsDir`/options/jdk.table.xml"
     }
 
     androidStudioSettingsDir() {
-        print "`userLibraryDir`/Preferences/AndroidStudio4.0"
+        print__zsf "`userLibraryDir`/Preferences/AndroidStudio4.0"
     }
 
     androidToolsDirGoto() {
@@ -84,7 +84,7 @@ _main_android() {
     }
 
     androidToolsDir(){
-        print "`androidSDKDir`/tools"
+        print__zsf "`androidSDKDir`/tools"
     }
 
     androidSDKManager() {
@@ -103,7 +103,7 @@ _main_android() {
     }
 
     androidPlatformToolsDir() {
-        print "`androidSDKDir`/platform-tools"
+        print__zsf "`androidSDKDir`/platform-tools"
     }
     alias adb="`androidPlatformToolsDir`/adb"
 
@@ -121,9 +121,9 @@ _main_android() {
     adbRunOnAllConnectedDevices:Commands(){
         adb devices | while read line
         do
-            if [ ! "$line" = "" ] && [ `echo $line | awk '{print $2}'` = "device" ]
+            if [ ! "$line" = "" ] && [ `echo $line | awk '{print__zsf $2}'` = "device" ]
             then
-                device=`echo $line | awk '{print $1}'`
+                device=`echo $line | awk '{print__zsf $1}'`
                 adbRunOn:DeviceId:Commands ${device} ${@}
             fi
         done
@@ -213,7 +213,7 @@ _main_android() {
             keytool -exportcert -alias "$1" -keystore "$2" | openssl sha1 -binary | openssl base64
         }
         if isEmpty:String $1 || isEmpty:String $2; then
-            print "Looking for DEBUG key. Use 'android' as a password"
+            print__zsf "Looking for DEBUG key. Use 'android' as a password"
             do_facebookAndroidKeyHashcode:KeyAlias:KeystoreFilePath androiddebugkey "`userHomeDir`/.android/debug.keystore"
         else
             do_facebookAndroidKeyHashcode:KeyAlias:KeystoreFilePath "$1" "$2"
@@ -243,7 +243,7 @@ _main_android() {
             "29"      "10"        "Android Q"          "Sep 3, 2019"                   ""                                  
             "30"      "11"        "-"          ""                   ""                                  
         )
-        print -arC5 -- "$values[@]"
+        print__zsf -arC5 -- "$values[@]"
     }
 
     androidScreenSizesBuckets() {
@@ -257,7 +257,7 @@ _main_android() {
             "xxxhdpi"     "~640dpi"
             "  nodpi"       "no resources scale applied"
         )
-        print -arC2 -- "$values[@]"
+        print__zsf -arC2 -- "$values[@]"
     }
 
     adbLogsFetchFromDevicesTo:File() {
@@ -286,7 +286,7 @@ _main_android() {
         for specifier in ${@} ;do
             targetDir="$targetDir-$specifier"
         done
-        print "$targetDir"
+        print__zsf "$targetDir"
     }
 
     androidScreenIndicatorStrResource_specifiersArray() {
@@ -299,13 +299,13 @@ _main_android() {
         for specifier in ${@} ;do
             template="$template$specifier, "
         done
-        print "$template$templatePostfix"
+        print__zsf "$template$templatePostfix"
     }
 
     # reimplement in TS accepting array of sets 
     androidGenerateScreenIndicatorXml_specifiersToCombineArray() {
         if ! isEnclosingDirNameEqualsTo_name "res"  ;then
-            print "Error: running NOT within res directory"
+            print__zsf "Error: running NOT within res directory"
             return 1
         fi
         local destFile="`androidScreenSpecifierDir_specifiersArray $@`/screen_size_indicator.xml"
