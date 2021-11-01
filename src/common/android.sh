@@ -121,9 +121,9 @@ _main_android() {
     adbRunOnAllConnectedDevices:Commands(){
         adb devices | while read line
         do
-            if [ ! "$line" = "" ] && [ `echo $line | awk '{print__zsf $2}'` = "device" ]
+            if [[ ! "$line" == "" ]] && [[ `echo $line | awk '{print $2}'` == "device" ]]
             then
-                device=`echo $line | awk '{print__zsf $1}'`
+                device=`echo $line | awk '{print $1}'`
                 adbRunOn:DeviceId:Commands ${device} ${@}
             fi
         done

@@ -7,11 +7,15 @@ _main_feedback_printing() {
     }
     
     printError_message() {
-        print_prefix_message "ERROR" "$1"
+        print_prefix_message "ERROR: " "$1"
     }
 
     printException_message() {
-        print_prefix_message "Exception: " "$1"
+        print_prefix_message "EXCEPTION: " "$1"
+    }
+
+    print-warning() {
+        print_prefix_message "WARNING" "$1"
     }
 
     print_prefix_message() {
@@ -20,6 +24,7 @@ _main_feedback_printing() {
             && local prefix="$1" \
             || local prefix="$1 [at: $callStack]"  
         
+        local prefix="\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> $prefix"
         local subject="$2"
         isEmpty:String $subject \
             && print__zsf "$prefix" \

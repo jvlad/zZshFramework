@@ -7,12 +7,13 @@ Command line utilities for Zsh (Z-Shell) to work with files, strings, clipboard,
 ## User NOTE  
 > These tools were developed, used and tested under MacOS. I'm not sure how well it plays in other environments.  
 
-## Tested in environment  
 
+## Tested in environment  
 ###### Sun Aug 2 12:48:56 MSK 2020
 * MacOS Mojave 10.14.6 (18G103)  
 * zsh 5.8 (x86_64-apple-darwin18.7.0)  
 * GNU bash, version 3.2.57(1)-release (x86_64-apple-darwin18)  
+
 
 ## How to enable zZshFramework on Unix based system  
 1. locate or create `.zhsrc` file at your user home directory 
@@ -40,8 +41,45 @@ Command line utilities for Zsh (Z-Shell) to work with files, strings, clipboard,
     Example of expected output:  
     `zZshFramework 1.1.2.20200124`  
 
+
+## Coding Conventions (Style and Logic)
+###### Mon Nov 1 09:00:03 CET 2021  
+
+### Functions    
+Function name should be in a camelCase with `-` before each parameter  
+
+E. g.  
+1. `printWarning-message` means that the function expects a single parameter with 'message' semantics  
+
+2. `print-prefix-message` – the function expects two parameters: the prefix and the message  
+
+Other details of the applied style are demonstrated below:  
+
+``` bash
+# 0. There is NO space before `()`, there IS a space before opening brace ` {`
+print-prefix-message() {
+    # 1.    In the beginning of the implementation introduce local variables to provide 
+    #       a meaningful local-scope name for each argument
+    local prefix="$1" 
+    local subject="$2"
+    
+    isEmpty-string $subject \
+    # 2.    Add a line break before logical operators like `&&`, `||`, etc. 
+    # 3.    Use wrappers like `print__zsf` and other `...__zsf` functions in favor of 
+    #       built-in and zsh-specific functions
+        && print__zsf "$prefix" \
+        || print__zsf "$prefix:\n$subject\n"
+}
+```
+
+[Deprecated] style:  
+* using `_` as a parameter-prefix. E. g. `print_prefix_message`  
+* using `:` as a parameter-prefix. E. g. `print:prefix:message`  
+
 ---
-Author: Vlad Zamskoi – iOS & Android developer.  
-https://t.me/vladZamskoi  
+---
+
+Author: Vlad Zams – Solution Architect @ Mobile App Soft  
+https://t.me/vladZams  
 <v.mobileAppSoft@gmail.com>  
-mobileAppSoft.com
+https://mobileAppSoft.com  
