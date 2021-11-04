@@ -25,7 +25,7 @@ _main_zZshFramework_srcDir() {
     export srcDir__zsf="$1"
 
     version__zsf() {
-        print__zsf "zZshFramework 2.9.19.20211101_zsf_zsh"
+        print__zsf "zZshFramework 3.1.20.20211104_zsf_zsh"
     }
 
     edit__zsf() {
@@ -60,20 +60,22 @@ _main_zZshFramework_srcDir() {
         print__zsf "`userHomeDir`/Applications"
     }
     
-    source "$srcDir__zsf/common/import.sh"
+    local generalDir="$srcDir__zsf/general"
+    source "$generalDir/import.sh"
     _import_shFilesPaths \
-        "$srcDir__zsf/common/clipboard" \
-        "$srcDir__zsf/common/debug" \
-        "$srcDir__zsf/common/printer" \
-        "$srcDir__zsf/common/files" \
-        "$srcDir__zsf/common/android" \
-        "$srcDir__zsf/common/string_manipulations" \
-        "$srcDir__zsf/common/networking" \
+        "$generalDir/clipboard" \
+        "$generalDir/debug" \
+        "$generalDir/printer" \
+        "$generalDir/files" \
+        "$generalDir/android" \
+        "$generalDir/string_manipulations" \
+        "$generalDir/networking" \
+        "$srcDir__zsf/iOS/iOS_main" \
         "$srcDir__zsf/git/gitLog" \
         "$srcDir__zsf/git/gitHooks" \
         "$srcDir__zsf/git/gitBasic" \
-        "$srcDir__zsf/macOS_specific/adb_convenience_macOS" \
-        
+        "$srcDir__zsf/macOS_specific/adb_convenience_macOS"
+
 }
 
 if [ -z "$ZSH_NAME" ] ;then
