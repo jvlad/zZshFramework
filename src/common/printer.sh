@@ -24,11 +24,11 @@ _main_feedback_printing() {
             && local prefix="$1" \
             || local prefix="$1 [at: $callStack]"  
         
-        local prefix="\n>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> $prefix"
+        local prefix="\n$prefix: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
         local subject="$2"
         isEmpty:String $subject \
             && print__zsf "$prefix" \
-            || print__zsf "$prefix:\n$subject\n"
+            || print__zsf "$prefix\n$subject\n"
     }
 
     callStackMessage_index() {
