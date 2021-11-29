@@ -34,7 +34,7 @@ _main_zZshFramework_srcDir() {
     }
 
     version__zsf() {
-        print__zsf "zZshFramework 4.1.21.20211104_zsf_zsh"
+        print__zsf "zZshFramework 5.1.22.20211129_zsf_zsh"  
     }
 
     edit__zsf() {
