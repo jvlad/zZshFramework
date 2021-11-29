@@ -2,7 +2,7 @@
 
 _main_shellImport() {
     
-    _callAndForget_function_argsArray() {
+    _callAndForget-function-args() {
         "$1" ${@:2}
         _unset_functions $1
     }
@@ -16,8 +16,16 @@ _main_shellImport() {
     }
 
     _import_shFilesPaths() {
+        # debugFunc:Args_array "$@"
         for file in ${@}; do
             _import_shFile_args "$file"
+        done
+    }
+
+    _importFrom-parentDir-shFilesNames() {
+        # debugFunc:Args_array "$@"   
+        for file in ${@:2} ;do
+            _import_shFilesPaths ${1}/${file}
         done
     }
 

@@ -24,8 +24,17 @@
 _main_zZshFramework_srcDir() {
     export srcDir__zsf="$1"
 
+    install__zsf() {
+        # /* TODO: @VladZams: abstract from macOS */
+        brew $@
+    }
+
+    source-dir() {
+        print__zsf "`dirname $1`"  
+    }
+
     version__zsf() {
-        print__zsf "zZshFramework 3.1.20.20211104_zsf_zsh"
+        print__zsf "zZshFramework 4.1.21.20211104_zsf_zsh"
     }
 
     edit__zsf() {
@@ -56,25 +65,27 @@ _main_zZshFramework_srcDir() {
         print__zsf "`userHomeDir`/Desktop"
     }
 
-    userAppsDir(){
+    userAppsDir() {
         print__zsf "`userHomeDir`/Applications"
     }
     
     local generalDir="$srcDir__zsf/general"
     source "$generalDir/import.sh"
     _import_shFilesPaths \
+        "$generalDir/beta" \
+        "$generalDir/path" \
         "$generalDir/clipboard" \
         "$generalDir/debug" \
         "$generalDir/printer" \
         "$generalDir/files" \
-        "$generalDir/android" \
         "$generalDir/string_manipulations" \
         "$generalDir/networking" \
         "$srcDir__zsf/iOS/iOS_main" \
         "$srcDir__zsf/git/gitLog" \
         "$srcDir__zsf/git/gitHooks" \
         "$srcDir__zsf/git/gitBasic" \
-        "$srcDir__zsf/macOS_specific/adb_convenience_macOS"
+        "$srcDir__zsf/android/android" \
+        "$srcDir__zsf/android/macOS-android"  
 
 }
 

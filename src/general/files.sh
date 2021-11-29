@@ -62,8 +62,7 @@ _main_FilesOperations() {
     }
     alias mdc="copyMD5ToClipboard_files"
 
-
-    fileCopyPathToClipboard_file(){
+    fileCopyPathToClipboard_file() {
         local pathToCopy;
         pathToCopy="`fileAbsolutePathOf:File $1`"
         sysClipboardCopyVerbose_argsArray "$pathToCopy"
@@ -114,7 +113,7 @@ _main_FilesOperations() {
         print__zsf "$1" >> "$2"
     }
 
-    fileCopyPathOfEnclosingDir:RelativePathToFile(){
+    fileCopyPathOfEnclosingDir:RelativePathToFile() {
         sysClipboardCopy:Arg_array "`fileEnclosingDirPath_relativePath $1`"
     }
     alias cld="fileCopyPathOfEnclosingDir:RelativePathToFile"
@@ -127,7 +126,7 @@ _main_FilesOperations() {
         fi
     }
 
-    fileCurrentDirPath(){
+    fileCurrentDirPath() {
         print__zsf `pwd`
     }
 
@@ -169,7 +168,7 @@ _main_FilesOperations() {
         printSuccessAdding:Message "Copied $fileName -->\n$2"
     }
 
-    fileMoveChangingNameToUnique:SourceFile:Destination(){
+    fileMoveChangingNameToUnique:SourceFile:Destination() {
         local timeStamp=$(date)
         local uniqueName="${1}_${timeStamp}"
         mv "$1" "$uniqueName"
@@ -178,7 +177,7 @@ _main_FilesOperations() {
         printSuccessAdding:Message "Moved $fileName -->\n$2"
     }
 
-    fileCreateNewWith:Name(){
+    fileCreateNewWith:Name() {
         touch "$1"
     }
 
@@ -187,7 +186,7 @@ _main_FilesOperations() {
         printSuccessAdding:Message "File created"
     }
 
-    fileMoveToTrashFileAt:Path(){
+    fileMoveToTrashFileAt:Path() {
         local userTrashDir="`userHomeDir`/.Trash"
         for file in "$@"; do
             if isSymlink:File $file; then
@@ -203,7 +202,7 @@ _main_FilesOperations() {
         test -h "$1"
     }
 
-    fileInsertToBeginning:TextToInsert:FilePath(){
+    fileInsertToBeginning:TextToInsert:FilePath() {
         local originalContent=`cat "$2"`
         print__zsf "$1\n$originalContent" > "$2"
     #    sed -i '' '1i\
@@ -211,7 +210,7 @@ _main_FilesOperations() {
     #    ' "$2"
     }
 
-    cleanDirectoryContent(){
+    cleanDirectoryContent() {
         targetDirectory=$1
         if [[ -z "$targetDirectory" ]]; then
             cleanCurrentDirectory
@@ -221,28 +220,28 @@ _main_FilesOperations() {
     }
     alias cleanDir="cleanDirectoryContent"
 
-    clean:Dir(){
+    clean:Dir() {
         specifiedDirectory=$1
         fileMoveToTrashFileAt:Path $specifiedDirectory
         mkdir $specifiedDirectory
     }
 
-    cleanCurrentDirectory(){
+    cleanCurrentDirectory() {
         targetDirectory=$(pwd)
         cd ..
         fileMoveToTrashFileAt:Path $targetDirectory
         makeDirectoryAndNavigateToIt $targetDirectory
     }
 
-    fileLastPartOf:Path(){
+    fileLastPartOf:Path() {
         basename "$1"
     }
 
-    fileBasePartOf:Path(){
+    fileBasePartOf:Path() {
         dirname "$1"
     }
 
-    isFileExistAt:Path(){
+    isFileExistAt:Path() {
         if [[ -a $1 ]] ;then
             return 0
         else

@@ -37,7 +37,7 @@ _main_feedback_printing() {
         print__zsf "$funcstack[$1]"
     }
 
-    isLastCommandSucceed(){
+    isLastCommandSucceed() {
         if [[ $? -eq 0 ]] ;then
             return 0
         else

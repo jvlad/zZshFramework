@@ -67,8 +67,8 @@ _main_android() {
         print__zsf "`linuxConfigDir`/IDESettings/AndroidStudio"
     }
 
-    androidStudioDocumentationSettingsEdit(){
-        `codeEditor` `androidStudioDocumentationSettingsFile`
+    androidStudioDocumentationSettingsEdit() {
+        codeEditor `androidStudioDocumentationSettingsFile`
     }
 
     androidStudioDocumentationSettingsFile() {
@@ -83,12 +83,21 @@ _main_android() {
         cd `androidToolsDir`
     }
 
-    androidToolsDir(){
+    androidInstallCommandLineTools() {
+        install__zsf install --cask android-commandlinetools
+        addToPath-args `androidSDKDir` `androidToolsDir` `androidToolsExtraDir`
+    }
+
+    androidToolsDir() {
         print__zsf "`androidSDKDir`/tools"
     }
 
-    androidSDKManager() {
-        "`androidToolsDir`/bin/sdkmanager" $@
+    androidToolsExtraDir() {
+        print__zsf "`androidToolsDir`/bin"
+    }
+
+    androidSDKManagerPath() {
+        print__zsf "`androidToolsExtraDir`/sdkmanager"
     }
 
     alias android="`androidToolsDir`/android"
@@ -118,7 +127,7 @@ _main_android() {
         # doesn't work: adb exec-out screenrecord > "$1/$2.mp4"
     }
 
-    adbRunOnAllConnectedDevices:Commands(){
+    adbRunOnAllConnectedDevices:Commands() {
         adb devices | while read line
         do
             if [[ ! "$line" == "" ]] && [[ `echo $line | awk '{print $2}'` == "device" ]]
@@ -129,43 +138,43 @@ _main_android() {
         done
     }
 
-    adbStayAwakeEnable(){
+    adbStayAwakeEnable() {
         adbRunOnAllConnectedDevices:Commands shell settings put global stay_on_while_plugged_in 3
         # Reference:
         # https://developer.android.com/reference/android/provider/Settings.Global#stay_on_while_plugged_in
     }
 
-    adbStayAwakeDisable(){
+    adbStayAwakeDisable() {
         adbRunOnAllConnectedDevices:Commands shell settings put global stay_on_while_plugged_in 0
         # Reference:
         # https://developer.android.com/reference/android/provider/Settings.Global#stay_on_while_plugged_in
     }
 
-    adbGotoSettings:DeviceId(){
+    adbGotoSettings:DeviceId() {
         adbRunOn:DeviceId:Commands "$1" shell am start -n com.android.settings/.DevelopmentSettings
     }
 
-    adbRunGetApkFrom:DeviceId:AppPackageId(){
+    adbRunGetApkFrom:DeviceId:AppPackageId() {
         adbRunOn:DeviceId:Commands "$1" pull /data/app/"$2"/base.apk
     }
 
-    adbClearDataFromDevices:AppPackageId(){
+    adbClearDataFromDevices:AppPackageId() {
         adbRunOnAllConnectedDevices:Commands shell pm clear "$1"
     }
 
-    adbSet24HoursFormatOn:DeviceId(){
+    adbSet24HoursFormatOn:DeviceId() {
         adbRunOn:DeviceId:Commands "$1" shell settings put system time_12_24 24
     }
 
-    adbSet12HoursFormatOn:DeviceId(){
+    adbSet12HoursFormatOn:DeviceId() {
         adbRunOn:DeviceId:Commands "$1" shell settings put system time_12_24 12
     }
 
-    adbRemoveFrom:DeviceId:AppPackageId(){
+    adbRemoveFrom:DeviceId:AppPackageId() {
         adbRunOn:DeviceId:Commands "$1" uninstall "$2"
     }
 
-    adbRemoveFromAllDevices:AppPackageId(){
+    adbRemoveFromAllDevices:AppPackageId() {
         adbRunOnAllConnectedDevices:Commands uninstall "$1"
     }
 
@@ -188,23 +197,23 @@ _main_android() {
         adbRunOnAllConnectedDevices:Commands install -r "$1"
     }
 
-    adbStartOn:DeviceId:PackageName:ActivityClassFullName(){
+    adbStartOn:DeviceId:PackageName:ActivityClassFullName() {
         adbRunOn:DeviceId:Commands "$1" shell am start -n "$2"/"$3"
     }
 
-    adbStartOnAllDevices_packageName_mainActivityClassFullName(){
+    adbStartOnAllDevices_packageName_mainActivityClassFullName() {
         adbRunOnAllConnectedDevices:Commands shell am start -n "$1"/"$2"
     }
 
-    adbRemoveFromAllDevices:PathToFile(){
+    adbRemoveFromAllDevices:PathToFile() {
         adbRunOnAllConnectedDevices:Commands shell rm -r "$1"
     }
 
-    adbOSVersionOfAllDevices(){
+    adbOSVersionOfAllDevices() {
         adbRunOnAllConnectedDevices:Commands shell getprop ro.build.version.release
     }
 
-    adbResetPermissionsAtAllDevices:AppPackageId(){
+    adbResetPermissionsAtAllDevices:AppPackageId() {
         adbRunOnAllConnectedDevices:Commands shell pm reset-permissions "$1"
     }
 

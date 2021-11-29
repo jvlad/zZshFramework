@@ -14,6 +14,11 @@ alias gcm="gitCheckoutToMaster"
 alias gst="git stash"
 alias gstl="git stash list | cat"
 
+gitUser() {
+    git config user.name
+    git config user.email
+}
+
 gitCheckoutToUpdatedMaster() {
     gitCheckoutToUpdated_branch master
 }
@@ -33,6 +38,10 @@ gitRebaseOnMaster() {
 
 gitRebaseOnDev() {
     _gitRebaseCurrentBranch_onBranch "dev"
+}
+
+gitRebaseOnDevelop() {
+    _gitRebaseCurrentBranch_onBranch "develop"
 }
 
 gitMergeToDev() {
