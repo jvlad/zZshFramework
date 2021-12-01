@@ -15,82 +15,78 @@
 #   source ~/.zshrc
 #
 # 4. Recheck zZshFramework enabled by running:  
-#   version__zsf
+#   version$(zsf)
 #
 #   Expected output:  
 #       zZshFramework x.x.x.xxxxxxxx
 #
 
-_main_zZshFramework_srcDir() {
-    export srcDir__zsf="$1"
+#/**
+#* Internal Framework Identified used to avoid conflicts in a global zsh-functions namespace
+#*/
+zsf() {
+    print "__zsf"
+}
 
-    install__zsf() {
-        # /* TODO: @VladZams: abstract from macOS */
-        brew $@
-    }
+version$(zsf)() {
+    print$(zsf) "zZshFramework 5.1.22.20211129_zsf_zsh"  
+}
 
-    source-dir() {
-        print__zsf "`dirname $1`"  
-    }
-
-    version__zsf() {
-        print__zsf "zZshFramework 5.1.22.20211129_zsf_zsh"  
-    }
-
-    edit__zsf() {
-        "$EDITOR" "$@"
-    }
-
-    print__zsf() {
-        print "$@"
-    }
-
-    tempDir__zsf() {
-        print__zsf "/Users/`whoami`/.zShellFramework/temp"
-    }
-
-    userLibraryDir() {
-        print__zsf "`userHomeDir`/Library"
-    }
-
-    userPrefsDir() {
-        print__zsf "`userLibraryDir`/Preferences"
-    }
-
-    userHomeDir() {
-        print__zsf "/Users/`whoami`"
-    }
-
-    userDesktopDir() {
-        print__zsf "`userHomeDir`/Desktop"
-    }
-
-    userAppsDir() {
-        print__zsf "`userHomeDir`/Applications"
-    }
+_main-zZshFramework-srcDir$(zsf)() {
+    _initPrivateUtils
+    if ! isShellSupported ;then
+        abortBecauseOf-reason$(zsf) "Current Shell is NOT supported. Zsh is excepted."  
+    fi
     
-    local generalDir="$srcDir__zsf/general"
-    source "$generalDir/import.sh"
+    local srcDir="${1}"
+    local generalScriptsDir="${srcDir}/general"
+    source "${generalScriptsDir}/import.sh"
+    
     _import_shFilesPaths \
-        "$generalDir/beta" \
-        "$generalDir/path" \
-        "$generalDir/clipboard" \
-        "$generalDir/debug" \
-        "$generalDir/printer" \
-        "$generalDir/files" \
-        "$generalDir/string_manipulations" \
-        "$generalDir/networking" \
-        "$srcDir__zsf/iOS/iOS_main" \
-        "$srcDir__zsf/git/gitLog" \
-        "$srcDir__zsf/git/gitHooks" \
-        "$srcDir__zsf/git/gitBasic" \
-        "$srcDir__zsf/android/android" \
-        "$srcDir__zsf/android/macOS-android"  
+        "${generalScriptsDir}/debug" \
+        "${generalScriptsDir}/beta" \
+        "${generalScriptsDir}/path" \
+        "${generalScriptsDir}/clipboard" \
+        "${generalScriptsDir}/printer" \
+        "${generalScriptsDir}/files" \
+        "${generalScriptsDir}/string_manipulations" \
+        "${generalScriptsDir}/networking" \
+        "${srcDir}/iOS/iOS_main" \
+        "${srcDir}/git/gitLog" \
+        "${srcDir}/git/gitHooks" \
+        "${srcDir}/git/gitBasic" \
+        "${srcDir}/android/android" \
+        "${srcDir}/android/macOS-android" \
 
 }
 
-if [ -z "$ZSH_NAME" ] ;then
-    printf "ERROR: Unsupported shell. Please use z-shell, aka ZSH.\n\
+_initPrivateUtils() {
+
+    #/**
+    #* Error code representing a general error brough by zZshFramework's logic  
+    #*/
+    errorGeneral$(zsf)() {
+        print$(zsf) 20211201
+    }
+
+    yes$(zsf)() {
+        print$(zsf) 0
+    }
+
+    no$(zsf)() {
+        errorGeneral$(zsf)
+    }
+
+    isShellSupported() {
+        if [ -z "${ZSH_NAME}" ] ;then
+            return $(errorGeneral$(zsf)) # NO
+        else 
+            return 0
+        fi
+    }
+
+    printShellNotSupportedError() {
+        printf "ERROR: Unsupported shell. Please use z-shell, aka ZSH.\n\
 The easiest way to install zsh on MacOS is to run:
 brew install zsh
 
@@ -100,8 +96,58 @@ source <PATH_TO_THIS_SCRIPT>
 If you don't have brew, check https://brew.sh/
 
 "
-    return 1
-fi
+    }
 
-_main_zZshFramework_srcDir "`dirname $0`"  
-_unset_functions _main_zZshFramework_srcDir  
+    abortBecauseOf-reason$(zsf)() {
+        print "ERROR: ${1}" 
+        abort$(zsf)
+    }
+
+    abort$(zsf)() {
+        exit 1
+    }
+
+    userLibraryDir() {
+        print$(zsf) "$(userHomeDir)/Library"
+    }
+
+    userPrefsDir() {
+        print$(zsf) "$(userLibraryDir)/Preferences"
+    }
+
+    userHomeDir() {
+        print$(zsf) "/Users/`whoami`"
+    }
+
+    userDesktopDir() {
+        print$(zsf) "$(userHomeDir)/Desktop"
+    }
+
+    userAppsDir() {
+        print$(zsf) "$(userHomeDir)/Applications"
+    }
+
+    install$(zsf)() {
+        # /* TODO: @VladZams: abstract from macOS */
+        brew ${@}
+    }
+
+    source-dir() {
+        print$(zsf) "$(dirname ${1})"  
+    }
+
+    edit$(zsf)() {
+        "${EDITOR}" "${@}"
+    }
+
+    print$(zsf)() {
+        print "${@}"
+    }
+
+    tempDir$(zsf)() {
+        print$(zsf) "/Users/$(whoami)/.zShellFramework/temp"
+    }
+}
+
+_main-zZshFramework-srcDir$(zsf) "$(dirname ${0})"  
+# _unset_functions _main-zZshFramework-srcDir$(zsf)
