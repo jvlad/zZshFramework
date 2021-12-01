@@ -182,7 +182,7 @@ _main_gitLog() {
     printError_message__i() { printError_message $@; }
     isEmpty_String__i() { isEmpty:String $@; }
     printSuccessAdding_text__i() { printSuccessAdding:Message $@; }
-    print__i() { print__zsf $@; }
+    print__i() { print$(zsf) $@; }
     trimEndSpaces__i() { trimEndSpaces $@; }
 }
 _callAndForget_functions _main_gitLog  

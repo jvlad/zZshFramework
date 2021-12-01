@@ -21,7 +21,7 @@ _main_IOS() {
     }  
 
     _iosExtrasDir() { 
-        print__zsf "`consoleToolsSrcDir`/iOS/extras" 
+        print$(zsf) "`consoleToolsSrcDir`/iOS/extras" 
     }
 
     _unset_functions _main_IOS

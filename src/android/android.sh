@@ -3,7 +3,7 @@
 _main_android() {
     
     androidSDKDir() {
-        print__zsf "`userLibraryDir`/Android/sdk"
+        print$(zsf) "`userLibraryDir`/Android/sdk"
     }
 
     androidSDKSetupEnv() {
@@ -64,7 +64,7 @@ _main_android() {
     }
 
     androidStudioSettingsBackupDir() {
-        print__zsf "`linuxConfigDir`/IDESettings/AndroidStudio"
+        print$(zsf) "`linuxConfigDir`/IDESettings/AndroidStudio"
     }
 
     androidStudioDocumentationSettingsEdit() {
@@ -72,11 +72,11 @@ _main_android() {
     }
 
     androidStudioDocumentationSettingsFile() {
-        print__zsf "`androidStudioSettingsDir`/options/jdk.table.xml"
+        print$(zsf) "`androidStudioSettingsDir`/options/jdk.table.xml"
     }
 
     androidStudioSettingsDir() {
-        print__zsf "`userLibraryDir`/Preferences/AndroidStudio4.0"
+        print$(zsf) "`userLibraryDir`/Preferences/AndroidStudio4.0"
     }
 
     androidToolsDirGoto() {
@@ -89,15 +89,15 @@ _main_android() {
     }
 
     androidToolsDir() {
-        print__zsf "`androidSDKDir`/tools"
+        print$(zsf) "`androidSDKDir`/tools"
     }
 
     androidToolsExtraDir() {
-        print__zsf "`androidToolsDir`/bin"
+        print$(zsf) "`androidToolsDir`/bin"
     }
 
     androidSDKManagerPath() {
-        print__zsf "`androidToolsExtraDir`/sdkmanager"
+        print$(zsf) "`androidToolsExtraDir`/sdkmanager"
     }
 
     alias android="`androidToolsDir`/android"
@@ -112,14 +112,14 @@ _main_android() {
     }
 
     androidPlatformToolsDir() {
-        print__zsf "`androidSDKDir`/platform-tools"
+        print$(zsf) "`androidSDKDir`/platform-tools"
     }
     alias adb="`androidPlatformToolsDir`/adb"
 
     adbScreenshot_filePath() {
         local targetPath="$1.png"
         adb exec-out screencap -p > "$targetPath"
-        print__zsf "$targetPath"
+        print$(zsf) "$targetPath"
     }
 
     adbScreenrecord_outputDir_FileName() {
@@ -222,7 +222,7 @@ _main_android() {
             keytool -exportcert -alias "$1" -keystore "$2" | openssl sha1 -binary | openssl base64
         }
         if isEmpty:String $1 || isEmpty:String $2; then
-            print__zsf "Looking for DEBUG key. Use 'android' as a password"
+            print$(zsf) "Looking for DEBUG key. Use 'android' as a password"
             do_facebookAndroidKeyHashcode:KeyAlias:KeystoreFilePath androiddebugkey "`userHomeDir`/.android/debug.keystore"
         else
             do_facebookAndroidKeyHashcode:KeyAlias:KeystoreFilePath "$1" "$2"
@@ -252,7 +252,7 @@ _main_android() {
             "29"      "10"        "Android Q"          "Sep 3, 2019"                   ""                                  
             "30"      "11"        "-"          ""                   ""                                  
         )
-        print__zsf -arC5 -- "$values[@]"
+        print$(zsf) -arC5 -- "$values[@]"
     }
 
     androidScreenSizesBuckets() {
@@ -266,7 +266,7 @@ _main_android() {
             "xxxhdpi"     "~640dpi"
             "  nodpi"       "no resources scale applied"
         )
-        print__zsf -arC2 -- "$values[@]"
+        print$(zsf) -arC2 -- "$values[@]"
     }
 
     adbLogsFetchFromDevicesTo:File() {
@@ -295,7 +295,7 @@ _main_android() {
         for specifier in ${@} ;do
             targetDir="$targetDir-$specifier"
         done
-        print__zsf "$targetDir"
+        print$(zsf) "$targetDir"
     }
 
     androidScreenIndicatorStrResource_specifiersArray() {
@@ -308,13 +308,13 @@ _main_android() {
         for specifier in ${@} ;do
             template="$template$specifier, "
         done
-        print__zsf "$template$templatePostfix"
+        print$(zsf) "$template$templatePostfix"
     }
 
     # reimplement in TS accepting array of sets 
     androidGenerateScreenIndicatorXml_specifiersToCombineArray() {
         if ! isEnclosingDirNameEqualsTo_name "res"  ;then
-            print__zsf "Error: running NOT within res directory"
+            print$(zsf) "Error: running NOT within res directory"
             return 1
         fi
         local destFile="`androidScreenSpecifierDir_specifiersArray $@`/screen_size_indicator.xml"

@@ -4,7 +4,7 @@ _main_clipboard() {
 
     sysClipboardCopyVerbose_argsArray() {
         sysClipboardCopy:Arg_array "$@"
-        print__zsf "$@\nis copied to clipboard"
+        print$(zsf) "$@\nis copied to clipboard"
     }
     
     sysClipboardCopy:Arg_array() {
@@ -50,7 +50,7 @@ _main_clipboard() {
                 echo "$file" | xsel --clipboard --input
             fi
             else
-                print__zsf "systemCopyToClipboard: Platform $OSTYPE not supported or xclip/xsel not installed" >&2
+                print$(zsf) "systemCopyToClipboard: Platform $OSTYPE not supported or xclip/xsel not installed" >&2
             return 1
             fi
         fi

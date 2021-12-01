@@ -27,14 +27,14 @@ _main_feedback_printing() {
         local prefix="\n$prefix: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
         local subject="$2"
         isEmpty:String $subject \
-            && print__zsf "$prefix" \
-            || print__zsf "$prefix\n$subject\n"
+            && print$(zsf) "$prefix" \
+            || print$(zsf) "$prefix\n$subject\n"
     }
 
     callStackMessage_index() {
         ! isDebugEnabled && return 1
         
-        print__zsf "$funcstack[$1]"
+        print$(zsf) "$funcstack[$1]"
     }
 
     isLastCommandSucceed() {

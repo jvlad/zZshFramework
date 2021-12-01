@@ -4,6 +4,18 @@ _main_beta-sourceDir() {
 #    debugFunc:Args_array {$@}
     local srcDir="$1"
 
+    gitConfigSshKeys() {
+        sshConfigEdit
+    }
+
+    sshConfigEdit() {
+        ce $(userHomeDir)/.ssh/config
+    }
+
+    gitConfigProjectEdit() {
+        ce .git/config
+    }
+
     isUnixOS() {
         local OS="$(uname)"
         if [[ "${OS}" == "Linux" || "${OS}" == "Darwin" ]] ;then

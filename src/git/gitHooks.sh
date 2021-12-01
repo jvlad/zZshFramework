@@ -3,7 +3,7 @@
 _main_gitHooks() {
 
     gitRepoDirName() {
-        print__zsf ".git"
+        print$(zsf) ".git"
     }
     
     gitHookAddBranchNameInsertionHookToCurrentRepo() {

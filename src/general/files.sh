@@ -93,14 +93,14 @@ _main_FilesOperations() {
     fileName:Path() {
         local absolutePath=`fileAbsolutePathOf:File "$1"`
         local fileName=`fileLastPartOf:Path "$absolutePath"`
-        print__zsf "$fileName"
+        print$(zsf) "$fileName"
     }
 
     fileAbsolutePathOf:File() {
         if isPointsToCurrentDir:Path "$1"; then
-            print__zsf "`pwd`"
+            print$(zsf) "`pwd`"
         else
-            print__zsf "`realpath "$1"`"
+            print$(zsf) "`realpath "$1"`"
         fi
     }
 
@@ -110,7 +110,7 @@ _main_FilesOperations() {
 
     filePrint:Text:ToFile() {
         fileCreateAt_path "$2"
-        print__zsf "$1" >> "$2"
+        print$(zsf) "$1" >> "$2"
     }
 
     fileCopyPathOfEnclosingDir:RelativePathToFile() {
@@ -127,7 +127,7 @@ _main_FilesOperations() {
     }
 
     fileCurrentDirPath() {
-        print__zsf `pwd`
+        print$(zsf) `pwd`
     }
 
     fileEnclosingDirName_Path() {
@@ -182,7 +182,7 @@ _main_FilesOperations() {
     }
 
     fileCreateNewAt:Path:InitialContent() {
-        print__zsf "$2" > "$1"
+        print$(zsf) "$2" > "$1"
         printSuccessAdding:Message "File created"
     }
 
@@ -204,7 +204,7 @@ _main_FilesOperations() {
 
     fileInsertToBeginning:TextToInsert:FilePath() {
         local originalContent=`cat "$2"`
-        print__zsf "$1\n$originalContent" > "$2"
+        print$(zsf) "$1\n$originalContent" > "$2"
     #    sed -i '' '1i\
     #    \$1
     #    ' "$2"
