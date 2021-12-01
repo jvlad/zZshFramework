@@ -29,7 +29,7 @@ zsf() {
 }
 
 version$(zsf)() {
-    print$(zsf) "zZshFramework 5.1.22.20211129_zsf_zsh"  
+    print$(zsf) "zZshFramework 5.2.23.20211201_zsf_zsh"  
 }
 
 _main-zZshFramework-srcDir$(zsf)() {
@@ -150,4 +150,4 @@ If you don't have brew, check https://brew.sh/
 }
 
 _main-zZshFramework-srcDir$(zsf) "$(dirname ${0})"  
-# _unset_functions _main-zZshFramework-srcDir$(zsf)
+_unset_functions _main-zZshFramework-srcDir$(zsf)
