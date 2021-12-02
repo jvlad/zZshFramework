@@ -19,7 +19,7 @@ _main_feedback_printing() {
     }
 
     print_prefix_message() {
-        local callStack=`callStackMessage_index 4`
+        local callStack=$(callStackMessage_index 4)
         isEmpty:String $callStack \
             && local prefix="$1" \
             || local prefix="$1 [at: $callStack]"  

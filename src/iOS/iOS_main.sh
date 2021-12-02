@@ -3,12 +3,12 @@
 _main_IOS() {
     
     iOSSymbolicate() {
-        _import_shFile "`_iosExtrasDir`/symbolicate_crash" $@
+        _import_shFile "$(_iosExtrasDir)/symbolicate_crash" $@
     }
 
     iOSRemove_appID() {
         mobiledevice uninstall_app $@
-        py "`_iosExtrasDir`/remove_app_from_all_devices.py" $@
+        py "$(_iosExtrasDir)/remove_app_from_all_devices.py" $@
         # xcrun simctl uninstall booted "$1"
     }
 
@@ -21,7 +21,7 @@ _main_IOS() {
     }  
 
     _iosExtrasDir() { 
-        print$(zsf) "`consoleToolsSrcDir`/iOS/extras" 
+        print$(zsf) "$(consoleToolsSrcDir)/iOS/extras" 
     }
 
     _unset_functions _main_IOS

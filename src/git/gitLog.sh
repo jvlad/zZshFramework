@@ -14,8 +14,8 @@ _main_gitLog() {
         local args=${@:3}  
         _gitLogExtract_logRetrieverFunc_upToCommit_numberOfCommits_prefix_postfix \
             gitLogToConsole "$1" "$2" \
-                "\`\`\`\n  " \
-                "\n\`\`\`  " \
+                "\`\$(\)\n  " \
+                "\n\`\$(\)  " \
                 "$args"
     }
 
@@ -63,7 +63,7 @@ _main_gitLog() {
     alias glcp="gitLogCopyToClipboard_commit"
 
     gitLogCopyToClipboard_logRetrieverFunc_commit() {
-        copyToClipboard_args__i "`"$1" "$2"`"
+        copyToClipboard_args__i "$("$1" "$2")"
 
         isEmpty_String__i "$2" \
             && local feedbackMessage="Most recent commit info copied to clipboard" \
@@ -73,7 +73,7 @@ _main_gitLog() {
     }
 
     gitCopyToClipboardInfoOfCommit_howManyCommitsAgo() {
-        copyToClipboard_args__i `gitLogCommit_howManyCommitsAgo $1`
+        copyToClipboard_args__i $(gitLogCommit_howManyCommitsAgo $1)
     }
 
     gitLogCommit_howManyCommitsAgo() {
@@ -132,8 +132,8 @@ _main_gitLog() {
     }
 
     gitLogShort() {
-        local repo_top_level=`git rev-parse --show-toplevel`
-        local repo_name=`basename $repo_top_level`
+        local repo_top_level=$(git rev-parse --show-toplevel)
+        local repo_name=$(basename $repo_top_level)
         gitLog_format_args "%h  %ad $repo_name  %s" $@
     }
     alias gls="gitLogShort"
@@ -154,11 +154,11 @@ _main_gitLog() {
     _gitLogExtract_logRetrieverFunc_upToCommit_numberOfCommits_prefix_postfix() {
         # debugFunc:Args_array "$@"
         local args=${@:6}  
-        local gitLogExtract=`$1 -"$3" "$args" "$2"`
+        local gitLogExtract=$($1 -"$3" "$args" "$2")
         if isEmpty_String__i "$3" ;then
-            local gitLogExtract=`$1 "$args" "$2"`
+            local gitLogExtract=$($1 "$args" "$2")
         else
-            local gitLogExtract=`$1 -"$3" "$args" "$2"`
+            local gitLogExtract=$($1 -"$3" "$args" "$2")
         fi
         isEmpty_String__i $gitLogExtract \
             && return 1 \

@@ -15,14 +15,14 @@ _main_FilesOperations() {
     }
 
     sync_srcDir_targetDir() {
-        local srcDir=`fileAbsolutePathOf:File "$1"`
-        local targetDir=`fileAbsolutePathOf:File "$2"`
+        local srcDir=$(fileAbsolutePathOf:File "$1")
+        local targetDir=$(fileAbsolutePathOf:File "$2")
         rsync -r --delete "$srcDir/" "$targetDir/"
     }
 
     sync_srcRepoDir_targetRepoDir() {
-        local srcDir=`fileAbsolutePathOf:File "$1"`
-        local targetDir=`fileAbsolutePathOf:File "$2"`
+        local srcDir=$(fileAbsolutePathOf:File "$1")
+        local targetDir=$(fileAbsolutePathOf:File "$2")
         
         rsync -r --delete --exclude='/.git' \
             --exclude='*.iml' \
@@ -56,7 +56,7 @@ _main_FilesOperations() {
     }
 
     copyMD5ToClipboard_files() {
-        local md5hash=`md5_ofFiles $@`
+        local md5hash=$(md5_ofFiles $@)
         sysClipboardCopy:Arg_array "$md5hash" && \
         printSuccessAdding:Message "$md5hash is copied to clipboard"
     }
@@ -64,7 +64,7 @@ _main_FilesOperations() {
 
     fileCopyPathToClipboard_file() {
         local pathToCopy;
-        pathToCopy="`fileAbsolutePathOf:File $1`"
+        pathToCopy="$(fileAbsolutePathOf:File $1)"
         sysClipboardCopyVerbose_argsArray "$pathToCopy"
     }
     alias cl="fileCopyPathToClipboard_file"
@@ -91,16 +91,16 @@ _main_FilesOperations() {
     }
 
     fileName:Path() {
-        local absolutePath=`fileAbsolutePathOf:File "$1"`
-        local fileName=`fileLastPartOf:Path "$absolutePath"`
+        local absolutePath=$(fileAbsolutePathOf:File "$1")
+        local fileName=$(fileLastPartOf:Path "$absolutePath")
         print$(zsf) "$fileName"
     }
 
     fileAbsolutePathOf:File() {
         if isPointsToCurrentDir:Path "$1"; then
-            print$(zsf) "`pwd`"
+            print$(zsf) "$(pwd)"
         else
-            print$(zsf) "`realpath "$1"`"
+            print$(zsf) "$(realpath "$1")"
         fi
     }
 
@@ -114,38 +114,38 @@ _main_FilesOperations() {
     }
 
     fileCopyPathOfEnclosingDir:RelativePathToFile() {
-        sysClipboardCopy:Arg_array "`fileEnclosingDirPath_relativePath $1`"
+        sysClipboardCopy:Arg_array "$(fileEnclosingDirPath_relativePath $1)"
     }
     alias cld="fileCopyPathOfEnclosingDir:RelativePathToFile"
 
     fileEnclosingDirPath_relativePath() {
         if isPointsToCurrentDir:Path "$1" ;then
-            fileBasePartOf:Path `fileCurrentDirPath`
+            fileBasePartOf:Path $(fileCurrentDirPath)
         else
-            fileBasePartOf:Path "`fileCurrentDirPath`/$1"
+            fileBasePartOf:Path "$(fileCurrentDirPath)/$1"
         fi
     }
 
     fileCurrentDirPath() {
-        print$(zsf) `pwd`
+        print$(zsf) $(pwd)
     }
 
     fileEnclosingDirName_Path() {
         if isPointsToCurrentDir:Path "$1" ;then
             fileName:Path
         else 
-            fileLastPartOf:Path `fileEnclosingDirPath_relativePath "$1"`
+            fileLastPartOf:Path $(fileEnclosingDirPath_relativePath "$1")
         fi
     }
 
     isEnclosingDirNameEqualsTo_name() {
-        isStringEqualTo:String `fileEnclosingDirName_Path` "$1" \
+        isStringEqualTo:String $(fileEnclosingDirName_Path) "$1" \
             && return 0 \
             || return 1
     }
 
     fileCreateAt_path() {
-        filePrepareDirAt:Path "`fileBasePartOf:Path $1`"
+        filePrepareDirAt:Path "$(fileBasePartOf:Path $1)"
         fileCreateNewWith:Name "$1"
     }
 
@@ -164,7 +164,7 @@ _main_FilesOperations() {
 
     fileCopy_source_destination() {
         cp -r "$1" "$2"
-        local fileName=`fileLastPartOf:Path "$1"`
+        local fileName=$(fileLastPartOf:Path "$1")
         printSuccessAdding:Message "Copied $fileName -->\n$2"
     }
 
@@ -173,7 +173,7 @@ _main_FilesOperations() {
         local uniqueName="${1}_${timeStamp}"
         mv "$1" "$uniqueName"
         mv "$uniqueName" "$2"
-        local fileName=`fileLastPartOf:Path "$uniqueName"`
+        local fileName=$(fileLastPartOf:Path "$uniqueName")
         printSuccessAdding:Message "Moved $fileName -->\n$2"
     }
 
@@ -187,7 +187,7 @@ _main_FilesOperations() {
     }
 
     fileMoveToTrashFileAt:Path() {
-        local userTrashDir="`userHomeDir`/.Trash"
+        local userTrashDir="$(userHomeDir)/.Trash"
         for file in "$@"; do
             if isSymlink:File $file; then
                 rm "$file"
@@ -203,7 +203,7 @@ _main_FilesOperations() {
     }
 
     fileInsertToBeginning:TextToInsert:FilePath() {
-        local originalContent=`cat "$2"`
+        local originalContent=$(cat "$2")
         print$(zsf) "$1\n$originalContent" > "$2"
     #    sed -i '' '1i\
     #    \$1

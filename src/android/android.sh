@@ -3,12 +3,12 @@
 _main_android() {
     
     androidSDKDir() {
-        print$(zsf) "`userLibraryDir`/Android/sdk"
+        print$(zsf) "$(userLibraryDir)/Android/sdk"
     }
 
     androidSDKSetupEnv() {
-        export GRADLE_USER_HOME="`userHomeDir`/.gradle"
-        export ANDROID_HOME="`androidSDKDir`"
+        export GRADLE_USER_HOME="$(userHomeDir)/.gradle"
+        export ANDROID_HOME="$(androidSDKDir)"
         export ANDROID_SDK_ROOT="$ANDROID_HOME"
     }
 
@@ -64,57 +64,57 @@ _main_android() {
     }
 
     androidStudioSettingsBackupDir() {
-        print$(zsf) "`linuxConfigDir`/IDESettings/AndroidStudio"
+        print$(zsf) "$(linuxConfigDir)/IDESettings/AndroidStudio"
     }
 
     androidStudioDocumentationSettingsEdit() {
-        codeEditor `androidStudioDocumentationSettingsFile`
+        codeEditor $(androidStudioDocumentationSettingsFile)
     }
 
     androidStudioDocumentationSettingsFile() {
-        print$(zsf) "`androidStudioSettingsDir`/options/jdk.table.xml"
+        print$(zsf) "$(androidStudioSettingsDir)/options/jdk.table.xml"
     }
 
     androidStudioSettingsDir() {
-        print$(zsf) "`userLibraryDir`/Preferences/AndroidStudio4.0"
+        print$(zsf) "$(userLibraryDir)/Preferences/AndroidStudio4.0"
     }
 
     androidToolsDirGoto() {
-        cd `androidToolsDir`
+        cd $(androidToolsDir)
     }
 
     androidInstallCommandLineTools() {
         install__zsf install --cask android-commandlinetools
-        addToPath-args `androidSDKDir` `androidToolsDir` `androidToolsExtraDir`
+        addToPath-args $(androidSDKDir) $(androidToolsDir) $(androidToolsExtraDir)
     }
 
     androidToolsDir() {
-        print$(zsf) "`androidSDKDir`/tools"
+        print$(zsf) "$(androidSDKDir)/tools"
     }
 
     androidToolsExtraDir() {
-        print$(zsf) "`androidToolsDir`/bin"
+        print$(zsf) "$(androidToolsDir)/bin"
     }
 
     androidSDKManagerPath() {
-        print$(zsf) "`androidToolsExtraDir`/sdkmanager"
+        print$(zsf) "$(androidToolsExtraDir)/sdkmanager"
     }
 
-    alias android="`androidToolsDir`/android"
-    alias androidEmulator="`androidToolsDir`/emulator"
+    alias android="$(androidToolsDir)/android"
+    alias androidEmulator="$(androidToolsDir)/emulator"
 
     androidDeabfuscate_logFile_mappingFile_outputFile() {
         retrace -verbose "$2" "$1" > "$3"
     }
 
     androidPlatformToolsGoto() {
-        cd "`androidPlatformToolsDir`"
+        cd "$(androidPlatformToolsDir)"
     }
 
     androidPlatformToolsDir() {
-        print$(zsf) "`androidSDKDir`/platform-tools"
+        print$(zsf) "$(androidSDKDir)/platform-tools"
     }
-    alias adb="`androidPlatformToolsDir`/adb"
+    alias adb="$(androidPlatformToolsDir)/adb"
 
     adbScreenshot_filePath() {
         local targetPath="$1.png"
@@ -130,9 +130,9 @@ _main_android() {
     adbRunOnAllConnectedDevices:Commands() {
         adb devices | while read line
         do
-            if [[ ! "$line" == "" ]] && [[ `echo $line | awk '{print $2}'` == "device" ]]
+            if [[ ! "$line" == "" ]] && [[ $(echo $line | awk '{print $2}') == "device" ]]
             then
-                device=`echo $line | awk '{print $1}'`
+                device=$(echo $line | awk '{print $1}')
                 adbRunOn:DeviceId:Commands ${device} ${@}
             fi
         done
@@ -223,7 +223,7 @@ _main_android() {
         }
         if isEmpty:String $1 || isEmpty:String $2; then
             print$(zsf) "Looking for DEBUG key. Use 'android' as a password"
-            do_facebookAndroidKeyHashcode:KeyAlias:KeystoreFilePath androiddebugkey "`userHomeDir`/.android/debug.keystore"
+            do_facebookAndroidKeyHashcode:KeyAlias:KeystoreFilePath androiddebugkey "$(userHomeDir)/.android/debug.keystore"
         else
             do_facebookAndroidKeyHashcode:KeyAlias:KeystoreFilePath "$1" "$2"
         fi
@@ -317,9 +317,9 @@ _main_android() {
             print$(zsf) "Error: running NOT within res directory"
             return 1
         fi
-        local destFile="`androidScreenSpecifierDir_specifiersArray $@`/screen_size_indicator.xml"
+        local destFile="$(androidScreenSpecifierDir_specifiersArray $@)/screen_size_indicator.xml"
         fileMoveToTrashFileAt:Path "$destFile"
-        local content="`androidScreenIndicatorStrResource_specifiersArray $@`"
+        local content="$(androidScreenIndicatorStrResource_specifiersArray $@)"
         filePrint:Text:ToFile "$content" "$destFile"
         printSuccessAdding:Message "$destFile\ncreated"
     }

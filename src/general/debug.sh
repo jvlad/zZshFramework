@@ -46,9 +46,9 @@ _main_DebugShell() {
             printError_message "Debug isn't enabled"
             return 1
         fi
-        del "`debugCachePath`"
+        del "$(debugCachePath)"
         print$(zsf) "# `date`" >> "`debugCachePath`"
-        print$(zsf) "Cleaned" >> "`debugCachePath`"
+        print$(zsf) "Cleaned" >> "$(debugCachePath)"
     }
 
     debugCacheAppendDivider() {
@@ -56,7 +56,7 @@ _main_DebugShell() {
             printError_message "Debug isn't enabled"
             return 1
         fi
-        print$(zsf) "\n\n===========================\n===========================\n===========================" >> "`debugCachePath`"
+        print$(zsf) "\n\n===========================\n===========================\n===========================" >> "$(debugCachePath)"
     }
 
     debugLog() {
@@ -64,18 +64,18 @@ _main_DebugShell() {
             printError_message "Debug isn't enabled"
             return 1
         fi
-        local cacheDir="`debugCachePath`"
-        filePrepareDirAt:Path "`fileBasePartOf:Path "$cacheDir"`"
+        local cacheDir="$(debugCachePath)"
+        filePrepareDirAt:Path "$(fileBasePartOf:Path "$cacheDir")"
         print$(zsf) "\n# `date`" >> "`debugCachePath`"
-        print$(zsf) "$@" >> "`debugCachePath`"
+        print$(zsf) "$@" >> "$(debugCachePath)"
     }
 
     debugCacheEdit() {
-        edit__zsf "`debugCachePath`"    
+        edit__zsf "$(debugCachePath)"    
     }
 
     debugCachePath() {
-        print$(zsf) "`tempDir__zsf`/shellScriptsDebugOutput.md"
+        print$(zsf) "$(tempDir__zsf)/shellScriptsDebugOutput.md"
     }
 
 }

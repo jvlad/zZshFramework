@@ -53,7 +53,7 @@ gitMergeToMaster() {
 }
 
 _gitMergeToShared_branch() {
-    local sourceBranch="`gitCurrentBranch`"
+    local sourceBranch="$(gitCurrentBranch)"
     local destinationBranch="$1"
     _gitRebaseCurrentBranch_onBranch "$destinationBranch"
     git checkout "$destinationBranch"
@@ -73,7 +73,7 @@ _gitRebaseCurrentBranch_onBranch() {
 
 ## Experimental
 _gitMergeCurrentBranchIntoPrevious() {
-    local currentBranch="`gitCurrentBranch`"
+    local currentBranch="$(gitCurrentBranch)"
     
     git checkout - && \
     git merge "$currentBranch" && \
@@ -85,7 +85,7 @@ gitListStaged() {
 }
 
 ggpull() {
-    git pull --rebase --no-edit origin `gitCurrentBranch`
+    git pull --rebase --no-edit origin $(gitCurrentBranch)
 }
 
 gitSshSetKey_privateKeyFile() {

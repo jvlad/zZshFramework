@@ -22,7 +22,7 @@
 #
 
 #/**
-#* Internal Framework Identified used to avoid conflicts in a global zsh-functions namespace
+#* Internal framework's identifier used to avoid conflicts in a global zsh-functions namespace
 #*/
 zsf() {
     print "__zsf"
@@ -77,6 +77,10 @@ _initPrivateUtils() {
         errorGeneral$(zsf)
     }
 
+    normal$(zsf)() {
+        yes$(zsf)
+    }
+
     isShellSupported() {
         if [ -z "${ZSH_NAME}" ] ;then
             return $(errorGeneral$(zsf)) # NO
@@ -116,7 +120,7 @@ If you don't have brew, check https://brew.sh/
     }
 
     userHomeDir() {
-        print$(zsf) "/Users/`whoami`"
+        print$(zsf) "/Users/$(whoami)"
     }
 
     userDesktopDir() {
