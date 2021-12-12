@@ -13,19 +13,16 @@ _main_android() {
     }
 
     androidBuildRelease_buildNumber_moduleName_apkTargetDir_buildLogFilePath() {
-        local buildNumber="$1"
-        local moduleName="$2"
-        local apkTargetDir="$3"
-        local buildLogFilePath="$4"
-        local postBuildHook="${@:5}"
-        
-        fileCreateAt_path "$buildLogFilePath"
-
-        androidCleanReleaseArtifact_moduleName "$moduleName"
-        runGradle:PathToBuildLogFile:GradleTaskToRun \
-            "$buildLogFilePath" :"$moduleName":assembleRelease && \
-        androidCopyReleaseBuildArtifactsFrom:AppModuleDirTo:BuildNumber:TargetDir \
-            "./$moduleName" "$buildNumber" "$apkTargetDir"
+        local buildNumber=${1}
+        local moduleName=${2}
+        local apkTargetDir=${3}
+        local buildLogFilePath=${4}
+        local postBuildHook=${@:5}        
+        filePrepareDirAt:Path ${apkTargetDir} && \
+        fileCreateAt_path ${buildLogFilePath} && \
+        androidCleanReleaseArtifact_moduleName ${moduleName} && \
+        runGradle:PathToBuildLogFile:GradleTaskToRun ${buildLogFilePath} :${moduleName}:assembleRelease && \
+        androidCopyReleaseBuildArtifactsFrom:AppModuleDirTo:BuildNumber:TargetDir "./${moduleName}" ${buildNumber} ${apkTargetDir}
     }
 
     androidCopyReleaseBuildArtifactsFrom:AppModuleDirTo:BuildNumber:TargetDir() {
@@ -225,7 +222,7 @@ _main_android() {
             print$(zsf) "Looking for DEBUG key. Use 'android' as a password"
             do_facebookAndroidKeyHashcode:KeyAlias:KeystoreFilePath androiddebugkey "$(userHomeDir)/.android/debug.keystore"
         else
-            do_facebookAndroidKeyHashcode:KeyAlias:KeystoreFilePath "$1" "$2"
+            do_facebookAndroidKeyHashcode:KeyAlias:KeystoreFilePath ${1} ${2}
         fi
     }  
 

@@ -44,5 +44,9 @@ _main_feedback_printing() {
             return 1
         fi
     }
+
+    print-fileExcludingLinesThatStartWith-character() {
+        cat "$1" | sed -e '/^'"$2"'/d'
+    }
 }
 _callAndForget_functions _main_feedback_printing

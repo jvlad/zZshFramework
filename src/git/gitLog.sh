@@ -14,8 +14,8 @@ _main_gitLog() {
         local args=${@:3}  
         _gitLogExtract_logRetrieverFunc_upToCommit_numberOfCommits_prefix_postfix \
             gitLogToConsole "$1" "$2" \
-                "\`\$(\)\n  " \
-                "\n\`\$(\)  " \
+                "\`\`\`\n  " \
+                "\n\`\`\`  " \
                 "$args"
     }
 
