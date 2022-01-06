@@ -41,7 +41,6 @@ _main-zZshFramework-srcDir$(zsf)() {
     local srcDir="${1}"
     local generalScriptsDir="${srcDir}/general"
     source "${generalScriptsDir}/import.sh"
-    
     _import_shFilesPaths \
         "${generalScriptsDir}/debug" \
         "${generalScriptsDir}/beta" \
@@ -58,6 +57,9 @@ _main-zZshFramework-srcDir$(zsf)() {
         "${srcDir}/android/android" \
         "${srcDir}/android/macOS-android" \
 
+    scopeZsf() {
+        print$(zsf) "scope__zsf"
+    }
 }
 
 _initPrivateUtils() {
