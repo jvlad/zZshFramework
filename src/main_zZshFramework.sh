@@ -39,17 +39,18 @@ _main-zZshFramework-srcDir$(zsf)() {
     fi
     
     local srcDir="${1}"
-    local generalScriptsDir="${srcDir}/general"
-    source "${generalScriptsDir}/import.sh"
+    local gs="${srcDir}/general"
+    source "${gs}/import.sh"
     _import_shFilesPaths \
-        "${generalScriptsDir}/debug" \
-        "${generalScriptsDir}/beta" \
-        "${generalScriptsDir}/path" \
-        "${generalScriptsDir}/clipboard" \
-        "${generalScriptsDir}/printer" \
-        "${generalScriptsDir}/files" \
-        "${generalScriptsDir}/string_manipulations" \
-        "${generalScriptsDir}/networking" \
+        "${gs}/debug" \
+        "${gs}/beta" \
+        "${gs}/path" \
+        "${gs}/clipboard" \
+        "${gs}/printer" \
+        "${gs}/files" \
+        "${gs}/string_manipulations" \
+        "${gs}/networking" \
+        "${gs}/docker" \
         "${srcDir}/iOS/iOS_main" \
         "${srcDir}/git/gitLog" \
         "${srcDir}/git/gitHooks" \
