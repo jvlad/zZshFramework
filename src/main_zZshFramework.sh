@@ -66,7 +66,7 @@ _main-zZshFramework-srcDir$(zsf)() {
 _initPrivateUtils() {
 
     #/**
-    #* Error code representing a general error brough by zZshFramework's logic  
+    #* Error code for a general error brough by zZshFramework's logic  
     #*/
     errorGeneral$(zsf)() {
         print$(zsf) 20211201
