@@ -31,7 +31,7 @@ _main_DebugShell() {
 
     debugFunc:Args_array() {
         if ! isDebugEnabled; then
-            printException_message "Debug isn't enabled"
+            print-exceptionMessage$(zsf) "Debug isn't enabled"
             return 1
         fi
         local argsInfo=""
@@ -43,7 +43,7 @@ _main_DebugShell() {
 
     debugCacheClean() {
         if ! isDebugEnabled; then
-            printError_message "Debug isn't enabled"
+            print-errorMessage$(zsf) "Debug isn't enabled"
             return 1
         fi
         del "$(debugCachePath)"
@@ -53,7 +53,7 @@ _main_DebugShell() {
 
     debugCacheAppendDivider() {
         if ! isDebugEnabled; then
-            printError_message "Debug isn't enabled"
+            print-errorMessage$(zsf) "Debug isn't enabled"
             return 1
         fi
         print$(zsf) "\n\n===========================\n===========================\n===========================" >> "$(debugCachePath)"
@@ -61,7 +61,7 @@ _main_DebugShell() {
 
     debugLog() {
         if ! isDebugEnabled; then
-            printError_message "Debug isn't enabled"
+            print-errorMessage$(zsf) "Debug isn't enabled"
             return 1
         fi
         local cacheDir="$(debugCachePath)"

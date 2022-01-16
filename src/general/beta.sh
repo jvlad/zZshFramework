@@ -4,6 +4,10 @@ _main_beta-sourceDir() {
 #    debugFunc:Args_array {$@}
     local srcDir="$1"
 
+    _print-fileExcludingLinesThatStartWith-character$(zsf)() {
+        cat "$1" | sed -e '/^'"$2"'/d'
+    }
+
     gitConfigSshKeys() {
         sshConfigEdit
     }

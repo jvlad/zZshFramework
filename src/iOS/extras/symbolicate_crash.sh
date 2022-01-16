@@ -5,7 +5,7 @@ _main_symbolicate_crash() {
     local symbolcatingTool="/Applications/Xcode.app/Contents/SharedFrameworks/DVTFoundation.framework/Versions/A/Resources/symbolicatecrash"
 
     # $symbolcatingTool $@ > mostRecentSymbolicated.md && \
-    printSuccessAdding:Message
+    print-successMessage$(zsf)
     
     # iOSSymbolicateARM64,dSYMFile,BaseAddress,PointersToSymbolicate() {
     #     iOSSymbolicate,Arch,SYMBFile,BaseAddress,PointersToSymbolicate \

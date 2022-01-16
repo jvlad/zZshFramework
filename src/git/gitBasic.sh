@@ -58,14 +58,14 @@ _gitMergeToShared_branch() {
     _gitRebaseCurrentBranch_onBranch "$destinationBranch"
     git checkout "$destinationBranch"
     gm "$sourceBranch"
-    ggpush || print-warning "Pushing to remote has NOT suceeded"
+    ggpush || print-warning$(zsf) "Pushing to remote has NOT suceeded"
 }
 
 ## Experimental
 _gitRebaseCurrentBranch_onBranch() {
     local baseBranch="$1"
     git checkout "$baseBranch"
-    ggpull || print-warning "Pulling from remote has not suceeded"  
+    ggpull || print-warning$(zsf) "Pulling from remote has not suceeded"  
     git checkout -
     git rebase "$baseBranch" || git checkout - # if rebase didn't go well, we still do checkout back to the initial branch  
     gitLogLatestCommits_count 1

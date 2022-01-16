@@ -29,8 +29,13 @@ _main_shellImport() {
         done
     }
 
+    fileMakeExecutable-filePaths() {
+        chmod +x ${@}
+    }
+
     _import_shFile_args() {
         local fileToImport="$1.sh"
+        fileMakeExecutable-filePaths ${fileToImport}
         source "$fileToImport" "${@:2}"
     }
     alias _import="_import_shFile_args"

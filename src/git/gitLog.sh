@@ -32,7 +32,7 @@ _main_gitLog() {
 
     gitLogHeadline_startingFromCommit() {
         if isEmpty_String__i $1 ;then
-            printError_message__i "Missing 1st Argument – the hash of starting-point commit"
+            print-errorMessage$(zsf)__i "Missing 1st Argument – the hash of starting-point commit"
             return 1;
         fi
         gitLogHeadline "$1"^1..
@@ -116,7 +116,7 @@ _main_gitLog() {
 
     gitLogShort_startingFromCommit() {
         if isEmpty_String__i $1 ;then
-            printError_message__i "Missing 1st Argument – the hash of starting-point commit"
+            print-errorMessage$(zsf)__i "Missing 1st Argument – the hash of starting-point commit"
             return 1;
         fi
         gitLogShort "$1"^1..
@@ -179,9 +179,9 @@ _main_gitLog() {
 
     #import
     copyToClipboard_args__i() { sysClipboardCopy:Arg_array $@; }
-    printError_message__i() { printError_message $@; }
+    print-errorMessage$(zsf)__i() { print-errorMessage$(zsf) $@; }
     isEmpty_String__i() { isEmpty:String $@; }
-    printSuccessAdding_text__i() { printSuccessAdding:Message $@; }
+    printSuccessAdding_text__i() { print-successMessage$(zsf) $@; }
     print__i() { print$(zsf) $@; }
     trimEndSpaces__i() { trimEndSpaces $@; }
 }

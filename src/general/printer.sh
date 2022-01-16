@@ -1,25 +1,27 @@
 #!/usr/bin/env zsh
 
-_main_feedback_printing() {
-
-    printSuccessAdding:Message() {
-        isLastCommandSucceed && print_prefix_message "SUCCESS" "$1" || printError_message "$1"
+_main_printer-sourceDir() {
+    # debugFunc:Args_array {$@}
+    local srcDir="$1"
+    
+    print-successMessage$(zsf)() {
+        _isLastCommandSucceed$(zsf) && _print-headline-message$(zsf) "SUCCESS" "$1" || print-errorMessage$(zsf) "$1"
     }
     
-    printError_message() {
-        print_prefix_message "ERROR: " "$1"
+    print-errorMessage$(zsf)() {
+        _print-headline-message$(zsf) "ERROR: " "$1"
     }
 
-    printException_message() {
-        print_prefix_message "EXCEPTION: " "$1"
+    print-exceptionMessage$(zsf)() {
+        _print-headline-message$(zsf) "EXCEPTION: " "$1"
     }
 
-    print-warning() {
-        print_prefix_message "WARNING" "$1"
+    print-warning$(zsf)() {
+        _print-headline-message$(zsf) "WARNING" "$1"
     }
 
-    print_prefix_message() {
-        local callStack=$(callStackMessage_index 4)
+    _print-headline-message$(zsf)() {
+        local callStack=$(_callStackMessage-index$(zsf) 4)
         isEmpty:String $callStack \
             && local prefix="$1" \
             || local prefix="$1 [at: $callStack]"  
@@ -31,22 +33,19 @@ _main_feedback_printing() {
             || print$(zsf) "$prefix\n$subject\n"
     }
 
-    callStackMessage_index() {
+    _callStackMessage-index$(zsf)() {
         ! isDebugEnabled && return 1
         
         print$(zsf) "$funcstack[$1]"
     }
 
-    isLastCommandSucceed() {
+    _isLastCommandSucceed$(zsf)() {
         if [[ $? -eq 0 ]] ;then
             return 0
         else
             return 1
         fi
     }
-
-    print-fileExcludingLinesThatStartWith-character() {
-        cat "$1" | sed -e '/^'"$2"'/d'
-    }
 }
-_callAndForget_functions _main_feedback_printing
+_callAndForget-function-args _main_printer-sourceDir $(dirname $0)
+

@@ -318,7 +318,7 @@ _main_android() {
         fileMoveToTrashFileAt:Path "$destFile"
         local content="$(androidScreenIndicatorStrResource_specifiersArray $@)"
         filePrint:Text:ToFile "$content" "$destFile"
-        printSuccessAdding:Message "$destFile\ncreated"
+        print-successMessage$(zsf) "$destFile\ncreated"
     }
 
     androidSDKSetupEnv

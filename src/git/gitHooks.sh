@@ -8,7 +8,7 @@ _main_gitHooks() {
     
     gitHookAddBranchNameInsertionHookToCurrentRepo() {
         if ! isFileExistAt:Path ".git" ;then
-            printError_message "Running NOT within git_repo directory"
+            print-errorMessage$(zsf) "Running NOT within git_repo directory"
             return 1
         fi
         fileCopy_source_destination "$srcDir__zsf/git/hooks/commit-msg" "$(gitRepoDirName)/hooks/"

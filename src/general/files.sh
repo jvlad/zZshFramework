@@ -58,7 +58,7 @@ _main_FilesOperations() {
     copyMD5ToClipboard_files() {
         local md5hash=$(md5_ofFiles $@)
         sysClipboardCopy:Arg_array "$md5hash" && \
-        printSuccessAdding:Message "$md5hash is copied to clipboard"
+        print-successMessage$(zsf) "$md5hash is copied to clipboard"
     }
     alias mdc="copyMD5ToClipboard_files"
 
@@ -155,7 +155,7 @@ _main_FilesOperations() {
         if ! isFileExistAt:Path "$1/$fileName" ;then
             fileCreateNewWith:Name "$1/$fileName"
         fi
-        printSuccessAdding:Message "$fileName file is ready at path: $1/$fileName"
+        print-successMessage$(zsf) "$fileName file is ready at path: $1/$fileName"
     }
 
     filePrepareDirAt:Path() {
@@ -165,7 +165,7 @@ _main_FilesOperations() {
     fileCopy_source_destination() {
         cp -r "$1" "$2"
         local fileName=$(fileLastPartOf:Path "$1")
-        printSuccessAdding:Message "Copied $fileName -->\n$2"
+        print-successMessage$(zsf) "Copied $fileName -->\n$2"
     }
 
     fileMoveChangingNameToUnique:SourceFile:Destination() {
@@ -174,7 +174,7 @@ _main_FilesOperations() {
         mv "$1" "$uniqueName"
         mv "$uniqueName" "$2"
         local fileName=$(fileLastPartOf:Path "$uniqueName")
-        printSuccessAdding:Message "Moved $fileName -->\n$2"
+        print-successMessage$(zsf) "Moved $fileName -->\n$2"
     }
 
     fileCreateNewWith:Name() {
@@ -183,7 +183,7 @@ _main_FilesOperations() {
 
     fileCreateNewAt:Path:InitialContent() {
         print$(zsf) "$2" > "$1"
-        printSuccessAdding:Message "File created"
+        print-successMessage$(zsf) "File created"
     }
 
     fileMoveToTrashFileAt:Path() {
