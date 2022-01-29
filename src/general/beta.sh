@@ -8,33 +8,21 @@ _main_beta-sourceDir() {
         cat "$1" | sed -e '/^'"$2"'/d'
     }
 
-    gitConfigSshKeys() {
-        sshConfigEdit
-    }
-
-    sshConfigEdit() {
-        ce $(userHomeDir)/.ssh/config
-    }
-
-    gitConfigProjectEdit() {
-        ce .git/config
-    }
-
     isUnixOS() {
         local OS="$(uname)"
         if [[ "${OS}" == "Linux" || "${OS}" == "Darwin" ]] ;then
-            return $(yes$(zsf))
+            return yes$(zsf)
         else 
-            return $(no$(zsf))
+            return ${no__zsf}
         fi
     }
 
     #* 2021-12-01 12:03:02 TODO: @DexHo:  Unit test */
     isFileExistAt-path() {
         if [[ -a $1 ]] ;then
-            return $(yes$(zsf))
+            return yes$(zsf)
         else
-            return $(no$(zsf))
+            return ${no__zsf}
         fi
     }
 
@@ -44,9 +32,9 @@ _main_beta-sourceDir() {
     #*/ 
     isEmpty-file() {
         if [[ -s $1 ]] ;then
-            return $(no$(zsf))
+            return ${no__zsf}
         else 
-            return $(yes$(zsf))
+            return yes$(zsf)
         fi
     }
 }

@@ -22,11 +22,12 @@ _main_printer-sourceDir() {
 
     _print-headline-message$(zsf)() {
         local callStack=$(_callStackMessage-index$(zsf) 4)
-        isEmpty:String $callStack \
-            && local prefix="$1" \
-            || local prefix="$1 [at: $callStack]"  
-        
-        local prefix="\n$prefix: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+        local prefix=$(if isDebugEnabled ;then
+                print$(zsf) "${1} [at: ${callStack}]"
+            else
+                print$(zsf) "${1}"
+            fi)  
+        local prefix="\n$prefix: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
         local subject="$2"
         isEmpty:String $subject \
             && print$(zsf) "$prefix" \

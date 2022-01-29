@@ -8,7 +8,7 @@
 #   source "<PATH_TO_THIS_FILE_DIR>/main_zZshFramework.sh"
 #
 #   E. g. 
-#     source "/Users/JohnDoe/zZshFramework/src/main_zZshFramework.sh"
+#     source "/Users/JohnDoe/zZshFramework/src/main-zZshFramework.sh"
 #
 # 3. Reopen your terminal or relaunch ZSH 
 #   Alternatively, run:  
@@ -68,19 +68,14 @@ _initPrivateUtils() {
     #/**
     #* Error code for a general error brough by zZshFramework's logic  
     #*/
-    errorGeneral$(zsf)() {
-        print$(zsf) 20211201
-    }
+    export errorGeneral__zsf=20211201
+    export no__zsf=$errorGeneral__zsf
 
     yes$(zsf)() {
-        print$(zsf) 0
+        return 0
     }
 
-    no$(zsf)() {
-        errorGeneral$(zsf)
-    }
-
-    normal$(zsf)() {
+    return$(zsf)() {
         yes$(zsf)
     }
 

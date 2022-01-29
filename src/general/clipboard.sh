@@ -3,8 +3,18 @@
 _main_clipboard() {
 
     sysClipboardCopyVerbose_argsArray() {
-        sysClipboardCopy:Arg_array "$@"
-        print$(zsf) "$@\nis copied to clipboard"
+        local toCopy=$(if isEmpty:String ${@} ;then \
+                read inputPipe
+                print$(zsf) ${inputPipe}
+            else
+                print$(zsf) ${@}
+            fi)
+        if isEmpty:String ${toCopy} ;then
+            return 0
+        else
+            sysClipboardCopy:Arg_array ${toCopy}
+            print-successMessage$(zsf) "${toCopy}\nis copied to clipboard"
+        fi
     }
     
     sysClipboardCopy:Arg_array() {

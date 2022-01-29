@@ -13,12 +13,10 @@ _main_DebugShell() {
     }
 
     isDebugEnabled() {
-        if is:SubstringContainedIn:String "NO" "$_IS_DEBUG_ENABLED"; then
-            return 1
-        elif is:SubstringContainedIn:String "YES" "$_IS_DEBUG_ENABLED"; then
-            return 0
+        if is:SubstringContainedIn:String "YES" ${_IS_DEBUG_ENABLED}; then
+            return yes$(zsf)
         fi
-        return 1
+        return ${no__zsf}
     }
 
     debugPrintEnabledStatus() {

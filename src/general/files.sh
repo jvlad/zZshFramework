@@ -168,7 +168,7 @@ _main_FilesOperations() {
         print-successMessage$(zsf) "Copied $fileName -->\n$2"
     }
 
-    fileMoveChangingNameToUnique:SourceFile:Destination() {
+    fileMoveChangingNameToUnique-filePath-destinationDir() {
         local timeStamp=$(date)
         local uniqueName="${1}_${timeStamp}"
         mv "$1" "$uniqueName"
@@ -186,17 +186,17 @@ _main_FilesOperations() {
         print-successMessage$(zsf) "File created"
     }
 
-    fileMoveToTrashFileAt:Path() {
+    fileMoveToTrash-filePaths() {
         local userTrashDir="$(userHomeDir)/.Trash"
-        for file in "$@"; do
+        for file in ${@}; do
             if isSymlink:File $file; then
-                rm "$file"
+                rm ${file}
             elif isFileExistAt:Path $file ;then
-                fileMoveChangingNameToUnique:SourceFile:Destination "$file" "$userTrashDir"
+                fileMoveChangingNameToUnique-filePath-destinationDir ${file} ${userTrashDir}
             fi
         done
     }
-    alias del="fileMoveToTrashFileAt:Path"
+    alias del="fileMoveToTrash-filePaths"
 
     isSymlink:File() {
         test -h "$1"
@@ -222,14 +222,14 @@ _main_FilesOperations() {
 
     clean:Dir() {
         specifiedDirectory=$1
-        fileMoveToTrashFileAt:Path $specifiedDirectory
+        fileMoveToTrash-filePaths $specifiedDirectory
         mkdir $specifiedDirectory
     }
 
     cleanCurrentDirectory() {
         targetDirectory=$(pwd)
         cd ..
-        fileMoveToTrashFileAt:Path $targetDirectory
+        fileMoveToTrash-filePaths $targetDirectory
         makeDirectoryAndNavigateToIt $targetDirectory
     }
 

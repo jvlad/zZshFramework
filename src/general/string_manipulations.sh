@@ -8,9 +8,9 @@ _main_string_manipulations() {
 
     is:SubstringContainedIn:String() {
         if test "${2#*$1}" != "$2" ;then
-            return 0    # $substring is in $string
+            return yes$(zsf)    # $substring is in $string
         else
-            return 1    # $substring is not in $string
+            return ${no__zsf}    # $substring is not in $string
         fi
     }
 

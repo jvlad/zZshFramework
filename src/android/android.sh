@@ -315,7 +315,7 @@ _main_android() {
             return 1
         fi
         local destFile="$(androidScreenSpecifierDir_specifiersArray $@)/screen_size_indicator.xml"
-        fileMoveToTrashFileAt:Path "$destFile"
+        fileMoveToTrash-filePaths "$destFile"
         local content="$(androidScreenIndicatorStrResource_specifiersArray $@)"
         filePrint:Text:ToFile "$content" "$destFile"
         print-successMessage$(zsf) "$destFile\ncreated"
