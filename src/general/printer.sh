@@ -3,6 +3,14 @@
 _main_printer-sourceDir() {
     # debugFunc:Args_array {$@}
     local srcDir="$1"
+
+    printStarted-scriptName$(zsf)() {
+        _print-headline-message$(zsf) "STARTED: " "$1"
+    }
+
+    printFinished-scriptName$(zsf)() {
+        _print-headline-message$(zsf) "FINISHED: " "$1"
+    }
     
     print-successMessage$(zsf)() {
         _isLastCommandSucceed$(zsf) && _print-headline-message$(zsf) "SUCCESS" "$1" || print-errorMessage$(zsf) "$1"
@@ -31,7 +39,7 @@ _main_printer-sourceDir() {
         local subject="$2"
         isEmpty:String $subject \
             && print$(zsf) "$prefix" \
-            || print$(zsf) "$prefix\n$subject\n"
+            || print$(zsf) "$prefix\n$subject"
     }
 
     _callStackMessage-index$(zsf)() {

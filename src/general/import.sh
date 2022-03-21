@@ -47,6 +47,12 @@ _main_shellImport() {
             unset -f "$func" 2> /dev/null
         done
     }
+
+    shellAddToPath_paths$(zsf)() {
+        for _path in ${@}; do
+            export PATH="${_path}:$PATH"
+        done
+    }
 }
 _main_shellImport
 _unset_functions _main_shellImport

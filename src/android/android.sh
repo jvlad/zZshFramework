@@ -81,7 +81,7 @@ _main_android() {
     }
 
     androidInstallCommandLineTools() {
-        install__zsf install --cask android-commandlinetools
+        install-apps android-commandlinetools
         addToPath-args $(androidSDKDir) $(androidToolsDir) $(androidToolsExtraDir)
     }
 
@@ -234,17 +234,17 @@ _main_android() {
             "2"       "1.1"         "Petit Four"         "Feb 9, 2009"   "2.6"                               
             "3"       "1.5"         "Cupcake"            "Apr 27, 2009"     "2.6.27"                            
             "4"       "1.6"         "Donut"              "Sep 15, 2009" "2.6.29"                            
-            "5 – 7"   "2.0 – 2.1"   "Eclair"             "Oct 26, 2009"   "2.6.29"                            
-            "8"       "2.2 – 2.2.3" "Froyo"              "May 20, 2010"       "2.6.32"                            
-            "9 – 10"  "2.3 – 2.3.7" "Gingerbread"        "Dec 6, 2010"   "2.6.35"                            
-            "11 – 13" "3.0 – 3.2.6" "Honeycomb"          "Feb 22, 2011"  "2.6.36"                            
-            "14 – 15" "4.0 – 4.0.4" "Ice Cream Sandwich" "Oct 18, 2011"   "3.0.1"                             
-            "16 – 18" "4.1 – 4.3.1" "Jelly Bean"         "Jul 9, 2012"       "3.0.31 to 3.4.39"                  
-            "19 – 20" "4.4 – 4.4.4" "KitKat"             "Oct 31, 2013"   "3.10"                              
-            "21 – 22" "5.0 – 5.1.1" "Lollipop"           "Nov 12, 2014"  "3.16"                              
-            "23"      "6.0 – 6.0.1" "Marshmallow"        "Oct 5, 2015"    "3.18"                              
-            "24 – 25" "7.0 – 7.1.2" "Nougat"             "Aug 22, 2016"    "4.4"                               
-            "26 – 27" "8.0 – 8.1"   "Oreo"               "Aug 21, 2017"    "4.10"                              
+            "5 - 7"   "2.0 - 2.1"   "Eclair"             "Oct 26, 2009"   "2.6.29"                            
+            "8"       "2.2 - 2.2.3" "Froyo"              "May 20, 2010"       "2.6.32"                            
+            "9 - 10"  "2.3 - 2.3.7" "Gingerbread"        "Dec 6, 2010"   "2.6.35"                            
+            "11 - 13" "3.0 - 3.2.6" "Honeycomb"          "Feb 22, 2011"  "2.6.36"                            
+            "14 - 15" "4.0 - 4.0.4" "Ice Cream Sandwich" "Oct 18, 2011"   "3.0.1"                             
+            "16 - 18" "4.1 - 4.3.1" "Jelly Bean"         "Jul 9, 2012"       "3.0.31 to 3.4.39"                  
+            "19 - 20" "4.4 - 4.4.4" "KitKat"             "Oct 31, 2013"   "3.10"                              
+            "21 - 22" "5.0 - 5.1.1" "Lollipop"           "Nov 12, 2014"  "3.16"                              
+            "23"      "6.0 - 6.0.1" "Marshmallow"        "Oct 5, 2015"    "3.18"                              
+            "24 - 25" "7.0 - 7.1.2" "Nougat"             "Aug 22, 2016"    "4.4"                               
+            "26 - 27" "8.0 - 8.1"   "Oreo"               "Aug 21, 2017"    "4.10"                              
             "28"      "9"         "Pie"                "Aug 6, 2018"     "4.4.107, 4.9.84, and 4.14.42"      
             "29"      "10"        "Android Q"          "Sep 3, 2019"                   ""                                  
             "30"      "11"        "-"          ""                   ""                                  

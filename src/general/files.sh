@@ -162,7 +162,12 @@ _main_FilesOperations() {
         mkdir -p "$1"
     }
 
-    fileCopy_source_destination() {
+    fileOverwrite-source-destination() {
+        fileMoveToTrash-filePaths ${2}
+        fileCopy-source-destination ${1} ${2}
+    }
+
+    fileCopy-source-destination() {
         cp -r "$1" "$2"
         local fileName=$(fileLastPartOf:Path "$1")
         print-successMessage$(zsf) "Copied $fileName -->\n$2"
