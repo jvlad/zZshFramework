@@ -46,7 +46,7 @@ Command line utilities for Zsh (Z-Shell) to work with files, strings, clipboard,
 ###### Mon Nov 1 09:00:03 CET 2021  
 
 ### Functions    
-Function name should be in a camelCase with `-` before each parameter  
+Function name should be written in a camelCase with `-` before each parameter  
 
 E. g.  
 1. `printWarning-message` means that the function expects a single parameter with 'message' semantics  
@@ -60,26 +60,30 @@ Other details of the applied style are demonstrated below:
 print-prefix-message() {
     # 1.    In the beginning of the implementation introduce local variables to provide 
     #       a meaningful local-scope name for each argument
-    local prefix="$1" 
-    local subject="$2"
+    # 2.    Use `${...}` (a full form) everywhere for variable substitution
+    local prefix="${1}" 
+    local subject="${2}"
+    # 3.    Use `$(...)` (a full form) everywhere for function call substitution
+    local procedureResult=$(testProcedure)
     
     isEmpty-string $subject \
-    # 2.    Add a line break before logical operators like `&&`, `||`, etc. 
-    # 3.    Use wrappers like `print__zsf` and other `...__zsf` functions in favor of 
-    #       built-in and zsh-specific functions
-        && print__zsf "$prefix" \
-        || print__zsf "$prefix:\n$subject\n"
+    # 4.    Add a line break before logical operators like `&&`, `||`, etc. 
+    # 5.    Use scoped-name function like `print$(zsf)` and others `...$(zsf)` functions 
+    #       in favor of built-in and zsh-specific functions
+        && print$(zsf) "${prefix}" \
+        || print$(zsf) "${prefix}:\n${subject}\n"
 }
 ```
 
 [Deprecated] style:  
 * using `_` as a parameter-prefix. E. g. `print_prefix_message`  
 * using `:` as a parameter-prefix. E. g. `print:prefix:message`  
+* direct usage of `__zsf` postfix in function names. E. g. `isEmpty-string__zsf`  
 
 ---
 ---
 
-Author: Vlad Zams – Solution Architect @ Mobile App Soft  
+Author: Vlad Zams – Solutions Architect @ Mobile App Soft  
 https://t.me/vladZams  
-<v.mobileAppSoft@gmail.com>  
+<vz@mobileappsoft.com>  
 https://mobileAppSoft.com  
