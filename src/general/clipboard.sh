@@ -3,28 +3,23 @@
 _main_clipboard() {
 
     sysClipboardCopyVerbose_argsArray() {
-        local toCopy=$(if isEmpty:String ${@} ;then \
-                read inputPipe
-                print$(zsf) ${inputPipe}
-            else
-                print$(zsf) ${@}
-            fi)
-        if isEmpty:String ${toCopy} ;then
-            return 0
-        else
-            sysClipboardCopy:Arg_array ${toCopy}
-            print-successMessage$(zsf) "${toCopy}\nis copied to clipboard"
-        fi
+      local input=$(argsOrPipeIn-args$(zsf) ${@})
+      if isEmpty:String ${input} ;then
+        return 0
+      else
+        sysClipboardCopy:Arg_array ${input}
+        print-successMessage$(zsf) "${input}\nis copied to clipboard"
+      fi
     }
     
     sysClipboardCopy:Arg_array() {
-        local content="$@"
-        sysClipboardCopy_isRemovingLinebreaks_args false "$content"
+        local input=$(argsOrPipeIn-args$(zsf) ${@})
+        sysClipboardCopy_isRemovingLinebreaks_args false "${input}"
     }
 
     sysClipboardCopyRemovingLinebreaks_args() {
-        local content="$@"
-        sysClipboardCopy_isRemovingLinebreaks_args true "$content"
+        local input=$(argsOrPipeIn-args$(zsf) ${@})
+        sysClipboardCopy_isRemovingLinebreaks_args true "${input}"
     }
 
     sysClipboardCopy_isRemovingLinebreaks_args() {

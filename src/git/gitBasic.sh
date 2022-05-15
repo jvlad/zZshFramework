@@ -104,3 +104,7 @@ gitCurrentBranch() {
 	fi
 	echo ${ref#refs/heads/}
 }
+
+gitDiffUncommittedChanges_args() {
+  git difftool --no-prompt ${@}
+}

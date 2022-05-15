@@ -13,31 +13,52 @@ _main_android() {
     }
 
     androidBuildRelease_buildNumber_moduleName_apkTargetDir_buildLogFilePath() {
+      androidBuildDebug_buildNumber_moduleName_apkTargetDir_buildLogFilePath_releaseOrDebug \
+        ${1} ${2} ${3} ${4} "release"
+    }
+
+    androidBuildDebug_buildNumber_moduleName_apkTargetDir_buildLogFilePath() {
+      androidBuildDebug_buildNumber_moduleName_apkTargetDir_buildLogFilePath_releaseOrDebug \
+        ${1} ${2} ${3} ${4} "debug"
+    }
+
+    androidBuildDebug_buildNumber_moduleName_apkTargetDir_buildLogFilePath_releaseOrDebug() {
         local buildNumber=${1}
         local moduleName=${2}
         local apkTargetDir=${3}
         local buildLogFilePath=${4}
-        local postBuildHook=${@:5}        
+        local releaseOrDebug=${5}
         filePrepareDirAt:Path ${apkTargetDir} && \
         fileCreateAt_path ${buildLogFilePath} && \
-        androidCleanReleaseArtifact_moduleName ${moduleName} && \
-        runGradle:PathToBuildLogFile:GradleTaskToRun ${buildLogFilePath} :${moduleName}:assembleRelease && \
-        androidCopyReleaseBuildArtifactsFrom:AppModuleDirTo:BuildNumber:TargetDir "./${moduleName}" ${buildNumber} ${apkTargetDir}
+        if isStringEqualTo:String ${releaseOrDebug} "release"   ;then
+            androidCleanReleaseArtifact_moduleName ${moduleName} && \
+            runGradle:PathToBuildLogFile:GradleTaskToRun ${buildLogFilePath} :${moduleName}:assembleRelease
+        else
+            androidCleanDebugArtifact_moduleName ${moduleName} && \
+            runGradle:PathToBuildLogFile:GradleTaskToRun ${buildLogFilePath} :${moduleName}:assembleDebug
+        fi && \
+        androidCopyBuildArtifactsFrom_AppModuleDirTo_BuildNumber_TargetDir_releaseOrDebug \
+          "./${moduleName}" ${buildNumber} ${apkTargetDir} ${releaseOrDebug}
     }
 
-    androidCopyReleaseBuildArtifactsFrom:AppModuleDirTo:BuildNumber:TargetDir() {
+    androidCopyBuildArtifactsFrom_AppModuleDirTo_BuildNumber_TargetDir_releaseOrDebug() {
         targetDir="$3/$2"
         filePrepareDirAt:Path "$targetDir"
         copyFiles:FromDir:NameMatchingPattern:ToDir \
-                "$1/build/outputs/apk/release/" \
+                "$1/build/outputs/apk/${4}/" \
                 "*$2*.apk" \
                 "$targetDir" && \
-        cp "$1/build/outputs/mapping/release/mapping.txt" "$targetDir"
+        cp "$1/build/outputs/mapping/${4}/mapping.txt" "$targetDir"
     }
 
     androidCleanReleaseArtifact_moduleName() {
         local moduleName="$1"
         del "$moduleName/build/outputs/apk/release"
+    }
+
+    androidCleanDebugArtifact_moduleName() {
+        local moduleName="$1"
+        del "$moduleName/build/outputs/apk/debug"
     }
 
     androidStudioOpen:ProjectDir_optional() {
@@ -186,7 +207,7 @@ _main_android() {
 
     adbInstallAndStartOnAllDevices_apk_packageName_mainActivityClassFullName() {
         adbRemoveFromAllDevicesIncludingDebug_appPackageId "$2"
-        adbInstallOnAllDevices_apk "$1" && \
+        adbInstallOnAllDevices_apk "$1"
         adbStartOnAllDevices_packageName_mainActivityClassFullName "$2" "$3"
     }
 
@@ -199,7 +220,7 @@ _main_android() {
     }
 
     adbStartOnAllDevices_packageName_mainActivityClassFullName() {
-        adbRunOnAllConnectedDevices:Commands shell am start -n "$1"/"$2"
+        adbRunOnAllConnectedDevices:Commands shell am start -n "${1}/${2}"
     }
 
     adbRemoveFromAllDevices:PathToFile() {

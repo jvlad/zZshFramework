@@ -42,6 +42,7 @@ _main-zZshFramework-srcDir$(zsf)() {
     local gs="${srcDir}/general"
     source "${gs}/import.sh"
     _import_shFilesPaths \
+        "${gs}/inputReader" \
         "${gs}/debug" \
         "${gs}/beta" \
         "${gs}/path" \
@@ -58,6 +59,24 @@ _main-zZshFramework-srcDir$(zsf)() {
         "${srcDir}/android/android" \
         "${srcDir}/android/macOS-android" \
 
+    #/**
+    #* In bigger files it can be handy to user editor folding/unfolding feature for blocks of code
+    #* For that a function that contains just declaration of other functions is used – a so called grouping-function
+    #* Each grouping-function has a name with the following prefix
+    #* 
+    #* E. g.
+    #* ```
+    #* backend$(scopeZsf)() { # the start of a folding area
+    #*     backendRemoteSources() {
+    #*         ...
+    #*     }
+    #*
+    #*     backendEdit() {
+    #*         ...
+    #*     }
+    #* }; _callAndForget_functions backend$(scopeZsf) # the end of the folding area  
+    #* ```
+    #*/
     scopeZsf() {
         print$(zsf) "scope__zsf"
     }
