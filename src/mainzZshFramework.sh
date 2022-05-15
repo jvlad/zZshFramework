@@ -29,7 +29,7 @@ zsf() {
 }
 
 version$(zsf)() {
-    print$(zsf) "zZshFramework 5.2.23.20211201_zsf_zsh"  
+    print$(zsf) "zZshFramework 5.3.25.20220515-zsf-zsh"  
 }
 
 _main-zZshFramework-srcDir$(zsf)() {
