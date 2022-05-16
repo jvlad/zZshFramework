@@ -187,8 +187,9 @@ _main_FilesOperations() {
     }
 
     fileCreateNewAt:Path:InitialContent() {
+        fileCreateAt_path ${1}
         print$(zsf) "$2" > "$1"
-        print-successMessage$(zsf) "File created"
+        # print-successMessage$(zsf) "File created"
     }
 
     fileMoveToTrash-filePaths() {

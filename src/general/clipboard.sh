@@ -11,6 +11,7 @@ _main_clipboard() {
         print-successMessage$(zsf) "${input}\nis copied to clipboard"
       fi
     }
+    alias ccl="sysClipboardCopyVerbose_argsArray"
     
     sysClipboardCopy:Arg_array() {
         local input=$(argsOrPipeIn-args$(zsf) ${@})

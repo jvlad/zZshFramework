@@ -25,7 +25,9 @@
 #* Internal framework's identifier used to avoid conflicts in a global zsh-functions namespace
 #*/
 zsf() {
+    local e=${?}
     print "__zsf"
+    return ${e}
 }
 
 version$(zsf)() {
