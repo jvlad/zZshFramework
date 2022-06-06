@@ -7,11 +7,11 @@ _main_string_manipulations() {
     }
 
     is:SubstringContainedIn:String() {
-        if test "${2#*$1}" != "$2" ;then
-            return yes$(zsf)    # $substring is in $string
-        else
-            return ${no__zsf}    # $substring is not in $string
-        fi
+      if test "${2#*$1}" != "$2" ;then
+        return $(yes$(zsf))
+      else
+        return $(no$(zsf))
+      fi
     }
 
     isStringEqualTo:String() {

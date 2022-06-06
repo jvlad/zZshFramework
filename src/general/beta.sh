@@ -9,21 +9,21 @@ _main_beta-sourceDir() {
     }
 
     isUnixOS() {
-        local OS="$(uname)"
-        if [[ "${OS}" == "Linux" || "${OS}" == "Darwin" ]] ;then
-            return yes$(zsf)
-        else 
-            return ${no__zsf}
-        fi
+      local OS="$(uname)"
+      if [[ "${OS}" == "Linux" || "${OS}" == "Darwin" ]] ;then
+        return $(yes$(zsf))
+      else 
+        return $(no$(zsf))
+      fi
     }
 
     #* 2021-12-01 12:03:02 TODO: @DexHo:  Unit test */
     isFileExistAt-path() {
-        if [[ -a $1 ]] ;then
-            return yes$(zsf)
-        else
-            return ${no__zsf}
-        fi
+      if [[ -a $1 ]] ;then
+        return $(yes$(zsf))
+      else
+        return $(no$(zsf))
+      fi
     }
 
     #/**
@@ -31,11 +31,11 @@ _main_beta-sourceDir() {
     #* 2021-12-01 12:03:02 TODO: @DexHo:  Unit test */
     #*/ 
     isEmpty-file() {
-        if [[ -s $1 ]] ;then
-            return ${no__zsf}
-        else 
-            return yes$(zsf)
-        fi
+      if [[ -s $1 ]] ;then
+        return $(no$(zsf))
+      else 
+        return $(yes$(zsf))
+      fi
     }
 }
 _callAndForget-function-args _main_beta-sourceDir $(dirname $0)

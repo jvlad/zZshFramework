@@ -13,10 +13,10 @@ _main_DebugShell() {
     }
 
     isDebugEnabled() {
-        if is:SubstringContainedIn:String "YES" ${_IS_DEBUG_ENABLED}; then
-            return yes$(zsf)
-        fi
-        return ${no__zsf}
+      if is:SubstringContainedIn:String "YES" ${_IS_DEBUG_ENABLED}; then
+        return $(yes$(zsf))
+      fi
+      return $(no$(zsf))
     }
 
     debugPrintEnabledStatus() {
@@ -29,8 +29,7 @@ _main_DebugShell() {
 
     debugFunc:Args_array() {
         if ! isDebugEnabled; then
-            print-exceptionMessage$(zsf) "Debug isn't enabled"
-            return 1
+            return $(error$(zsf))
         fi
         local argsInfo=""
         for i in {1.."${#@[@]}"}; do
@@ -42,7 +41,7 @@ _main_DebugShell() {
     debugCacheClean() {
         if ! isDebugEnabled; then
             print-errorMessage$(zsf) "Debug isn't enabled"
-            return 1
+            return $(error$(zsf))
         fi
         del "$(debugCachePath)"
         print$(zsf) "# `date`" >> "`debugCachePath`"
@@ -51,16 +50,14 @@ _main_DebugShell() {
 
     debugCacheAppendDivider() {
         if ! isDebugEnabled; then
-            print-errorMessage$(zsf) "Debug isn't enabled"
-            return 1
+            return $(error$(zsf))
         fi
         print$(zsf) "\n\n===========================\n===========================\n===========================" >> "$(debugCachePath)"
     }
 
     debugLog() {
         if ! isDebugEnabled; then
-            print-errorMessage$(zsf) "Debug isn't enabled"
-            return 1
+            return $(error$(zsf))
         fi
         local cacheDir="$(debugCachePath)"
         filePrepareDirAt:Path "$(fileBasePartOf:Path "$cacheDir")"
@@ -73,7 +70,7 @@ _main_DebugShell() {
     }
 
     debugCachePath() {
-        print$(zsf) "$(tempDir__zsf)/shellScriptsDebugOutput.md"
+        print$(zsf) "$(tempDir$(zsf))/shellScriptsDebugOutput.md"
     }
 
 }

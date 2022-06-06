@@ -89,6 +89,7 @@ _main_gitLog() {
     }
 
     gitLogLatestCommits_count() {
+        debugFunc:Args_array "$@"
         local args=${@:2} 
         gitLog_upToCommit_numberOfCommits HEAD "$1" "$args"
     }

@@ -87,13 +87,24 @@ _main-zZshFramework-srcDir$(zsf)() {
 _initPrivateUtils() {
 
     #/**
-    #* Error code for a general error brough by zZshFramework's logic  
+    #* Logical "yes" in zZshFramework
     #*/
-    export errorGeneral__zsf=20211201
-    export no__zsf=$errorGeneral__zsf
-
     yes$(zsf)() {
-        return 0
+      print$(zsf) 0
+    }
+
+    #/**
+    #* Logical "no" in zZshFramework
+    #*/
+    no$(zsf)() {
+      print$(zsf) 20211201
+    }
+
+    #/**
+    #* General error in zZshFramework
+    #*/
+    error$(zsf)() {
+      print$(zsf) 20220516
     }
 
     return$(zsf)() {
@@ -168,7 +179,7 @@ If you don't have brew, check https://brew.sh/
     }
 
     tempDir$(zsf)() {
-        print$(zsf) "/Users/$(whoami)/.zShellFramework/temp"
+        print$(zsf) "/Users/$(whoami)/.zZshFramework/temp"
     }
 }
 

@@ -3,12 +3,12 @@
 argsOrPipeIn-args$(zsf)() {
   local input
   input=$(if isEmpty:String ${@} ;then \
-        read -r -d '' -t 0.01 inputPipe
+        read -r -d '' -t $(_inputWaitingTimeout$(zsf)) inputPipe
         print$(zsf) "${inputPipe}"
-        return 1
+        return $(no$(zsf))
     else
         print$(zsf) ${@}
-        return 0
+        return $(yes$(zsf))
     fi)
   local e=$?
   print$(zsf) "${input}"
@@ -16,12 +16,16 @@ argsOrPipeIn-args$(zsf)() {
 }
 
 pipeInOrArgs-args$(zsf)() {
-  local input=$(read -r -d '' -t 0.01 inputPipe; print$(zsf) "${inputPipe}")
+  local input=$(read -r -d '' -t $(_inputWaitingTimeout$(zsf)) inputPipe; print$(zsf) "${inputPipe}")
   if isEmpty:String ${input} ;then
     print$(zsf) ${@}
-    return 1
+    return $(no$(zsf))
   else
     print$(zsf) ${input}
-    return 0
+    return $(yes$(zsf))
   fi
+}
+
+_inputWaitingTimeout$(zsf)() {
+  print$(zsf) 0.07
 }

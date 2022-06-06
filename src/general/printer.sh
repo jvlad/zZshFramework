@@ -17,7 +17,7 @@ _main_printer-sourceDir() {
     }
     
     print-errorMessage$(zsf)() {
-        _print-headline-message$(zsf) "ERROR: " "$1"
+        _print-headline-message$(zsf) "ERROR in <$funcstack[2] <- $funcstack[3] <- $funcstack[4]>" "$1"
     }
 
     print-exceptionMessage$(zsf)() {

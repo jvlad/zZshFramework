@@ -22,6 +22,25 @@ _main_android() {
         ${1} ${2} ${3} ${4} "debug"
     }
 
+    androidBuildBundle-buildNumber-moduleName-targetDir-buildLogFilePath() {
+      local buildNumber=${1}
+      local moduleName=${2}
+      local targetDir=${3}/${buildNumber}
+      local buildLogFilePath=${4}
+      local buildDir="${moduleName}/$(_androidModuleOutputsDir$(zsf))/bundle/release"
+      del "${buildDir}"
+      runGradle:PathToBuildLogFile:GradleTaskToRun ${buildLogFilePath} bundleRelease && \
+      filePrepareDirAt:Path ${targetDir} && \
+      copyFiles:FromDir:NameMatchingPattern:ToDir \
+              "${buildDir}" \
+              "*.aab" \
+              "${targetDir}"
+    }
+
+    _androidModuleOutputsDir$(zsf)() {
+      print$(zsf) build/outputs
+    }
+
     androidBuildDebug_buildNumber_moduleName_apkTargetDir_buildLogFilePath_releaseOrDebug() {
         local buildNumber=${1}
         local moduleName=${2}
@@ -30,35 +49,35 @@ _main_android() {
         local releaseOrDebug=${5}
         filePrepareDirAt:Path ${apkTargetDir} && \
         fileCreateAt_path ${buildLogFilePath} && \
-        if isStringEqualTo:String ${releaseOrDebug} "release"   ;then
+        if isStringEqualTo:String ${releaseOrDebug} "release" ;then
             androidCleanReleaseArtifact_moduleName ${moduleName} && \
             runGradle:PathToBuildLogFile:GradleTaskToRun ${buildLogFilePath} :${moduleName}:assembleRelease
         else
             androidCleanDebugArtifact_moduleName ${moduleName} && \
             runGradle:PathToBuildLogFile:GradleTaskToRun ${buildLogFilePath} :${moduleName}:assembleDebug
         fi && \
-        androidCopyBuildArtifactsFrom_AppModuleDirTo_BuildNumber_TargetDir_releaseOrDebug \
+        androidCopyBuiltApksFrom_AppModuleDirTo_BuildNumber_TargetDir_releaseOrDebug \
           "./${moduleName}" ${buildNumber} ${apkTargetDir} ${releaseOrDebug}
     }
 
-    androidCopyBuildArtifactsFrom_AppModuleDirTo_BuildNumber_TargetDir_releaseOrDebug() {
-        targetDir="$3/$2"
+    androidCopyBuiltApksFrom_AppModuleDirTo_BuildNumber_TargetDir_releaseOrDebug() {
+        local targetDir="$3/$2"
         filePrepareDirAt:Path "$targetDir"
         copyFiles:FromDir:NameMatchingPattern:ToDir \
-                "$1/build/outputs/apk/${4}/" \
+                "$1/$(_androidModuleOutputsDir$(zsf))/apk/${4}/" \
                 "*$2*.apk" \
                 "$targetDir" && \
-        cp "$1/build/outputs/mapping/${4}/mapping.txt" "$targetDir"
+        cp "$1/$(_androidModuleOutputsDir$(zsf))/mapping/${4}/mapping.txt" "$targetDir"
     }
 
     androidCleanReleaseArtifact_moduleName() {
         local moduleName="$1"
-        del "$moduleName/build/outputs/apk/release"
+        del "$moduleName/$(_androidModuleOutputsDir$(zsf))/apk/release"
     }
 
     androidCleanDebugArtifact_moduleName() {
         local moduleName="$1"
-        del "$moduleName/build/outputs/apk/debug"
+        del "$moduleName/$(_androidModuleOutputsDir$(zsf))/apk/debug"
     }
 
     androidStudioOpen:ProjectDir_optional() {
@@ -235,6 +254,15 @@ _main_android() {
         adbRunOnAllConnectedDevices:Commands shell pm reset-permissions "$1"
     }
 
+    androidKeySha1Debug() {
+      print$(zsf) "Looking for DEBUG key. Use 'android' as a password"
+      keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore
+    }
+
+    androidKeySha1Release-keyAlias-keystorePath() {
+      keytool -list -v -alias ${1} -keystore ${2}
+    }
+
     facebookAndroidKeyHashcode:KeyAlias:KeystoreFilePath() {
         do_facebookAndroidKeyHashcode:KeyAlias:KeystoreFilePath() {
             keytool -exportcert -alias "$1" -keystore "$2" | openssl sha1 -binary | openssl base64
@@ -304,7 +332,7 @@ _main_android() {
         adbRunOnAllConnectedDevices:Commands shell pm list packages -f
     }
 
-    androidCheckSignatureOf:APK() {
+    androidIsSigned-apkOrBundleFile() {
         jarsigner -verify -verbose -certs "$1"
     }  
 
