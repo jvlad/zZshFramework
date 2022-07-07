@@ -27,5 +27,5 @@ pipeInOrArgs-args$(zsf)() {
 }
 
 _inputWaitingTimeout$(zsf)() {
-  print$(zsf) 0.07
+  print$(zsf) 3
 }

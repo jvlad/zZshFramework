@@ -14,6 +14,8 @@ alias gss="gitListStaged"
 alias gcm="gitCheckoutToMaster"
 alias gst="git stash"
 alias gstl="git stash list | cat"
+alias gb="git branch"
+alias gba="git branch -a"
 
 gitUser() {
     git config user.name

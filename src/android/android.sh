@@ -1,6 +1,7 @@
 #!/usr/bin/env zsh  
 
 _main_android() {
+  alias ad="adb devices"  
     
     androidSDKDir() {
         print$(zsf) "$(userLibraryDir)/Android/sdk"
@@ -51,10 +52,10 @@ _main_android() {
         fileCreateAt_path ${buildLogFilePath} && \
         if isStringEqualTo:String ${releaseOrDebug} "release" ;then
             androidCleanReleaseArtifact_moduleName ${moduleName} && \
-            runGradle:PathToBuildLogFile:GradleTaskToRun ${buildLogFilePath} :${moduleName}:assembleRelease
+            runGradle:PathToBuildLogFile:GradleTaskToRun ${buildLogFilePath} :${moduleName}:assembleRelease && \
         else
             androidCleanDebugArtifact_moduleName ${moduleName} && \
-            runGradle:PathToBuildLogFile:GradleTaskToRun ${buildLogFilePath} :${moduleName}:assembleDebug
+            runGradle:PathToBuildLogFile:GradleTaskToRun ${buildLogFilePath} :${moduleName}:assembleDebug && \
         fi && \
         androidCopyBuiltApksFrom_AppModuleDirTo_BuildNumber_TargetDir_releaseOrDebug \
           "./${moduleName}" ${buildNumber} ${apkTargetDir} ${releaseOrDebug}
@@ -62,12 +63,15 @@ _main_android() {
 
     androidCopyBuiltApksFrom_AppModuleDirTo_BuildNumber_TargetDir_releaseOrDebug() {
         local targetDir="$3/$2"
+        local releaseOrDebug=${4}
         filePrepareDirAt:Path "$targetDir"
         copyFiles:FromDir:NameMatchingPattern:ToDir \
-                "$1/$(_androidModuleOutputsDir$(zsf))/apk/${4}/" \
+                "$1/$(_androidModuleOutputsDir$(zsf))/apk/${releaseOrDebug}/" \
                 "*$2*.apk" \
                 "$targetDir" && \
-        cp "$1/$(_androidModuleOutputsDir$(zsf))/mapping/${4}/mapping.txt" "$targetDir"
+        if isStringEqualTo:String ${releaseOrDebug} "release" ;then
+          cp "$1/$(_androidModuleOutputsDir$(zsf))/mapping/${4}/mapping.txt" "$targetDir"
+        fi
     }
 
     androidCleanReleaseArtifact_moduleName() {
@@ -162,6 +166,11 @@ _main_android() {
     adbScreenrecord_outputDir_FileName() {
         # tbd
         # doesn't work: adb exec-out screenrecord > "$1/$2.mp4"
+    }
+
+    adbRestartServer() {
+      adb kill-server
+      adb start-server
     }
 
     adbRunOnAllConnectedDevices:Commands() {

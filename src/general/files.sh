@@ -179,7 +179,7 @@ _main_FilesOperations() {
         mv "$1" "$uniqueName"
         mv "$uniqueName" "$2"
         local fileName=$(fileLastPartOf:Path "$uniqueName")
-        print-successMessage$(zsf) "Moved $fileName -->\n$2"
+        # print-successMessage$(zsf) "Moved $fileName -->\n$2"
     }
 
     fileCreateNewWith:Name() {
@@ -202,7 +202,9 @@ _main_FilesOperations() {
             fi
         done
     }
-    alias del="fileMoveToTrash-filePaths"
+    del() {
+      fileMoveToTrash-filePaths ${@}
+    }
 
     isSymlink:File() {
         test -h "$1"
