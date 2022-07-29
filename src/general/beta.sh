@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 _main_beta-sourceDir() {
-#    debugFunc:Args_array {$@}
+#    debugLogFunc-args {$@}
     local srcDir="$1"
 
     _print-fileExcludingLinesThatStartWith-character$(zsf)() {

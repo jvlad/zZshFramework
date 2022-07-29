@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 _main_docker-sourceDir() {
-    # debugFunc:Args_array {$@}
+    # debugLogFunc-args {$@}
     local srcDir="$1"
     
     alias dok="docker"

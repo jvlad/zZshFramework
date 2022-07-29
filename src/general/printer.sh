@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 _main_printer-sourceDir() {
-    # debugFunc:Args_array {$@}
+    # debugLogFunc-args {$@}
     local srcDir="$1"
 
     printStarted-scriptName$(zsf)() {

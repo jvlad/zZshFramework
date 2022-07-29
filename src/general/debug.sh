@@ -27,7 +27,16 @@ _main_DebugShell() {
         fi
     }
 
-    debugFunc:Args_array() {
+    debugFuncInit-args() {
+      if ! isDebugEnabled; then
+        return $(error$(zsf))
+      fi
+      debugCacheClean
+      debugLogFunc-args ${@}
+      debugCacheEdit
+    }
+
+    debugLogFunc-args() {
         if ! isDebugEnabled; then
             return $(error$(zsf))
         fi

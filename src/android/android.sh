@@ -14,13 +14,15 @@ _main_android() {
     }
 
     androidBuildRelease_buildNumber_moduleName_apkTargetDir_buildLogFilePath() {
-      androidBuildDebug_buildNumber_moduleName_apkTargetDir_buildLogFilePath_releaseOrDebug \
-        ${1} ${2} ${3} ${4} "release"
+      local buildFlavourOptional=${5}
+      androidBuild-buildNumber-moduleName-apkTargetDir-buildLogFilePath-buildFlavour-releaseOrDebug$(zsf) \
+        ${1} ${2} ${3} ${4} "${buildFlavourOptional}" "release"
     }
 
     androidBuildDebug_buildNumber_moduleName_apkTargetDir_buildLogFilePath() {
-      androidBuildDebug_buildNumber_moduleName_apkTargetDir_buildLogFilePath_releaseOrDebug \
-        ${1} ${2} ${3} ${4} "debug"
+      local buildFlavourOptional=${5}
+      androidBuild-buildNumber-moduleName-apkTargetDir-buildLogFilePath-buildFlavour-releaseOrDebug$(zsf) \
+        ${1} ${2} ${3} ${4} "${buildFlavourOptional}" "debug"
     }
 
     androidBuildBundle-buildNumber-moduleName-targetDir-buildLogFilePath() {
@@ -28,8 +30,9 @@ _main_android() {
       local moduleName=${2}
       local targetDir=${3}/${buildNumber}
       local buildLogFilePath=${4}
-      local buildDir="${moduleName}/$(_androidModuleOutputsDir$(zsf))/bundle/release"
-      del "${buildDir}"
+      local buildFlavourOptional=${5}
+      androidRemoveArtifacts-moduleName ${moduleName}
+      local buildDir="$(androidModuleOutputsDir-moduleName$(zsf) ${moduleName})/bundle/release"
       runGradle:PathToBuildLogFile:GradleTaskToRun ${buildLogFilePath} bundleRelease && \
       filePrepareDirAt:Path ${targetDir} && \
       copyFiles:FromDir:NameMatchingPattern:ToDir \
@@ -38,50 +41,70 @@ _main_android() {
               "${targetDir}"
     }
 
-    _androidModuleOutputsDir$(zsf)() {
-      print$(zsf) build/outputs
+    androidModuleOutputsDir-moduleName$(zsf)() {
+      print$(zsf) "${1}/build/outputs"
     }
 
-    androidBuildDebug_buildNumber_moduleName_apkTargetDir_buildLogFilePath_releaseOrDebug() {
-        local buildNumber=${1}
-        local moduleName=${2}
-        local apkTargetDir=${3}
-        local buildLogFilePath=${4}
-        local releaseOrDebug=${5}
-        filePrepareDirAt:Path ${apkTargetDir} && \
-        fileCreateAt_path ${buildLogFilePath} && \
-        if isStringEqualTo:String ${releaseOrDebug} "release" ;then
-            androidCleanReleaseArtifact_moduleName ${moduleName} && \
-            runGradle:PathToBuildLogFile:GradleTaskToRun ${buildLogFilePath} :${moduleName}:assembleRelease && \
-        else
-            androidCleanDebugArtifact_moduleName ${moduleName} && \
-            runGradle:PathToBuildLogFile:GradleTaskToRun ${buildLogFilePath} :${moduleName}:assembleDebug && \
-        fi && \
-        androidCopyBuiltApksFrom_AppModuleDirTo_BuildNumber_TargetDir_releaseOrDebug \
-          "./${moduleName}" ${buildNumber} ${apkTargetDir} ${releaseOrDebug}
+    androidBuild-buildNumber-moduleName-apkTargetDir-buildLogFilePath-buildFlavour-releaseOrDebug$(zsf)() {
+      debugFuncInit-args "$@"
+      local buildNumber=${1}
+      local moduleName=${2}
+      local apkTargetDir=${3}
+      local buildLogFilePath=${4}
+      local buildFlavour=${5}
+      local releaseOrDebug=${6}
+      fileCreateAt_path ${buildLogFilePath} && \
+      androidRemoveArtifacts-moduleName ${moduleName} && \
+      if isStringEqualTo:String ${releaseOrDebug} "release" ;then
+        runGradle:PathToBuildLogFile:GradleTaskToRun ${buildLogFilePath} :${moduleName}:assembleRelease && \
+      else
+        runGradle:PathToBuildLogFile:GradleTaskToRun ${buildLogFilePath} :${moduleName}:assembleDebug && \
+      fi && \
+      androidCopyApksFrom-appModule-buildNumber-targetDir-buildFlavour-releaseOrDebug$(zsf) \
+        "./${moduleName}" ${buildNumber} ${apkTargetDir} ${buildFlavour} ${releaseOrDebug}
     }
 
-    androidCopyBuiltApksFrom_AppModuleDirTo_BuildNumber_TargetDir_releaseOrDebug() {
-        local targetDir="$3/$2"
-        local releaseOrDebug=${4}
-        filePrepareDirAt:Path "$targetDir"
-        copyFiles:FromDir:NameMatchingPattern:ToDir \
-                "$1/$(_androidModuleOutputsDir$(zsf))/apk/${releaseOrDebug}/" \
-                "*$2*.apk" \
-                "$targetDir" && \
-        if isStringEqualTo:String ${releaseOrDebug} "release" ;then
-          cp "$1/$(_androidModuleOutputsDir$(zsf))/mapping/${4}/mapping.txt" "$targetDir"
-        fi
+    androidRemoveArtifacts-moduleName() {
+      local moduleName=${1}
+      local buildFlavour=${2}
+      local apkOrBundle=${3}
+      local releaseOrDebug=${4}
+      del "$(androidModuleOutputsDir-moduleName$(zsf) ${moduleName})"
     }
 
-    androidCleanReleaseArtifact_moduleName() {
-        local moduleName="$1"
-        del "$moduleName/$(_androidModuleOutputsDir$(zsf))/apk/release"
+    androidCopyApksFrom-appModule-buildNumber-targetDir-buildFlavour-releaseOrDebug$(zsf)() {
+      debugLogFunc-args "$@"
+      local appModule=${1}
+      local targetDir="$3/$2"
+      local buildFlavour=${4}
+      local releaseOrDebug=${5}
+      local apkSourceDir="$(apkSourceDir-appModule-buildFlavour-releaseOrDebug$(zsf) ${appModule} ${buildFlavour} ${releaseOrDebug})"
+      filePrepareDirAt:Path "${targetDir}"
+      debugLog targetDir: ${targetDir}
+      copyFiles:FromDir:NameMatchingPattern:ToDir \
+              "${apkSourceDir}/" \
+              "*.apk" \
+              "${targetDir}" && \
+      if isStringEqualTo:String ${releaseOrDebug} "release" ;then
+        cp "$(androidArtifactsDir-appModule$(zsf) ${appModule})/mapping/${releaseOrDebug}/mapping.txt" "$targetDir"
+      fi
     }
 
-    androidCleanDebugArtifact_moduleName() {
-        local moduleName="$1"
-        del "$moduleName/$(_androidModuleOutputsDir$(zsf))/apk/debug"
+    apkSourceDir-appModule-buildFlavour-releaseOrDebug$(zsf)() {
+      local appModule=${1}
+      local buildFlavour=${2}
+      local releaseOrDebug=${3}
+      local basePath="$(androidArtifactsDir-appModule$(zsf) ${appModule})/apk"
+      if isEmpty:String ${buildFlavour} ;then
+        print$(zsf) "${basePath}/${releaseOrDebug}/"
+      else
+        print$(zsf) "${basePath}/${buildFlavour}/${releaseOrDebug}/"
+      fi
+    }
+
+    androidArtifactsDir-appModule$(zsf)() {
+      local appModule=${1}
+      print$(zsf) "${appModule}/build/outputs"
     }
 
     androidStudioOpen:ProjectDir_optional() {

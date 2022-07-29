@@ -8,7 +8,7 @@ _main_shellImport() {
     }
 
     _callAndForget_functions() {
-        # debugFunc:Args_array "$@"
+        # debugLogFunc-args "$@"
         for func in $@; do
             "$func"
         done
@@ -16,14 +16,14 @@ _main_shellImport() {
     }
 
     _import_shFilesPaths() {
-        # debugFunc:Args_array "$@"
+        # debugLogFunc-args "$@"
         for file in ${@}; do
             _import_shFile_args "$file"
         done
     }
 
     _importFrom-parentDir-shFilesNames() {
-        # debugFunc:Args_array "$@"   
+        # debugLogFunc-args "$@"   
         for file in ${@:2} ;do
             _import_shFilesPaths ${1}/${file}
         done

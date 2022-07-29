@@ -89,7 +89,7 @@ _main_gitLog() {
     }
 
     gitLogLatestCommits_count() {
-        debugFunc:Args_array "$@"
+        debugLogFunc-args "$@"
         local args=${@:2} 
         gitLog_upToCommit_numberOfCommits HEAD "$1" "$args"
     }
@@ -140,7 +140,7 @@ _main_gitLog() {
     alias gls="gitLogShort"
 
     gitLog_format_args() {
-        # debugFunc:Args_array "$@"
+        # debugLogFunc-args "$@"
         # %h = abbreviated commit hash
         # %x09 = tab (character for code 9)
         # %an = author name
@@ -153,7 +153,7 @@ _main_gitLog() {
     }
 
     _gitLogExtract_logRetrieverFunc_upToCommit_numberOfCommits_prefix_postfix() {
-        # debugFunc:Args_array "$@"
+        # debugLogFunc-args "$@"
         local args=${@:6}  
         local gitLogExtract=$($1 -"$3" "$args" "$2")
         if isEmpty_String__i "$3" ;then

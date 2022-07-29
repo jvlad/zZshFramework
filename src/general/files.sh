@@ -159,7 +159,7 @@ _main_FilesOperations() {
     }
 
     filePrepareDirAt:Path() {
-        mkdir -p "$1"
+        mkdir -p ${1}
     }
 
     fileOverwrite-source-destination() {
