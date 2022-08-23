@@ -35,6 +35,7 @@ version$(zsf)() {
 }
 
 _main-zZshFramework-srcDir$(zsf)() {
+    export srcDir$(zsf)=${1}
     _initPrivateUtils
     if ! isShellSupported ;then
         abortBecauseOf-reason$(zsf) "Current Shell is NOT supported. Zsh is excepted."  
@@ -51,7 +52,7 @@ _main-zZshFramework-srcDir$(zsf)() {
         "${gs}/clipboard" \
         "${gs}/printer" \
         "${gs}/files" \
-        "${gs}/string_manipulations" \
+        "${gs}/stringUtils" \
         "${gs}/networking" \
         "${gs}/docker" \
         "${srcDir}/iOS/iOS_main" \
@@ -107,6 +108,9 @@ _initPrivateUtils() {
       print$(zsf) 20220516
     }
 
+    #/**
+    #* Return normally in zZshFramework
+    #*/
     return$(zsf)() {
         yes$(zsf)
     }
@@ -135,6 +139,14 @@ If you don't have brew, check https://brew.sh/
     abortBecauseOf-reason$(zsf)() {
         print "ERROR: ${1}" 
         abort$(zsf)
+    }
+
+    isExecutedFromAnotherScript() {
+      if ! isEmpty:String $funcstack[3] ;then
+        return $(yes$(zsf))
+      else
+        return $(no$(zsf))
+      fi
     }
 
     abort$(zsf)() {

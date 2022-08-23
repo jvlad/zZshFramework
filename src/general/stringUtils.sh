@@ -14,19 +14,27 @@ _main_string_manipulations() {
       fi
     }
 
-    isStringEqualTo:String() {
+    is-stringStartsWith-prefix() {
+      if [[ ${1} = ${2}* ]];then
+        return $(yes$(zsf))
+      else
+        return $(no$(zsf))
+      fi
+    }
+
+    is-stringEqualTo-string() {
         if [ "$1" = "$2" ]; then
-            return 0
+            return $(yes$(zsf))
         else
-            return 1
+            return $(no$(zsf))
         fi
     }
 
     isEmpty:String() {
         if [[ -z $1 ]] ;then
-            return 0
+            return $(yes$(zsf))
         else
-            return 1
+            return $(no$(zsf))
         fi
     }
 

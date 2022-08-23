@@ -55,7 +55,7 @@ _main_android() {
       local releaseOrDebug=${6}
       fileCreateAt_path ${buildLogFilePath} && \
       androidRemoveArtifacts-moduleName ${moduleName} && \
-      if isStringEqualTo:String ${releaseOrDebug} "release" ;then
+      if is-stringEqualTo-string ${releaseOrDebug} "release" ;then
         runGradle:PathToBuildLogFile:GradleTaskToRun ${buildLogFilePath} :${moduleName}:assembleRelease && \
       else
         runGradle:PathToBuildLogFile:GradleTaskToRun ${buildLogFilePath} :${moduleName}:assembleDebug && \
@@ -85,7 +85,7 @@ _main_android() {
               "${apkSourceDir}/" \
               "*.apk" \
               "${targetDir}" && \
-      if isStringEqualTo:String ${releaseOrDebug} "release" ;then
+      if is-stringEqualTo-string ${releaseOrDebug} "release" ;then
         cp "$(androidArtifactsDir-appModule$(zsf) ${appModule})/mapping/${releaseOrDebug}/mapping.txt" "$targetDir"
       fi
     }

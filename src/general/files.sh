@@ -105,7 +105,7 @@ _main_FilesOperations() {
     }
 
     isPointsToCurrentDir:Path() {
-        isStringEqualTo:String "$1" "." || isEmpty:String "$1" && return 0 || return 1;
+        is-stringEqualTo-string "$1" "." || isEmpty:String "$1" && return 0 || return 1;
     }
 
     filePrint:Text:ToFile() {
@@ -139,7 +139,7 @@ _main_FilesOperations() {
     }
 
     isEnclosingDirNameEqualsTo_name() {
-        isStringEqualTo:String $(fileEnclosingDirName_Path) "$1" \
+        is-stringEqualTo-string $(fileEnclosingDirName_Path) "$1" \
             && return 0 \
             || return 1
     }
@@ -168,9 +168,9 @@ _main_FilesOperations() {
     }
 
     fileCopy-source-destination() {
-        cp -r "$1" "$2"
-        local fileName=$(fileLastPartOf:Path "$1")
-        print-successMessage$(zsf) "Copied $fileName -->\n$2"
+        cp -r "${1}" "${2}" && \
+        local fileName=$(fileLastPartOf:Path "${1}") && \
+        print-successMessage$(zsf) "Copied ${fileName} -->\n${2}"
     }
 
     fileMoveChangingNameToUnique-filePath-destinationDir() {

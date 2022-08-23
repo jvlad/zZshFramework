@@ -22,55 +22,25 @@ gitUser() {
     git config user.email
 }
 
-gitCheckoutToUpdatedMaster() {
-    gitCheckoutToUpdated_branch master
-}
-
-gitCheckoutToUpdatedDev() {
-    gitCheckoutToUpdated_branch dev
-}
-
 gitCheckoutToUpdated_branch() {
     git checkout "$1" && ggpull
 }
 
-## Experimental
-gitRebaseOnMaster() {
-    _gitRebaseCurrentBranch_onBranch "master"
-}
-
-gitRebaseOnDev() {
-    _gitRebaseCurrentBranch_onBranch "dev"
-}
-
-gitRebaseOnDevelop() {
-    _gitRebaseCurrentBranch_onBranch "develop"
-}
-
-gitMergeToDev() {
-    _gitMergeToShared_branch "dev"
-}
-
-gitMergeToMaster() {
-    _gitMergeToShared_branch "master"
-}
-
-_gitMergeToShared_branch() {
+gitMergeCurrentBranchToShared-branch() {
     local sourceBranch="$(gitCurrentBranch)"
     local destinationBranch="$1"
-    _gitRebaseCurrentBranch_onBranch "$destinationBranch"
+    gitRebaseCurrentBranch-onBranch "$destinationBranch"
     git checkout "$destinationBranch"
     gm "$sourceBranch"
     ggpush || print-warning$(zsf) "Pushing to remote has NOT suceeded"
 }
 
-## Experimental
-_gitRebaseCurrentBranch_onBranch() {
+gitRebaseCurrentBranch-onBranch() {
     local baseBranch="$1"
-    git checkout "$baseBranch"
+    git checkout ${baseBranch}
     ggpull || print-warning$(zsf) "Pulling from remote has not suceeded"  
     git checkout -
-    git rebase "$baseBranch" || git checkout - # if rebase didn't go well, we still do checkout back to the initial branch  
+    git rebase ${baseBranch} || git checkout - # if rebase didn't go well, we still do checkout back to the initial branch  
     gitLogLatestCommits_count 1
 }
 
