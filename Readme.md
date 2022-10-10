@@ -32,20 +32,20 @@ Command line utilities for Zsh (Z-Shell) to work with files, strings, clipboard,
     source ~/.zshrc
     ```
 
-4. Recheck zZshFramework enabled by running:  
+4. Recheck that zZshFramework was enabled (imported) successfully by running:  
     ```
     version__zsf
     ```
 
     Example of expected output:  
-    `zZshFramework 1.1.2.20200124`  
+    `zZshFramework 6.2.28.20221010-zzfr-zshl`  
 
 
 ## Coding Conventions (Style and Logic)
 ###### Mon Nov 1 09:00:03 CET 2021  
 
 ### Functions    
-Function name should be written in a camelCase with `-` before each parameter  
+Function name should be written in a camelCase with the `-` before each parameter  
 
 E. g.  
 1. `printWarning-message` means that the function expects a single parameter with 'message' semantics  
@@ -82,7 +82,7 @@ print-prefix-message() {
 ---
 ---
 
-Author: Vlad Zams – Solutions Architect @ Mobile App Soft  
+Author: Vlad Zams – Engineering Manager @ Mobile App Soft  
 https://t.me/vladZams  
 <vz@mobileappsoft.com>  
 https://mobileAppSoft.com  
