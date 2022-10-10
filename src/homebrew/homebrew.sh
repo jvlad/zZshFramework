@@ -9,10 +9,6 @@ installBrewPackageManager() {
 
 brs() { brew search ${@} }
 
-brc() { brew cask ${@} }
-
-brcs() { brew cask search ${@} }
-
 brewRepair() {
   del "/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core"
   brew tap homebrew/core

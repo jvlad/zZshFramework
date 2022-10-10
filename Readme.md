@@ -9,10 +9,9 @@ Command line utilities for Zsh (Z-Shell) to work with files, strings, clipboard,
 
 
 ## Tested in environment  
-###### Sun Aug 2 12:48:56 MSK 2020
-* MacOS Mojave 10.14.6 (18G103)  
-* zsh 5.8 (x86_64-apple-darwin18.7.0)  
-* GNU bash, version 3.2.57(1)-release (x86_64-apple-darwin18)  
+###### Mon Oct 10 13:28:10 PDT 2022
+* MacOS Monterey 12.5.1  
+* zsh 5.8.1 (x86_64-apple-darwin21.0)  
 
 
 ## How to enable zZshFramework on Unix based system  
@@ -22,11 +21,11 @@ Command line utilities for Zsh (Z-Shell) to work with files, strings, clipboard,
     ``` bash
     # in ~/.zshrc
     
-    source "<$PATH_TO_THIS_DIR>/src/main_zZshFramework.sh"  
+    source "<$PATH_TO_THIS_DIR>/src/mainzZshFramework.sh"  
     ```
 
     E. g. 
-    `source "/Users/JohnDoe/zZshFramework/src/main_zZshFramework.sh"`  
+    `source "/Users/JohnDoe/zZshFramework/src/mainzZshFramework.sh"`  
 
 3. Reopen your terminal or relaunch ZSH. Alternatively, run:  
     ```
