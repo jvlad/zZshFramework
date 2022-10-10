@@ -5,7 +5,7 @@
 Command line utilities for Zsh (Z-Shell) to work with files, strings, clipboard, git and other applications.  
 
 ## User NOTE  
-> These tools were developed, used and tested under MacOS. I'm not sure how well it plays in other environments.  
+> These tools were developed, used and tested under MacOS. I'm not sure how well they'll play in other environments. Some of them will not for sure.  
 
 
 ## Tested in environment  
