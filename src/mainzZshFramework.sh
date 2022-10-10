@@ -61,6 +61,7 @@ _main-zZshFramework-srcDir$(zsf)() {
         "${srcDir}/git/gitBasic" \
         "${srcDir}/android/android" \
         "${srcDir}/android/macOS-android" \
+        "${srcDir}/homebrew/homebrew" \
 
     #/**
     #* In bigger files it can be handy to user editor folding/unfolding feature for blocks of code
