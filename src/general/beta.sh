@@ -38,8 +38,8 @@ _main_beta-sourceDir() {
     fi
   }
 
-  isCommandExist() {
-    if which "$1" > /dev/null 2>&1 ;then
+  isCommandExist-command() {
+    if ${1} --version > /dev/null 2>&1 ;then
       return $(yes$(zsf))
     else
       return $(no$(zsf))

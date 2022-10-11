@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 installBrewPackageManager() {
-  if ! isCommandExist brew ;then
+  if ! isCommandExist-command brew ;then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     brewPackageManager tap homebrew/cask-versions
   fi
@@ -29,7 +29,7 @@ brewInfo-packages() {
 
 brewPackageManager() {
   installBrewPackageManager
-  brew "$@"
+  brew ${@}
 }
 
 brewUpdateAndCleanCaches() {
