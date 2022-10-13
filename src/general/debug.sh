@@ -13,7 +13,7 @@ _main_DebugShell() {
     }
 
     isDebugEnabled() {
-      if is:SubstringContainedIn:String "YES" ${_IS_DEBUG_ENABLED}; then
+      if is-substringOf-string "YES" ${_IS_DEBUG_ENABLED}; then
         return $(yes$(zsf))
       fi
       return $(no$(zsf))

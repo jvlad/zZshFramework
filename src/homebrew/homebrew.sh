@@ -16,7 +16,7 @@ brewRepair() {
 
 brewFixLinkagePermissionIssueFor-systemUserName-systemGroupName-packageToBeLinked() {
   local frameworksDir="/usr/local/Frameworks"
-  if ! isFileExistAt:Path $frameworksDir ;then
+  if ! isFileExistAt-path $frameworksDir ;then
     sudo mkdir "$frameworksDir" &&\
     sudo chown "$1":"$2" "${frameworksDir}"
   fi

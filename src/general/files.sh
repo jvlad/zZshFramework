@@ -38,7 +38,7 @@ _main_FilesOperations() {
 
     md5_ofFiles() {
         for item in ${@}; do
-            if isDir_path $item ;then
+            if isDir-path $item ;then
                 md5_ofDir "$item"
             else
                 md5_ofFile "$item"
@@ -152,7 +152,7 @@ _main_FilesOperations() {
     filePrepareDirWithKeepFileAt:Path() {
         filePrepareDirAt:Path "$1"
         local fileName=".keep"
-        if ! isFileExistAt:Path "$1/$fileName" ;then
+        if ! isFileExistAt-path "$1/$fileName" ;then
             fileCreateNewWith:Name "$1/$fileName"
         fi
         print-successMessage$(zsf) "$fileName file is ready at path: $1/$fileName"
@@ -197,7 +197,7 @@ _main_FilesOperations() {
         for file in ${@}; do
             if isSymlink:File $file; then
                 rm ${file}
-            elif isFileExistAt:Path $file ;then
+            elif isFileExistAt-path $file ;then
                 fileMoveChangingNameToUnique-filePath-destinationDir ${file} ${userTrashDir}
             fi
         done
@@ -249,20 +249,12 @@ _main_FilesOperations() {
         dirname "$1"
     }
 
-    isFileExistAt:Path() {
-        if [[ -a $1 ]] ;then
-            return 0
-        else
-            return 1
-        fi
+    isFileExistAt-path() {
+      [[ -a $1 ]] && return $(yes$(zsf)) || return $(no$(zsf))
     }
 
-    isDir_path() {
-        if [[ -d $1 ]] ;then
-            return 0
-        else
-            return 1
-        fi
+    isDir-path() {
+      [[ -d $1 ]] && return $(yes$(zsf)) || return $(no$(zsf))
     }
 }
 _callAndForget_functions _main_FilesOperations

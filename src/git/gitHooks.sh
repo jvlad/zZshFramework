@@ -7,7 +7,7 @@ _main_gitHooks() {
     }
     
     gitHookAddBranchNameInsertionHookToCurrentRepo() {
-        if ! isFileExistAt:Path ".git" ;then
+        if ! isFileExistAt-path ".git" ;then
             print-errorMessage$(zsf) "Running NOT within git_repo directory"
             return 1
         fi

@@ -6,7 +6,7 @@ _main_string_manipulations() {
         sed 's/ *$//g'
     }
 
-    is:SubstringContainedIn:String() {
+    is-substringOf-string() {
       if test "${2#*$1}" != "$2" ;then
         return $(yes$(zsf))
       else
@@ -15,19 +15,15 @@ _main_string_manipulations() {
     }
 
     is-stringStartsWith-prefix() {
-      if [[ ${1} = ${2}* ]];then
-        return $(yes$(zsf))
-      else
-        return $(no$(zsf))
-      fi
+      [[ ${1} = ${2}* ]] && return $(yes$(zsf)) || return $(no$(zsf))
+    }
+
+    is-stringEndsWith-postfix() {
+      [[ ${1} = *${2} ]] && return $(yes$(zsf)) || return $(no$(zsf))
     }
 
     is-stringEqualTo-string() {
-        if [ "$1" = "$2" ]; then
-            return $(yes$(zsf))
-        else
-            return $(no$(zsf))
-        fi
+      [[ ${1} = ${2} ]] && return $(yes$(zsf)) || return $(no$(zsf))
     }
 
     isEmpty:String() {
