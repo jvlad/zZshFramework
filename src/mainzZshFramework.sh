@@ -31,7 +31,7 @@ zsf() {
 }
 
 version$(zsf)() {
-    print$(zsf) "zZshFramework 6.2.28.20221010-zzfr-zshl"  
+    print$(zsf) "zZshFramework 7.1.29.20221013-zzfr-zshl"  
 }
 
 _main-zZshFramework-srcDir$(zsf)() {
