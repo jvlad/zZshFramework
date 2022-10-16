@@ -4,6 +4,32 @@ _main_printer-sourceDir() {
     # debugLogFunc-args {$@}
     local srcDir="$1"
 
+    print$(zsf)() {
+      printWithRedHighlights-args$(zsf) ${@}
+    }
+
+    printWithRedHighlights-args$(zsf)() {
+      local itemsToMakeRed=(\
+        "error" "Error" "ERROR" \
+        "failed" "Failed" "FAILED" \ 
+        "failure" "Failure" "FAILURE" \ 
+        "fatal" "Fatal" "FATAL" \
+        "exception" "Exception" "EXCEPTION")
+      local result=""
+      for itemToPrint in ${@} ;do
+        local intermediaryRslt="${itemToPrint}"
+        for match in ${itemsToMakeRed} ;do
+          intermediaryRslt=$(_basePrintingFunction$(zsf) -r -- ${intermediaryRslt//${match}/$fg_bold[red]${match}$reset_color})
+        done
+        result="${result}${intermediaryRslt}"
+      done
+      _basePrintingFunction$(zsf) ${result}
+    }
+
+    _basePrintingFunction$(zsf)() {
+      print ${@}
+    }
+
     printStarted-scriptName$(zsf)() {
         _print-headline-message$(zsf) "STARTED: " "$1"
     }

@@ -31,26 +31,21 @@ zsf() {
 }
 
 version$(zsf)() {
-    print$(zsf) "zZshFramework 7.1.29.20221013-zzfr-zshl"  
+  print$(zsf) "zZshFramework 7.1.29.20221013-zzfr-zshl"  
 }
 
 _main-zZshFramework-srcDir$(zsf)() {
-    export srcDir$(zsf)=${1}
     _initPrivateUtils
-    if ! isShellSupported ;then
-        abortBecauseOf-reason$(zsf) "Current Shell is NOT supported. Zsh is excepted."  
-    fi
-    
-    local srcDir="${1}"
+    local srcDir=${1}
     local gs="${srcDir}/general"
     source "${gs}/import.sh"
     _import_shFilesPaths \
-        "${gs}/inputReader" \
+        "${gs}/printer" \
         "${gs}/debug" \
+        "${gs}/inputReader" \
         "${gs}/beta" \
         "${gs}/path" \
         "${gs}/clipboard" \
-        "${gs}/printer" \
         "${gs}/files" \
         "${gs}/stringUtils" \
         "${gs}/networking" \
@@ -62,6 +57,11 @@ _main-zZshFramework-srcDir$(zsf)() {
         "${srcDir}/android/android" \
         "${srcDir}/android/macOS-android" \
         "${srcDir}/homebrew/homebrew" \
+
+    
+    if ! isShellSupported ;then
+        abortBecauseOf-reason$(zsf) "Current Shell is NOT supported. Zsh is excepted."  
+    fi
 
     #/**
     #* In bigger files it can be handy to user editor folding/unfolding feature for blocks of code
@@ -185,10 +185,6 @@ If you don't have brew, check https://brew.sh/
 
     edit$(zsf)() {
         "${EDITOR}" "${@}"
-    }
-
-    print$(zsf)() {
-        print "${@}"
     }
 
     tempDir$(zsf)() {
