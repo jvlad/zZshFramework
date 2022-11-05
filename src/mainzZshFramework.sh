@@ -113,7 +113,7 @@ _initPrivateUtils() {
     #* Return normally in zZshFramework
     #*/
     return$(zsf)() {
-        yes$(zsf)
+      yes$(zsf)
     }
 
     isShellSupported() {
