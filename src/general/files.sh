@@ -2,6 +2,10 @@
 
 _main_FilesOperations() {  
 
+    fileRemoveWithOvverride-dirOrFile$(useWithCaution)$(zsf)() {
+      find ${1} -type f -exec shred --remove=wipe {} +
+    }
+
     fileFind_name() {
         find . -name "$1"
     }

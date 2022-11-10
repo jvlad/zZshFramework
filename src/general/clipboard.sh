@@ -11,16 +11,13 @@ _main_clipboard() {
         print-successMessage$(zsf) "${input}\nis copied to clipboard"
       fi
     }
-    cpc() {
-      sysClipboardCopyVerbose_argsArray ${@}
-    }
     
     sysClipboardCopy:Arg_array() {
         local input=$(argsOrPipeIn-args$(zsf) ${@})
         sysClipboardCopy_isRemovingLinebreaks_args false "${input}"
     }
 
-    sysClipboardCopyRemovingLinebreaks_args() {
+    sysClipboardCopyRemovingLinebreaks-args() {
         local input=$(argsOrPipeIn-args$(zsf) ${@})
         sysClipboardCopy_isRemovingLinebreaks_args true "${input}"
     }

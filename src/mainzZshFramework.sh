@@ -30,6 +30,12 @@ zsf() {
     return ${e}
 }
 
+useWithCaution() {
+  local e=${?}
+  print "__useWithCaution"
+  return ${e}
+}
+
 version$(zsf)() {
   print$(zsf) "zZshFramework 7.1.29.20221013-zzfr-zshl"  
 }

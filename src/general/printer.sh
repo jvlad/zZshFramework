@@ -4,15 +4,15 @@ _main_printer-sourceDir() {
     # debugLogFunc-args {$@}
     local srcDir="$1"
 
+    #/* 2022-10-20 13:03:42 TODO: @VladZams: Rename to [return$(zsf)] */
     print$(zsf)() {
-      printWithRedHighlights-args$(zsf) ${@}
+      _basePrintingFunction$(zsf) ${@}
     }
 
     printWithRedHighlights-args$(zsf)() {
       local itemsToMakeRed=(\
         "error" "Error" "ERROR" \
-        "failed" "Failed" "FAILED" \ 
-        "failure" "Failure" "FAILURE" \ 
+        "fail" "Fail" "FAIL" \
         "fatal" "Fatal" "FATAL" \
         "exception" "Exception" "EXCEPTION")
       local result=""

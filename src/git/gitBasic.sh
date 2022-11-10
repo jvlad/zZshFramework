@@ -17,6 +17,10 @@ alias gstl="git stash list | cat"
 alias gb="git branch"
 alias gba="git branch -a"
 
+g$(zsf)() {
+  git ${@}
+}
+
 gitUser() {
     git config user.name
     git config user.email
