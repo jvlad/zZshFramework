@@ -45,5 +45,11 @@ _main_beta-sourceDir() {
       return $(no$(zsf))
     fi
   }
+
+  sysProcessId() {
+    echo \[$$\]
+  #   # ps  -ef | grep $$ | grep -v grep
+    # print without parent-process ID
+  }
 }
 _callAndForget-function-args _main_beta-sourceDir $(dirname $0)

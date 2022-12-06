@@ -56,6 +56,7 @@ _main-zZshFramework-srcDir$(zsf)() {
         "${gs}/stringUtils" \
         "${gs}/networking" \
         "${gs}/docker" \
+        "${gs}/java" \
         "${srcDir}/iOS/iOS_main" \
         "${srcDir}/git/gitLog" \
         "${srcDir}/git/gitHooks" \

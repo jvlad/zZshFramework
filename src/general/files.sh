@@ -3,7 +3,9 @@
 _main_FilesOperations() {  
 
     fileRemoveWithOvverride-dirOrFile$(useWithCaution)$(zsf)() {
-      find ${1} -type f -exec shred --remove=wipe {} +
+      chmod -R u+w ${1} && \
+        find ${1} -type f -exec shred --remove=wipe {} + && \
+        rm -r ${1}
     }
 
     fileFind_name() {
