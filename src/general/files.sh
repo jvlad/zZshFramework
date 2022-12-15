@@ -38,7 +38,7 @@ _main_FilesOperations() {
 
     fileSoftLinkRefresh:LinkPath:TargetFile() {
         del "$1"
-        rm "$1"
+        rm "$1" > /dev/null 2>&1
         ln -s "$2" "$1"
     }
 

@@ -181,6 +181,10 @@ If you don't have brew, check https://brew.sh/
         print$(zsf) "$(userHomeDir)/Applications"
     }
 
+    userTrashDir() {
+      print$(zsf) "$(userHomeDir)/.Trash"
+    }
+
     install$(zsf)() {
         # /* TODO: @VladZams: abstract from macOS */
         brew ${@}
