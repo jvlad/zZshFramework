@@ -36,7 +36,7 @@ _main_FilesOperations() {
             "$srcDir/" "$targetDir/"
     }
 
-    fileSoftLinkRefresh:LinkPath:TargetFile() {
+    fileLinkRefresh-linkPath-targetFile() {
         del "$1"
         rm "$1" > /dev/null 2>&1
         ln -s "$2" "$1"
