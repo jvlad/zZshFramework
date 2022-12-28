@@ -37,9 +37,12 @@ _main_FilesOperations() {
     }
 
     fileLinkRefresh-linkPath-targetFile() {
-        del "$1"
-        rm "$1" > /dev/null 2>&1
-        ln -s "$2" "$1"
+      local linkPath="${1}"
+      local targetFile="${2}"
+      filePrepareDirAt-path "$(fileBasePartOf:Path "${linkPath}")"
+      del "${linkPath}"
+      rm "${linkPath}" > /dev/null 2>&1
+      ln -s "${targetFile}" "${linkPath}"
     }
 
     md5_ofFiles() {
@@ -110,6 +113,7 @@ _main_FilesOperations() {
         fi
     }
 
+    # todo: rename to isRelativePathToCurrentDir
     isPointsToCurrentDir:Path() {
         is-stringEqualTo-string "$1" "." || isEmpty:String "$1" && return 0 || return 1;
     }
@@ -125,11 +129,11 @@ _main_FilesOperations() {
     alias cld="fileCopyPathOfEnclosingDir:RelativePathToFile"
 
     fileEnclosingDirPath_relativePath() {
-        if isPointsToCurrentDir:Path "$1" ;then
-            fileBasePartOf:Path $(fileCurrentDirPath)
-        else
-            fileBasePartOf:Path "$(fileCurrentDirPath)/$1"
-        fi
+      if isPointsToCurrentDir:Path "$1" ;then
+        fileBasePartOf:Path $(fileCurrentDirPath)
+      else
+        fileBasePartOf:Path "$(fileCurrentDirPath)/$1"
+      fi
     }
 
     fileCurrentDirPath() {
@@ -151,12 +155,12 @@ _main_FilesOperations() {
     }
 
     fileCreateAt_path() {
-        filePrepareDirAt:Path "$(fileBasePartOf:Path $1)"
+        filePrepareDirAt-path "$(fileBasePartOf:Path $1)"
         fileCreateNewWith:Name "$1"
     }
 
     filePrepareDirWithKeepFileAt:Path() {
-        filePrepareDirAt:Path "$1"
+        filePrepareDirAt-path "$1"
         local fileName=".keep"
         if ! isFileExistAt-path "$1/$fileName" ;then
             fileCreateNewWith:Name "$1/$fileName"
@@ -164,8 +168,9 @@ _main_FilesOperations() {
         print-successMessage$(zsf) "$fileName file is ready at path: $1/$fileName"
     }
 
-    filePrepareDirAt:Path() {
-        mkdir -p ${1}
+    filePrepareDirAt-path() {
+      local path="${1}"
+      /bin/mkdir -p "${path}"
     }
 
     fileOverwrite-source-destination() {

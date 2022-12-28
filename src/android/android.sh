@@ -34,7 +34,7 @@ _main_android() {
       androidRemoveArtifacts-moduleName ${moduleName}
       local buildDir="$(androidModuleOutputsDir-moduleName$(zsf) ${moduleName})/bundle/release"
       runGradle:PathToBuildLogFile:GradleTaskToRun ${buildLogFilePath} bundleRelease && \
-      filePrepareDirAt:Path ${targetDir} && \
+      filePrepareDirAt-path ${targetDir} && \
       copyFiles:FromDir:NameMatchingPattern:ToDir \
               "${buildDir}" \
               "*.aab" \
@@ -79,7 +79,7 @@ _main_android() {
       local buildFlavour=${4}
       local releaseOrDebug=${5}
       local apkSourceDir="$(apkSourceDir-appModule-buildFlavour-releaseOrDebug$(zsf) ${appModule} ${buildFlavour} ${releaseOrDebug})"
-      filePrepareDirAt:Path "${targetDir}"
+      filePrepareDirAt-path "${targetDir}"
       debugLog targetDir: ${targetDir}
       copyFiles:FromDir:NameMatchingPattern:ToDir \
               "${apkSourceDir}/" \
@@ -128,7 +128,7 @@ _main_android() {
     }
 
     androidStudioSettingsBackupDir() {
-        print$(zsf) "$(linuxConfigDir)/IDESettings/AndroidStudio"
+        print$(zsf) "$(ztoolsDir)/IDESettings/AndroidStudio"
     }
 
     androidStudioDocumentationSettingsEdit() {

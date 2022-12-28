@@ -69,7 +69,7 @@ _main_DebugShell() {
             return $(error$(zsf))
         fi
         local cacheDir="$(debugCachePath)"
-        filePrepareDirAt:Path "$(fileBasePartOf:Path "$cacheDir")"
+        filePrepareDirAt-path "$(fileBasePartOf:Path "$cacheDir")"
         print$(zsf) "\n# `date`" >> "`debugCachePath`"
         print$(zsf) "$@" >> "$(debugCachePath)"
     }
