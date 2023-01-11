@@ -61,7 +61,17 @@ _main_FilesOperations() {
     }
 
     md5_ofFile() {
-      md5 -q "$1"
+        md5 -q ${1}
+    }
+
+    md5Short-filePath-outputLength() {
+      local outputLength=${2}
+      local outputWithUnwantedTrailingCharacter=$(md5_ofFile "${1}" | head -c $((${outputLength}+1)))
+      print$(zsf) ${outputWithUnwantedTrailingCharacter%?}
+    }
+    
+    md5Short() {
+      md5Short-filePath-outputLength ${1} 8
     }
 
     copyMD5ToClipboard_files() {
