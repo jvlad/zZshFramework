@@ -8,6 +8,10 @@ _main_beta-sourceDir() {
     cat "$1" | sed -e '/^'"$2"'/d'
   }
 
+  calc () {
+    print$(zsf) $((${@}))
+  }
+
   isUnixOS() {
     local OS="$(uname)"
     if [[ "${OS}" == "Linux" || "${OS}" == "Darwin" ]] ;then
