@@ -2,27 +2,27 @@
 
 _main_clipboard() {
 
-    sysClipboardCopyVerbose_argsArray() {
+    sysClipboardCopyVerbose-args() {
       local input=$(argsOrPipeIn-args$(zsf) ${@})
       if isEmpty:String ${input} ;then
         return 0
       else
-        sysClipboardCopy:Arg_array ${input}
+        sysClipboardCopyRemovingLinebreaks-args "${input}"
         print-successMessage$(zsf) "${input}\nis copied to clipboard"
       fi
     }
     
-    sysClipboardCopy:Arg_array() {
+    sysClipboardCopy-args() {
         local input=$(argsOrPipeIn-args$(zsf) ${@})
-        sysClipboardCopy_isRemovingLinebreaks_args false "${input}"
+        sysClipboardCopy-isRemovingLinebreaks-args false "${input}"
     }
 
     sysClipboardCopyRemovingLinebreaks-args() {
         local input=$(argsOrPipeIn-args$(zsf) ${@})
-        sysClipboardCopy_isRemovingLinebreaks_args true "${input}"
+        sysClipboardCopy-isRemovingLinebreaks-args true "${input}"
     }
 
-    sysClipboardCopy_isRemovingLinebreaks_args() {
+    sysClipboardCopy-isRemovingLinebreaks-args() {
         local isRemovingLinebreaks="$1"
         local file="${@:2}"
         if [[ $OSTYPE == darwin* ]] ;then

@@ -54,7 +54,7 @@ _gitMergeCurrentBranchIntoPrevious() {
     
     git checkout - && \
     git merge "$currentBranch" && \
-    sysClipboardCopy:Arg_array "$currentBranch" 
+    sysClipboardCopy-args "$currentBranch" 
 }
 
 gitListStaged() {

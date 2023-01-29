@@ -5,10 +5,34 @@ _main_gitLog() {
     gitLog_args() {
         git log --pretty=fuller $@
     }
-    alias gl="gitLog_args --name-status"
-    alias glg="gitLog_args --graph --decorate --name-status"
-    alias glga="gitLog_args --all --graph --decorate --name-status"
-    alias grl="git reflog"
+
+    gitLogNameStatus() {
+      gitLog_args --name-status
+    }
+    gl() {
+      gitLogNameStatus
+    }
+
+    gitLogHeadMovements() {
+      git reflog
+    }
+    grl() {
+      gitLogHeadMovements
+    }
+
+    gitLogGraph() {
+      gitLog_args --graph --decorate --name-status
+    }
+    glg() {
+      gitLogGraph
+    }
+
+    gitLogGraphWithAllDetails() {
+      gitLog_args --show-signature --all --graph --decorate --name-status
+    }
+    glga() {
+      gitLogGraphWithAllDetails
+    }
     
     gitLog_upToCommit_numberOfCommits() {
         local args=${@:3}  
@@ -179,7 +203,7 @@ _main_gitLog() {
     }
 
     #import
-    copyToClipboard_args__i() { sysClipboardCopy:Arg_array $@; }
+    copyToClipboard_args__i() { sysClipboardCopy-args $@; }
     print-errorMessage$(zsf)__i() { print-errorMessage$(zsf) $@; }
     isEmpty_String__i() { isEmpty:String $@; }
     printSuccessAdding_text__i() { print-successMessage$(zsf) $@; }

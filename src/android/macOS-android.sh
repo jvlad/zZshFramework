@@ -18,7 +18,7 @@
 adbScreenshot_targetDir_targetFileName() {
     local filePath="$1/$2"
     local resultFile=$(adbScreenshot_filePath "$filePath")
-    sysClipboardCopyVerbose_argsArray "$resultFile"
+    sysClipboardCopyVerbose-args "$resultFile"
     open "$resultFile"
 }
 

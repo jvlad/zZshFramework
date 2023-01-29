@@ -66,17 +66,21 @@ _main_FilesOperations() {
 
     md5Short-filePath-outputLength() {
       local outputLength=${2}
-      local outputWithUnwantedTrailingCharacter=$(md5_ofFile "${1}" | head -c $((${outputLength}+1)))
-      print$(zsf) ${outputWithUnwantedTrailingCharacter%?}
+      print$(zsf) "$(md5_ofFile "${1}" | colrm $((${outputLength}+1)))"
     }
     
     md5Short() {
-      md5Short-filePath-outputLength ${1} 8
+      md5Short-filePath-outputLength ${1} 10
+    }
+
+    fileCopyMd5-file() {
+      local md5="$(md5Short "${1}")"
+      sysClipboardCopyVerbose-args "md5:${md5}"
     }
 
     copyMD5ToClipboard_files() {
       local md5hash=$(md5_ofFiles $@)
-      sysClipboardCopy:Arg_array "$md5hash" && \
+      sysClipboardCopy-args "$md5hash" && \
       print-successMessage$(zsf) "$md5hash is copied to clipboard"
     }
     alias mdc="copyMD5ToClipboard_files"
@@ -84,7 +88,7 @@ _main_FilesOperations() {
     fileCopyPathToClipboard_file() {
       local pathToCopy;
       pathToCopy="$(fileAbsolutePathOf:File $1)"
-      sysClipboardCopyVerbose_argsArray "$pathToCopy"
+      sysClipboardCopyVerbose-args "$pathToCopy"
     }
     alias cl="fileCopyPathToClipboard_file"
 
@@ -134,7 +138,7 @@ _main_FilesOperations() {
     }
 
     fileCopyPathOfEnclosingDir:RelativePathToFile() {
-      sysClipboardCopy:Arg_array "$(fileEnclosingDirPath_relativePath $1)"
+      sysClipboardCopy-args "$(fileEnclosingDirPath_relativePath $1)"
     }
     alias cld="fileCopyPathOfEnclosingDir:RelativePathToFile"
 
