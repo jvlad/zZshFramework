@@ -1,5 +1,4 @@
 ###### Fri Jan 24 04:52:59 MSK 2020 created  
-###### Mon Oct 10 14:07:10 PDT 2022 updated  
 
 # zZshFramework  
 Command line utilities for Zsh (Z-Shell) to work with files, strings, clipboard, git and other applications.  
@@ -82,7 +81,5 @@ print-prefix-message() {
 ---
 ---
 
-Author: Vlad Zams – Engineering Manager @ Mobile App Soft  
-https://t.me/vladZams  
-<vz@mobileappsoft.com>  
-https://mobileAppSoft.com  
+## Key Contributors
+Vlad Zams – Independent Software Engineering Manager with business-executive experience. Consulting tech. companies, building R&D teams, measuring work efficiency and productivity. v+opensource@vladzams.com  
