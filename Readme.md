@@ -1,7 +1,7 @@
 ###### Fri Jan 24 04:52:59 MSK 2020 created  
 
 # zZshFramework  
-Command line utilities for Zsh (Z-Shell) to work with files, strings, clipboard, git and other applications.  
+Zsh (Z-Shell) CLI-convenience tools to work with macOS, files, strings, clipboard, java, git, android, iOS, homebrew, curl and other applications commonly used by software engineers.  
 
 ## User NOTE  
 > These tools were developed, used and tested under MacOS. I'm not sure how well they'll play in other environments. Some of them will not for sure.  
