@@ -25,9 +25,9 @@
 #* Internal framework's identifier used to avoid conflicts in a global zsh-functions namespace
 #*/
 zsf() {
-    local e=${?}
-    print "__zsf"
-    return ${e}
+  local e=${?}
+  print "__zsf"
+  return ${e}
 }
 
 useWithCaution() {
@@ -41,99 +41,98 @@ version$(zsf)() {
 }
 
 _main-zZshFramework-srcDir$(zsf)() {
-    _initPrivateUtils
-    local srcDir=${1}
-    local gs="${srcDir}/various"
-    source "${gs}/import.sh"
-    _import_shFilesPaths \
-        "${gs}/printer" \
-        "${gs}/debug" \
-        "${gs}/inputReader" \
-        "${gs}/beta" \
-        "${gs}/path" \
-        "${gs}/clipboard" \
-        "${gs}/files" \
-        "${gs}/stringUtils" \
-        "${gs}/networking" \
-        "${gs}/docker" \
-        "${gs}/java" \
-        "${gs}/gpg" \
-        "${srcDir}/iOS/iOS_main" \
-        "${srcDir}/git/gitLog" \
-        "${srcDir}/git/gitHooks" \
-        "${srcDir}/git/gitBasic" \
-        "${srcDir}/android/android" \
-        "${srcDir}/android/macOS-android" \
-        "${srcDir}/homebrew/homebrew" \
+  _initPrivateUtils
+  local srcDir=${1}
+  local gs="${srcDir}/various"
+  source "${gs}/import.sh"
+  _import_shFilesPaths \
+    "${gs}/printer" \
+    "${gs}/debug" \
+    "${gs}/inputReader" \
+    "${gs}/beta" \
+    "${gs}/path" \
+    "${gs}/clipboard" \
+    "${gs}/files" \
+    "${gs}/stringUtils" \
+    "${gs}/networking" \
+    "${gs}/docker" \
+    "${gs}/java" \
+    "${gs}/gpg" \
+    "${srcDir}/iOS/iOS_main" \
+    "${srcDir}/git/gitLog" \
+    "${srcDir}/git/gitHooks" \
+    "${srcDir}/git/gitBasic" \
+    "${srcDir}/android/android" \
+    "${srcDir}/android/macOS-android" \
+    "${srcDir}/homebrew/homebrew" \
 
-    
-    if ! isShellSupported ;then
-        abortBecauseOf-reason$(zsf) "Current Shell is NOT supported. Zsh is excepted."  
-    fi
+  if ! isShellSupported ;then
+    abortBecauseOf-reason$(zsf) "Current Shell is NOT supported. Zsh is excepted."  
+  fi
 
-    #/**
-    #* In bigger files it can be handy to user editor folding/unfolding feature for blocks of code
-    #* For that a function that contains just declaration of other functions is used – a so called grouping-function
-    #* Each grouping-function has a name with the following prefix
-    #* 
-    #* E. g.
-    #* ```
-    #* backend$(scopeZsf)() { # the start of a folding area
-    #*     backendRemoteSources() {
-    #*         ...
-    #*     }
-    #*
-    #*     backendEdit() {
-    #*         ...
-    #*     }
-    #* }; _callAndForget_functions backend$(scopeZsf) # the end of the folding area  
-    #* ```
-    #*/
-    scopeZsf() {
-        print$(zsf) "scope__zsf"
-    }
+  #/**
+  #* In bigger files it can be handy to user editor folding/unfolding feature for blocks of code
+  #* For that a function that contains just declaration of other functions is used – a so called grouping-function
+  #* Each grouping-function has a name with the following prefix
+  #* 
+  #* E. g.
+  #* ```
+  #* backend$(scopeZsf)() { # the start of a folding area
+  #*     backendRemoteSources() {
+  #*         ...
+  #*     }
+  #*
+  #*     backendEdit() {
+  #*         ...
+  #*     }
+  #* }; _callAndForget_functions backend$(scopeZsf) # the end of the folding area  
+  #* ```
+  #*/
+  scopeZsf() {
+    print$(zsf) "scope__zsf"
+  }
 }
 
 _initPrivateUtils() {
 
-    #/**
-    #* Logical "yes" in zZshFramework
-    #*/
-    yes$(zsf)() {
-      print$(zsf) 0
-    }
+  #/**
+  #* Logical "yes" in zZshFramework
+  #*/
+  yes$(zsf)() {
+    print$(zsf) 0
+  }
 
-    #/**
-    #* Logical "no" in zZshFramework
-    #*/
-    no$(zsf)() {
-      print$(zsf) 20211201
-    }
+  #/**
+  #* Logical "no" in zZshFramework
+  #*/
+  no$(zsf)() {
+    print$(zsf) 20211201
+  }
 
-    #/**
-    #* General error in zZshFramework
-    #*/
-    error$(zsf)() {
-      print$(zsf) 20220516
-    }
+  #/**
+  #* General error in zZshFramework
+  #*/
+  error$(zsf)() {
+    print$(zsf) 20220516
+  }
 
-    #/**
-    #* Return normally in zZshFramework
-    #*/
-    return$(zsf)() {
-      yes$(zsf)
-    }
+  #/**
+  #* Return normally in zZshFramework
+  #*/
+  return$(zsf)() {
+    yes$(zsf)
+  }
 
-    isShellSupported() {
-        if [ -z "${ZSH_NAME}" ] ;then
-            return $(errorGeneral$(zsf)) # NO
-        else 
-            return 0
-        fi
-    }
+  isShellSupported() {
+    if [ -z "${ZSH_NAME}" ] ;then
+      return $(errorGeneral$(zsf)) # NO
+    else 
+      return 0
+    fi
+  }
 
-    printShellNotSupportedError() {
-        printf "ERROR: Unsupported shell. Please use z-shell, aka ZSH.\n\
+  printShellNotSupportedError() {
+    printf "ERROR: Unsupported shell. Please use z-shell, aka ZSH.\n\
 The easiest way to install zsh on MacOS is to run:
 brew install zsh
 
@@ -143,65 +142,65 @@ source <PATH_TO_THIS_SCRIPT>
 If you don't have brew, check https://brew.sh/
 
 "
-    }
+  }
 
-    abortBecauseOf-reason$(zsf)() {
-        print "ERROR: ${1}" 
-        abort$(zsf)
-    }
+  abortBecauseOf-reason$(zsf)() {
+      print "ERROR: ${1}" 
+      abort$(zsf)
+  }
 
-    isExecutedFromAnotherScript() {
-      if ! isEmpty:String $funcstack[3] ;then
-        return $(yes$(zsf))
-      else
-        return $(no$(zsf))
-      fi
-    }
+  isExecutedFromAnotherScript() {
+    if ! isEmpty:String $funcstack[3] ;then
+      return $(yes$(zsf))
+    else
+      return $(no$(zsf))
+    fi
+  }
 
-    abort$(zsf)() {
-        exit 1
-    }
+  abort$(zsf)() {
+      exit 1
+  }
 
-    userLibraryDir() {
-        print$(zsf) "$(userHomeDir)/Library"
-    }
+  userLibraryDir() {
+      print$(zsf) "$(userHomeDir)/Library"
+  }
 
-    userPrefsDir() {
-        print$(zsf) "$(userLibraryDir)/Preferences"
-    }
+  userPrefsDir() {
+      print$(zsf) "$(userLibraryDir)/Preferences"
+  }
 
-    userHomeDir() {
-        print$(zsf) "/Users/$(whoami)"
-    }
+  userHomeDir() {
+      print$(zsf) "/Users/$(whoami)"
+  }
 
-    userDesktopDir() {
-        print$(zsf) "$(userHomeDir)/Desktop"
-    }
+  userDesktopDir() {
+      print$(zsf) "$(userHomeDir)/Desktop"
+  }
 
-    userAppsDir() {
-        print$(zsf) "$(userHomeDir)/Applications"
-    }
+  userAppsDir() {
+      print$(zsf) "$(userHomeDir)/Applications"
+  }
 
-    userTrashDir() {
-      print$(zsf) "$(userHomeDir)/.Trash"
-    }
+  userTrashDir() {
+    print$(zsf) "$(userHomeDir)/.Trash"
+  }
 
-    install$(zsf)() {
-        # /* TODO: @VladZams: abstract from macOS */
-        brew ${@}
-    }
+  install$(zsf)() {
+      # /* TODO: @VladZams: abstract from macOS */
+      brew ${@}
+  }
 
-    source-dir() {
-        print$(zsf) "$(dirname ${1})"  
-    }
+  source-dir() {
+      print$(zsf) "$(dirname ${1})"  
+  }
 
-    edit$(zsf)() {
-        "${EDITOR}" "${@}"
-    }
+  edit$(zsf)() {
+      "${EDITOR}" "${@}"
+  }
 
-    tempDir$(zsf)() {
-        print$(zsf) "/Users/$(whoami)/.zZshFramework/temp"
-    }
+  tempDir$(zsf)() {
+      print$(zsf) "/Users/$(whoami)/.zZshFramework/temp"
+  }
 }
 
 _main-zZshFramework-srcDir$(zsf) "$(dirname ${0})"  
