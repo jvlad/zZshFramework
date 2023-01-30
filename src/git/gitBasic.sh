@@ -1,50 +1,57 @@
 #!/usr/bin/env zsh
 
-alias gr="git remote"
-alias ggpush="git push origin HEAD"
-alias gd="git diff"
-alias gde="git difftool"
-alias ga="git add"
-alias gco="git checkout"  
-alias gm="git merge"  
-alias grb="git rebase"
-alias grc="git rebase --continue"  
-alias gs="git status"
+alias gr="g$(zsf) remote"
+alias ggpush="g$(zsf) push origin HEAD"
+alias gd="g$(zsf) diff"
+alias gde="g$(zsf) difftool"
+alias ga="g$(zsf) add"
+alias gco="g$(zsf) checkout"  
+alias gm="g$(zsf) merge"  
+alias grb="g$(zsf) rebase"
+alias grc="g$(zsf) rebase --continue"  
+alias gs="g$(zsf) status"
 alias gss="gitListStaged"
 alias gcm="gitCheckoutToMaster"
-alias gst="git stash"
-alias gstl="git stash list | cat"
-alias gb="git branch"
-alias gba="git branch -a"
+alias gst="g$(zsf) stash"
+alias gstl="g$(zsf) stash list | cat"
+alias gb="g$(zsf) branch"
+alias gba="g$(zsf) branch -a"
 
 g$(zsf)() {
   git ${@}
 }
 
+gitConfigSet-signingKeyId$(zsf)() {
+  local signingKey="$1"
+  g$(zsf) config user.signingkey ${signingKey} && \
+    print-successMessage$(zsf) "Key is set to: " && \
+    g$(zsf) config user.signingkey
+}
+
 gitUser() {
-    git config user.name
-    git config user.email
+  g$(zsf) config user.name
+  g$(zsf) config user.email
 }
 
 gitCheckoutToUpdated_branch() {
-    git checkout "$1" && ggpull
+  g$(zsf) checkout "$1" && ggpull
 }
 
 gitMergeCurrentBranchToShared-branch() {
-    local sourceBranch="$(gitCurrentBranch)"
-    local destinationBranch="$1"
-    gitRebaseCurrentBranch-onBranch "$destinationBranch"
-    git checkout "$destinationBranch"
-    gm "$sourceBranch"
-    ggpush || print-warning$(zsf) "Pushing to remote has NOT suceeded"
+  local sourceBranch="$(gitCurrentBranch)"
+  local destinationBranch="$1"
+  gitRebaseCurrentBranch-onBranch "$destinationBranch"
+  g$(zsf) checkout "$destinationBranch"
+  gm "$sourceBranch"
+  ggpush || print-warning$(zsf) "Pushing to remote has NOT suceeded"
 }
 
 gitRebaseCurrentBranch-onBranch() {
     local baseBranch="$1"
-    git checkout ${baseBranch}
+    g$(zsf) checkout ${baseBranch}
     ggpull || print-warning$(zsf) "Pulling from remote has not suceeded"  
-    git checkout -
-    git rebase ${baseBranch} || git checkout - # if rebase didn't go well, we still do checkout back to the initial branch  
+    g$(zsf) checkout -
+    g$(zsf) rebase ${baseBranch} || g$(zsf) checkout - # if rebase didn't go well, we still do checkout back to the initial branch  
     gitLogLatestCommits_count 1
 }
 
@@ -52,35 +59,35 @@ gitRebaseCurrentBranch-onBranch() {
 _gitMergeCurrentBranchIntoPrevious() {
     local currentBranch="$(gitCurrentBranch)"
     
-    git checkout - && \
-    git merge "$currentBranch" && \
+    g$(zsf) checkout - && \
+    g$(zsf) merge "$currentBranch" && \
     sysClipboardCopy-args "$currentBranch" 
 }
 
 gitListStaged() {
-    git diff --name-status --cached | cat
+    g$(zsf) diff --name-status --cached | cat
 }
 
 ggpull() {
-    git pull --rebase --no-edit origin $(gitCurrentBranch)
+    g$(zsf) pull --rebase --no-edit origin $(gitCurrentBranch)
 }
 
 gitSshSetKey_privateKeyFile() {
-    git config core.sshCommand "ssh -i $1"
+    g$(zsf) config core.sshCommand "ssh -i $1"
 }
 
 gitCurrentBranch() {
     local ref
-	ref=$(command git symbolic-ref --quiet HEAD 2> /dev/null) 
+	ref=$(command g$(zsf) symbolic-ref --quiet HEAD 2> /dev/null) 
 	local ret=$? 
 	if [[ $ret != 0 ]]
 	then
 		[[ $ret == 128 ]] && return
-		ref=$(command git rev-parse --short HEAD 2> /dev/null)  || return
+		ref=$(command g$(zsf) rev-parse --short HEAD 2> /dev/null)  || return
 	fi
 	echo ${ref#refs/heads/}
 }
 
 gitDiffUncommittedChanges_args() {
-  git difftool --no-prompt ${@}
+  g$(zsf) difftool --no-prompt ${@}
 }
