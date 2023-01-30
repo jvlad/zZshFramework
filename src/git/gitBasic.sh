@@ -21,6 +21,10 @@ g$(zsf)() {
   git ${@}
 }
 
+gitConfigGPGEnableSigningByDefault() {
+  git config commit.gpgSign true
+}
+
 gitConfigSet-signingKeyId$(zsf)() {
   local signingKey="$1"
   g$(zsf) config user.signingkey ${signingKey} && \

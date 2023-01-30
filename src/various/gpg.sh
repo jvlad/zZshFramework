@@ -26,7 +26,7 @@ _main_gpg-sourceDir() {
 
   gpgCopyExportedKeyToClipboard-keyId$(zsf)() {
     local keyId=${1}
-    sysClipboardCopy-args $(gpgPrintExported-keyId$(zsf) ${keyId})
+    sysClipboardCopy-args "$(gpgPrintExported-keyId$(zsf) ${keyId})"
   }
 
   gpgListKeys$(zsf)() {

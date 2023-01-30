@@ -27,7 +27,7 @@ _main_printer-sourceDir() {
     }
 
     _basePrintingFunction$(zsf)() {
-      print ${@}
+      echo ${@}
     }
 
     printStarted-scriptName$(zsf)() {

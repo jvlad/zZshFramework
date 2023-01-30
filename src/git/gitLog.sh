@@ -6,11 +6,15 @@ _main_gitLog() {
         git log --pretty=fuller $@
     }
 
-    gitLogNameStatus() {
-      gitLog_args --name-status
+    gitLogNameStatus-args() {
+      gitLog_args --name-status ${@}
+    }
+
+    gitLogNameStatusSignature-args() {
+      gitLogNameStatus-args --show-signature ${@}
     }
     gl() {
-      gitLogNameStatus
+      gitLogNameStatusSignature-args ${@}
     }
 
     gitLogHeadMovements() {
