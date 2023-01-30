@@ -43,7 +43,7 @@ version$(zsf)() {
 _main-zZshFramework-srcDir$(zsf)() {
     _initPrivateUtils
     local srcDir=${1}
-    local gs="${srcDir}/general"
+    local gs="${srcDir}/various"
     source "${gs}/import.sh"
     _import_shFilesPaths \
         "${gs}/printer" \
@@ -57,6 +57,7 @@ _main-zZshFramework-srcDir$(zsf)() {
         "${gs}/networking" \
         "${gs}/docker" \
         "${gs}/java" \
+        "${gs}/gpg" \
         "${srcDir}/iOS/iOS_main" \
         "${srcDir}/git/gitLog" \
         "${srcDir}/git/gitHooks" \
