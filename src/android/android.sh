@@ -95,7 +95,7 @@ _main_android() {
       local buildFlavour=${2}
       local releaseOrDebug=${3}
       local basePath="$(androidArtifactsDir-appModule$(zsf) ${appModule})/apk"
-      if isEmpty:String ${buildFlavour} ;then
+      if isEmpty-string$(zsf) ${buildFlavour} ;then
         print$(zsf) "${basePath}/${releaseOrDebug}/"
       else
         print$(zsf) "${basePath}/${buildFlavour}/${releaseOrDebug}/"
@@ -299,7 +299,7 @@ _main_android() {
         do_facebookAndroidKeyHashcode:KeyAlias:KeystoreFilePath() {
             keytool -exportcert -alias "$1" -keystore "$2" | openssl sha1 -binary | openssl base64
         }
-        if isEmpty:String $1 || isEmpty:String $2; then
+        if isEmpty-string$(zsf) $1 || isEmpty-string$(zsf) $2; then
             print$(zsf) "Looking for DEBUG key. Use 'android' as a password"
             do_facebookAndroidKeyHashcode:KeyAlias:KeystoreFilePath androiddebugkey "$(userHomeDir)/.android/debug.keystore"
         else

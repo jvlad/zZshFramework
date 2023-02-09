@@ -41,31 +41,44 @@ gitCheckoutToUpdated_branch() {
   g$(zsf) checkout "$1" && ggpull
 }
 
-gitMergeCurrentBranchToShared-branch() {
+gitMergeCurrentBranchOnto-sharedBranch-newMergedBranchName_optional() {
   local sourceBranch="$(gitCurrentBranch)"
-  local destinationBranch="$1"
-  gitRebaseCurrentBranch-onBranch "$destinationBranch"
-  g$(zsf) checkout "$destinationBranch"
-  gm "$sourceBranch"
-  ggpush || print-warning$(zsf) "Pushing to remote has NOT suceeded"
+  local baseBranch=${1}
+  local newMergedBranch=$(_nameForNewBranchAfterMerge-sourceBranch-baseBranch-customNewName_optional$(zsf) \
+    ${sourceBranch} ${baseBranch} ${3})
+  # gitRebaseCurrentBranchOn-sharedBranch "$baseBranch"
+  g$(zsf) checkout ${baseBranch}
+  g$(zsf) pull origin ${baseBranch} || return $(error$(zsf))
+  g$(zsf) checkout ${sourceBranch}
+  gitMergeCurrentBranchOnto-localBranch-newMergedBranchName_optional ${baseBranch} ${newMergedBranch}
 }
 
-gitRebaseCurrentBranch-onBranch() {
-    local baseBranch="$1"
-    g$(zsf) checkout ${baseBranch}
-    ggpull || print-warning$(zsf) "Pulling from remote has not suceeded"  
-    g$(zsf) checkout -
-    g$(zsf) rebase ${baseBranch} || g$(zsf) checkout - # if rebase didn't go well, we still do checkout back to the initial branch  
-    gitLogLatestCommits_count 1
+gitMergeCurrentBranchOnto-localBranch-newMergedBranchName_optional() {
+  local sourceBranch="$(gitCurrentBranch)"
+  local baseBranch=${1}
+  local newMergedBranch=$(_nameForNewBranchAfterMerge-sourceBranch-baseBranch-customNewName_optional$(zsf) \
+    ${sourceBranch} ${baseBranch} ${3})
+  printStarted-scriptName$(zsf) "Rebasing ${sourceBranch} onto ${baseBranch} and storing result in ${newMergedBranch}"
+  # gitRebaseCurrentBranchOn-sharedBranch "$baseBranch"
+  g$(zsf) checkout ${baseBranch}
+  g$(zsf) checkout -b ${newMergedBranch}
+  g$(zsf) checkout ${sourceBranch}
+  g$(zsf) rebase ${newMergedBranch} || return $(error$(zsf))
+  gitLogLatestCommits_count 1
+  g$(zsf) checkout ${newMergedBranch}
+  g$(zsf) merge ${sourceBranch}
 }
 
-## Experimental
-_gitMergeCurrentBranchIntoPrevious() {
-    local currentBranch="$(gitCurrentBranch)"
-    
-    g$(zsf) checkout - && \
-    g$(zsf) merge "$currentBranch" && \
-    sysClipboardCopy-args "$currentBranch" 
+_nameForNewBranchAfterMerge-sourceBranch-baseBranch-customNewName_optional$(zsf)() {
+  local sourceBranch=${1}
+  local baseBranch=${2}
+  local customNewName_optional=${3}
+  if ! isEmpty-string$(zsf) ${1} ;then
+    print$(zsf) ${1}
+  else
+    # newMergedBranch="${merged}-${sourceBranch}-on-${baseBranch}-$(timestamp$(zsf))"
+    print$(zsf) "merged-${sourceBranch}-__on__-${baseBranch}"
+  fi
 }
 
 gitListStaged() {
@@ -81,11 +94,9 @@ gitSshSetKey_privateKeyFile() {
 }
 
 gitCurrentBranch() {
-    local ref
-	ref=$(command g$(zsf) symbolic-ref --quiet HEAD 2> /dev/null) 
-	local ret=$? 
-	if [[ $ret != 0 ]]
-	then
+  local ref=$(command g$(zsf) symbolic-ref --quiet HEAD 2> /dev/null) 
+	local ret=$?
+	if [[ $ret != 0 ]] ;then
 		[[ $ret == 128 ]] && return
 		ref=$(command g$(zsf) rev-parse --short HEAD 2> /dev/null)  || return
 	fi

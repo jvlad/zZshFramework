@@ -50,7 +50,7 @@ _main_printer-sourceDir() {
         _print-headline-message$(zsf) "EXCEPTION: " "$1"
     }
 
-    print-warning$(zsf)() {
+    print-warningMessage$(zsf)() {
         _print-headline-message$(zsf) "WARNING" "$1"
     }
 
@@ -63,7 +63,7 @@ _main_printer-sourceDir() {
             fi)  
         local prefix="\n$prefix: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
         local subject="$2"
-        isEmpty:String $subject \
+        isEmpty-string$(zsf) $subject \
             && print$(zsf) "$prefix" \
             || print$(zsf) "$prefix\n$subject"
     }

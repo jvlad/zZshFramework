@@ -4,7 +4,7 @@ _main_clipboard() {
 
     sysClipboardCopyVerbose-args() {
       local input=$(argsOrPipeIn-args$(zsf) ${@})
-      if isEmpty:String ${input} ;then
+      if isEmpty-string$(zsf) ${input} ;then
         return 0
       else
         sysClipboardCopyRemovingLinebreaks-args "${input}"

@@ -209,7 +209,7 @@ _main_gitLog() {
     #import
     copyToClipboard_args__i() { sysClipboardCopy-args $@; }
     print-errorMessage$(zsf)__i() { print-errorMessage$(zsf) $@; }
-    isEmpty_String__i() { isEmpty:String $@; }
+    isEmpty_String__i() { isEmpty-string$(zsf) $@; }
     printSuccessAdding_text__i() { print-successMessage$(zsf) $@; }
     print__i() { print$(zsf) $@; }
     trimEndSpaces__i() { trimEndSpaces $@; }

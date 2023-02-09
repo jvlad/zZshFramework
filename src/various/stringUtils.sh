@@ -26,7 +26,7 @@ _main_string_manipulations() {
       [[ ${1} = ${2} ]] && return $(yes$(zsf)) || return $(no$(zsf))
     }
 
-    isEmpty:String() {
+    isEmpty-string$(zsf)() {
         if [[ -z $1 ]] ;then
             return $(yes$(zsf))
         else

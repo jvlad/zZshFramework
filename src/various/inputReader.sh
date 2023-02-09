@@ -2,7 +2,7 @@
 
 argsOrPipeIn-args$(zsf)() {
   local input
-  input=$(if isEmpty:String ${@} ;then \
+  input=$(if isEmpty-string$(zsf) ${@} ;then \
         read -r -d '' -t $(_inputWaitingTimeout$(zsf)) inputPipe
         print$(zsf) "${inputPipe}"
         return $(no$(zsf))
@@ -17,7 +17,7 @@ argsOrPipeIn-args$(zsf)() {
 
 pipeInOrArgs-args$(zsf)() {
   local input=$(read -r -d '' -t $(_inputWaitingTimeout$(zsf)) inputPipe; print$(zsf) "${inputPipe}")
-  if isEmpty:String ${input} ;then
+  if isEmpty-string$(zsf) ${input} ;then
     print$(zsf) ${@}
     return $(no$(zsf))
   else

@@ -23,7 +23,7 @@ _main_FilesOperations() {
     sync_srcDir_targetDir() {
       local srcDir=$(fileAbsolutePathOf:File "$1")
       local targetDir=$(fileAbsolutePathOf:File "$2")
-      rsync -r --delete "$srcDir/" "$targetDir/"
+      rsync -r -v --delete "$srcDir/" "$targetDir/"
     }
 
     sync_srcRepoDir_targetRepoDir() {
@@ -129,7 +129,7 @@ _main_FilesOperations() {
 
     # todo: rename to isRelativePathToCurrentDir
     isPointsToCurrentDir:Path() {
-      is-stringEqualTo-string "$1" "." || isEmpty:String "$1" && return 0 || return 1;
+      is-stringEqualTo-string "$1" "." || isEmpty-string$(zsf) "$1" && return 0 || return 1;
     }
 
     filePrint:Text:ToFile() {

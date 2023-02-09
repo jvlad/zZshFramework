@@ -150,7 +150,7 @@ If you don't have brew, check https://brew.sh/
   }
 
   isExecutedFromAnotherScript() {
-    if ! isEmpty:String $funcstack[3] ;then
+    if ! isEmpty-string$(zsf) $funcstack[3] ;then
       return $(yes$(zsf))
     else
       return $(no$(zsf))

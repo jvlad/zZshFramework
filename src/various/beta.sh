@@ -8,7 +8,13 @@ _main_beta-sourceDir() {
     cat "$1" | sed -e '/^'"$2"'/d'
   }
 
-  calc () {
+  #/* 2023-02-08 21:10:02 TODO: @VladZams: Implementation */
+  timestamp$(zsf)() {
+    print-errorMessage$(zsf) "NOT implemented"
+    return $(error$(zsf))
+  }
+
+  calc() {
     print$(zsf) $((${@}))
   }
 
