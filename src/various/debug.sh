@@ -28,50 +28,43 @@ _main_DebugShell() {
     }
 
     debugFuncInit-args() {
-      if ! isDebugEnabled; then
-        return $(error$(zsf))
-      fi
       debugCacheClean
       debugLogFunc-args ${@}
       debugCacheEdit
     }
 
     debugLogFunc-args() {
-        if ! isDebugEnabled; then
-            return $(error$(zsf))
-        fi
-        local argsInfo=""
-        for i in {1.."${#@[@]}"}; do
-            argsInfo+="<arg $i>$@[$i]</arg $i>\n"
-        done
-        debugLog ">>>>>>>>>DEBUG: entered func <$funcstack[2] <- $funcstack[3] <- $funcstack[4] <- $funcstack[5]>\n$argsInfo"
+      # if ! isDebugEnabled; then
+      #     return $(error$(zsf))
+      # fi
+      local argsInfo=""
+      for i in {1.."${#@[@]}"}; do
+        argsInfo+="<arg $i>$@[$i]</arg $i>\n"
+      done
+      debugLog ">>>>>>>>>DEBUG: entered func <$funcstack[2] <- $funcstack[3] <- $funcstack[4] <- $funcstack[5]>\n$argsInfo"
     }
 
     debugCacheClean() {
-        if ! isDebugEnabled; then
-            print-errorMessage$(zsf) "Debug isn't enabled"
-            return $(error$(zsf))
-        fi
-        del "$(debugCachePath)"
-        print$(zsf) "# `date`" >> "`debugCachePath`"
-        print$(zsf) "Cleaned" >> "$(debugCachePath)"
+      del "$(debugCachePath)"
+      print$(zsf) "# `date`" >> "`debugCachePath`"
+      print$(zsf) "Cleaned" >> "$(debugCachePath)"
     }
 
     debugCacheAppendDivider() {
-        if ! isDebugEnabled; then
-            return $(error$(zsf))
-        fi
-        print$(zsf) "\n\n===========================\n===========================\n===========================" >> "$(debugCachePath)"
+      if ! isDebugEnabled; then
+        return $(error$(zsf))
+      fi
+      print$(zsf) "\n\n===========================\n===========================\n===========================" >> "$(debugCachePath)"
     }
 
     debugLog() {
-        if ! isDebugEnabled; then
-            return $(error$(zsf))
-        fi
-        local cacheDir="$(debugCachePath)"
-        filePrepareDirAt-path "$(fileBasePartOf:Path "$cacheDir")"
-        print$(zsf) "\n# `date`" >> "`debugCachePath`"
-        print$(zsf) "$@" >> "$(debugCachePath)"
+      if ! isDebugEnabled; then
+        return $(error$(zsf))
+      fi
+      local cacheDir="$(debugCachePath)"
+      filePrepareDirAt-path "$(fileBasePartOf:Path "$cacheDir")"
+      print$(zsf) "\n# `date`" >> "`debugCachePath`"
+      print$(zsf) "$@" >> "$(debugCachePath)"
     }
 
     debugCacheEdit() {
@@ -79,7 +72,7 @@ _main_DebugShell() {
     }
 
     debugCachePath() {
-        print$(zsf) "$(tempDir$(zsf))/shellScriptsDebugOutput.md"
+        print$(zsf) "$(tempPersonalDir)/shellScriptsDebugOutput.md"
     }
 
 }
