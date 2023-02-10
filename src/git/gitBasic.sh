@@ -1,7 +1,6 @@
 #!/usr/bin/env zsh
 
 alias gr="g$(zsf) remote"
-alias ggpush="g$(zsf) push origin HEAD"
 alias gd="g$(zsf) diff"
 alias gde="g$(zsf) difftool"
 alias ga="g$(zsf) add"
@@ -18,6 +17,10 @@ alias gba="g$(zsf) branch -a"
 
 g$(zsf)() {
   git ${@}
+}
+
+ggpush() {
+  "g$(zsf) push --set-upstream origin HEAD"
 }
 
 gitConfigGPGEnableSigningByDefault() {
