@@ -107,7 +107,7 @@ gitCurrentBranch() {
 	local ret=$?
 	if [[ $ret != 0 ]] ;then
 		[[ $ret == 128 ]] && return
-		ref=$(g$(zsf) rev-parse --short HEAD 2> /dev/null)  || return
+		ref=$(g$(zsf) rev-parse --short HEAD 2> /dev/null) || return
 	fi
 	echo ${ref#refs/heads/}
 }
