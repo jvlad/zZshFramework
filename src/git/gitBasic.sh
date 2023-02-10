@@ -82,8 +82,8 @@ _nameForNewBranchAfterMerge-sourceBranch-baseBranch-customNewName_optional$(zsf)
   local sourceBranch=${1}
   local baseBranch=${2}
   local customNewName_optional=${3}
-  if ! isEmpty-string$(zsf) ${1} ;then
-    print$(zsf) ${1}
+  if ! isEmpty-string$(zsf) ${customNewName_optional} ;then
+    print$(zsf) ${customNewName_optional}
   else
     # newMergedBranch="${merged}-${sourceBranch}-on-${baseBranch}-$(timestamp$(zsf))"
     print$(zsf) "merged-${sourceBranch}-__on__-${baseBranch}"
@@ -103,11 +103,11 @@ gitSshSetKey_privateKeyFile() {
 }
 
 gitCurrentBranch() {
-  local ref=$(command g$(zsf) symbolic-ref --quiet HEAD 2> /dev/null) 
+  local ref=$(g$(zsf) symbolic-ref --quiet HEAD 2> /dev/null)
 	local ret=$?
 	if [[ $ret != 0 ]] ;then
 		[[ $ret == 128 ]] && return
-		ref=$(command g$(zsf) rev-parse --short HEAD 2> /dev/null)  || return
+		ref=$(g$(zsf) rev-parse --short HEAD 2> /dev/null)  || return
 	fi
 	echo ${ref#refs/heads/}
 }
