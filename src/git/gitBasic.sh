@@ -7,8 +7,7 @@ alias gde="g$(zsf) difftool"
 alias ga="g$(zsf) add"
 alias gco="g$(zsf) checkout"  
 alias gm="g$(zsf) merge"  
-alias grb="g$(zsf) rebase"
-alias grc="g$(zsf) rebase --continue"  
+grc() { g$(zsf) rebase --continue ${@} }
 alias gs="g$(zsf) status"
 alias gss="gitListStaged"
 alias gcm="gitCheckoutToMaster"
@@ -46,20 +45,30 @@ gitMergeCurrentBranchOnto-sharedBranch-newMergedBranchName_optional() {
   local baseBranch=${1}
   local newMergedBranch=$(_nameForNewBranchAfterMerge-sourceBranch-baseBranch-customNewName_optional$(zsf) \
     ${sourceBranch} ${baseBranch} ${3})
-  # gitRebaseCurrentBranchOn-sharedBranch "$baseBranch"
   g$(zsf) checkout ${baseBranch}
   g$(zsf) pull origin ${baseBranch} || return $(error$(zsf))
   g$(zsf) checkout ${sourceBranch}
   gitMergeCurrentBranchOnto-localBranch-newMergedBranchName_optional ${baseBranch} ${newMergedBranch}
 }
 
-gitMergeCurrentBranchOnto-localBranch-newMergedBranchName_optional() {
+gitMerge-sharedBranchOnto-sharedBranch-newMergedBranchName_optional() {
+  local sourceBranch=${1}
+  local baseBranch=${2}
+  local newMergedBranch=$(_nameForNewBranchAfterMerge-sourceBranch-baseBranch-customNewName_optional$(zsf) \
+    ${sourceBranch} ${baseBranch} ${3})
+  g$(zsf) checkout ${sourceBranch}  
+  g$(zsf) pull origin ${sourceBranch} || return $(error$(zsf))
+  gitMergeCurrentBranchOnto-sharedBranch-newMergedBranchName_optional ${baseBranch} ${newMergedBranch}
+}
+
+grb() { 
+  gitMergeCurrentBranchOnto-localBranch-newMergedBranchName_optional ${@} 
+}; gitMergeCurrentBranchOnto-localBranch-newMergedBranchName_optional() {
   local sourceBranch="$(gitCurrentBranch)"
   local baseBranch=${1}
   local newMergedBranch=$(_nameForNewBranchAfterMerge-sourceBranch-baseBranch-customNewName_optional$(zsf) \
     ${sourceBranch} ${baseBranch} ${3})
   printStarted-scriptName$(zsf) "Rebasing ${sourceBranch} onto ${baseBranch} and storing result in ${newMergedBranch}"
-  # gitRebaseCurrentBranchOn-sharedBranch "$baseBranch"
   g$(zsf) checkout ${baseBranch}
   g$(zsf) checkout -b ${newMergedBranch}
   g$(zsf) checkout ${sourceBranch}
