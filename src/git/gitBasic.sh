@@ -20,7 +20,7 @@ g$(zsf)() {
 }
 
 ggpush() {
-  "g$(zsf) push --set-upstream origin HEAD"
+  g$(zsf) push --set-upstream origin HEAD ${@}
 }
 
 gitConfigGPGEnableSigningByDefault() {
