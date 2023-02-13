@@ -65,8 +65,10 @@ gitMerge-sharedBranchOnto-sharedBranch-newMergedBranchName_optional() {
 }
 
 grb() { 
-  gitMergeCurrentBranchOnto-localBranch-newMergedBranchName_optional ${@} 
-}; gitMergeCurrentBranchOnto-localBranch-newMergedBranchName_optional() {
+  g$(zsf) rebase ${@}  
+}
+
+gitMergeCurrentBranchOnto-localBranch-newMergedBranchName_optional() {
   local sourceBranch="$(gitCurrentBranch)"
   local baseBranch=${1}
   local newMergedBranch=$(_nameForNewBranchAfterMerge-sourceBranch-baseBranch-customNewName_optional$(zsf) \
