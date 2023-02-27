@@ -6,8 +6,6 @@ alias gde="g$(zsf) difftool"
 alias ga="g$(zsf) add"
 alias gco="g$(zsf) checkout"  
 alias gm="g$(zsf) merge"  
-grc() { g$(zsf) rebase --continue ${@} }
-alias gs="g$(zsf) status"
 alias gss="gitListStaged"
 alias gcm="gitCheckoutToMaster"
 alias gst="g$(zsf) stash"
@@ -64,9 +62,8 @@ gitMerge-sharedBranchOnto-sharedBranch-newMergedBranchName_optional() {
   gitMergeCurrentBranchOnto-sharedBranch-newMergedBranchName_optional ${baseBranch} ${newMergedBranch}
 }
 
-grb() { 
-  g$(zsf) rebase ${@}  
-}
+grc() { grb --continue ${@} }
+grb() { g$(zsf) rebase ${@} }
 
 gitMergeCurrentBranchOnto-localBranch-newMergedBranchName_optional() {
   local sourceBranch="$(gitCurrentBranch)"
@@ -77,10 +74,16 @@ gitMergeCurrentBranchOnto-localBranch-newMergedBranchName_optional() {
   g$(zsf) checkout ${baseBranch}
   g$(zsf) checkout -b ${newMergedBranch}
   g$(zsf) checkout ${sourceBranch}
-  g$(zsf) rebase ${newMergedBranch} || return $(error$(zsf))
+  g$(zsf) rebase ${newMergedBranch} || gitStatus
   gitLogLatestCommits_count 1
   g$(zsf) checkout ${newMergedBranch}
   g$(zsf) merge ${sourceBranch}
+}
+
+gs() {
+  gitStatus ${@}
+}; gitStatus() {
+  g$(zsf) status ${@}
 }
 
 _nameForNewBranchAfterMerge-sourceBranch-baseBranch-customNewName_optional$(zsf)() {
