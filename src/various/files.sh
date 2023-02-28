@@ -194,6 +194,7 @@ _main_FilesOperations() {
 
     fileCopy-destination-sources() {
       local destination="${1}"
+      filePrepareDirAt-path "${destination}"
       cp -rv "${@:2}" "${destination}" && \
         print-successMessage$(zsf) "Copied to\n${destination}" && \
         lsa "${destination}"
