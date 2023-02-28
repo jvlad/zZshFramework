@@ -17,6 +17,10 @@ g$(zsf)() {
   git ${@}
 }
 
+gitIndexDirName$(zsf)() {
+  print$(zsf) ".git"
+}
+
 ggpush() {
   g$(zsf) push --set-upstream origin HEAD ${@}
 }

@@ -192,6 +192,13 @@ _main_FilesOperations() {
       fileCopy-source-destination ${1} ${2}
     }
 
+    fileCopy-destination-sources() {
+      local destination="${1}"
+      cp -rv "${@:2}" "${destination}" && \
+        print-successMessage$(zsf) "Copied to\n${destination}" && \
+        lsa "${destination}"
+    }
+
     fileCopy-source-destination() {
       cp -r "${1}" "${2}" && \
       local fileName=$(fileLastPartOf:Path "${1}") && \
