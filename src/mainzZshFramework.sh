@@ -22,7 +22,8 @@
 #
 
 #/**
-#* Internal framework's identifier used to avoid conflicts in a global zsh-functions namespace
+#* Framework-namespace identifier, used as function-name postfix to avoid conflicts in 
+#* a global zsh-functions namespace
 #*/
 zsf() {
   local e=${?}

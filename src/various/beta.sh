@@ -27,15 +27,6 @@ _main_beta-sourceDir() {
     fi
   }
 
-  #* 2021-12-01 12:03:02 TODO: @DexHo:  Unit test */
-  isFileExistAt-path() {
-    if [[ -a $1 ]] ;then
-      return $(yes$(zsf))
-    else
-      return $(no$(zsf))
-    fi
-  }
-
   #/**
   #* https://stackoverflow.com/questions/9964823/how-to-check-if-a-file-is-empty-in-bash/9964890
   #* 2021-12-01 12:03:02 TODO: @DexHo:  Unit test */
