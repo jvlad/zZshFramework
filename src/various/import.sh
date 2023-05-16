@@ -34,9 +34,9 @@ _main_shellImport() {
     }
 
     _import_shFile_args() {
-        local fileToImport="$1.sh"
+        local fileToImport="${1}.sh"
         fileMakeExecutable-filePaths ${fileToImport}
-        source "$fileToImport" "${@:2}"
+        source "${fileToImport}" "${@:2}"
     }
     alias _import="_import_shFile_args"
 
