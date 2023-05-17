@@ -330,7 +330,7 @@ _main_android() {
             "29"      "10"        "Android Q"          "Sep 3, 2019"                   ""                                  
             "30"      "11"        "-"          ""                   ""                                  
         )
-        print$(zsf) -arC5 -- "$values[@]"
+        printTable$(zsf) -arC5 -- "$values[@]"
     }
 
     androidScreenSizesBuckets() {
