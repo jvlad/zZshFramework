@@ -44,21 +44,22 @@ version$(zsf)() {
 _main-zZshFramework-srcDir$(zsf)() {
   _initPrivateUtils
   local srcDir=${1}
-  local gs="${srcDir}/various"
-  source "${gs}/import.sh"
+  local v="${srcDir}/various"
+  source "${v}/import.sh"
   _import_shFilesPaths \
-    "${gs}/printer" \
-    "${gs}/debug" \
-    "${gs}/inputReader" \
-    "${gs}/beta" \
-    "${gs}/path" \
-    "${gs}/clipboard" \
-    "${gs}/files" \
-    "${gs}/stringUtils" \
-    "${gs}/networking" \
-    "${gs}/docker" \
-    "${gs}/java" \
-    "${gs}/gpg" \
+    "${v}/printer" \
+    "${v}/debug" \
+    "${v}/inputReader" \
+    "${v}/beta" \
+    "${v}/path" \
+    "${v}/clipboard" \
+    "${v}/files" \
+    "${v}/stringUtils" \
+    "${v}/networking" \
+    "${v}/docker" \
+    "${v}/java" \
+    "${v}/gpg" \
+    "${v}/homebrew" \
     "${srcDir}/iOS/iOS_main" \
     "${srcDir}/git/gitLog" \
     "${srcDir}/git/gitHooks" \

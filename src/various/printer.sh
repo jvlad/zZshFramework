@@ -30,6 +30,10 @@ _main_printer-sourceDir() {
       echo ${@}
     }
 
+    printTable$(zsf)() {
+      print ${@}
+    }
+
     printStarted-scriptName$(zsf)() {
         _print-headline-message$(zsf) "STARTED: " "$1"
     }
