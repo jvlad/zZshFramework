@@ -60,14 +60,14 @@ _main-zZshFramework-srcDir$(zsf)() {
     "${v}/java" \
     "${v}/gpg" \
     "${v}/homebrew" \
+    "${v}/shell" \
     "${srcDir}/iOS/iOS_main" \
     "${srcDir}/git/gitLog" \
     "${srcDir}/git/gitHooks" \
     "${srcDir}/git/gitBasic" \
     "${srcDir}/android/android" \
     "${srcDir}/android/macOS-android" \
-    "${srcDir}/homebrew/homebrew" \
-
+  
   if ! isShellSupported ;then
     abortBecauseOf-reason$(zsf) "Current Shell is NOT supported. Zsh is excepted."  
   fi
