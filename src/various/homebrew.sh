@@ -5,11 +5,9 @@ _main_homebrew-sourceDir() {
   local srcDir="$1"
   
   addHombrewToPath$(zsf)() {
-    # echo '# Set PATH, MANPATH, etc., for Homebrew.' >> /Users/vladzams/.zprofile
-    # echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/vladzams/.zprofile
+    # print$(zsf) "!Adding homebrew to PATH"
     eval "$(/opt/homebrew/bin/brew shellenv)"
   }
-  addHombrewToPath$(zsf)
 
   installBrewPackageManager() {
     if ! isCommandExist-command brew ;then
