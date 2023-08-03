@@ -15,6 +15,7 @@ argsOrPipeIn-args$(zsf)() {
   return $e
 }
 
+#/* 2023-08-03 13:09:59 TODO: @VladZams: Consider to deprecate since it's timeout based which isn't universably applicable/reliable */
 pipeInOrArgs-args$(zsf)() {
   local input=$(read -r -d '' -t $(_inputWaitingTimeout$(zsf)) inputPipe; print$(zsf) "${inputPipe}")
   if isEmpty-string$(zsf) ${input} ;then
