@@ -11,7 +11,7 @@ _main_printer-sourceDir() {
 
     printWithRedHighlights-args$(zsf)() {
       local itemsToMakeRed=(\
-        "error" "Error" "ERROR" \
+        "error" "Error" "ERROR" "ERR" \
         "fail" "Fail" "FAIL" \
         "fatal" "Fatal" "FATAL" \
         "exception" "Exception" "EXCEPTION")

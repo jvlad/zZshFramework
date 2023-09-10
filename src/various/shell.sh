@@ -6,9 +6,9 @@ _main_shell-sourceDir() {
   
   isLastCommandSucceed$(zsf)() {
     if [[ $? -eq 0 ]] ;then
-      return 0
+      return $(yes$(zsf))
     else
-      return 1
+      return $(no$(zsf))
     fi
   }
   
