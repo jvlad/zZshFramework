@@ -4,6 +4,10 @@ _main_beta-sourceDir() {
 #    debugLogFunc-args {$@}
   local srcDir="$1"
 
+  sysWifiListNetworks() {
+    /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -s
+  }
+
   _print-fileExcludingLinesThatStartWith-character$(zsf)() {
     cat "$1" | sed -e '/^'"$2"'/d'
   }
