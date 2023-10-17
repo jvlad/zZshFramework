@@ -18,8 +18,11 @@ _main_beta-sourceDir() {
     return $(error$(zsf))
   }
 
-  calc() {
+  calculate() {
     print$(zsf) $((${@}))
+  }
+  clcl() {
+    calculate ${@} | sysClipboardCopyVerbose-args
   }
 
   isUnixOS() {
