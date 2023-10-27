@@ -1,11 +1,11 @@
 
-javaHomePathPrint$(zsf)() {
+javaHomeDir$(zsf)() {
   /usr/libexec/java_home
 }
 
 javaHomeCopyPathToClipboard() {
   if isCommandExist-command java ;then
-    sysClipboardCopyVerbose-args $(javaHomePathPrint$(zsf))
+    sysClipboardCopyVerbose-args $(javaHomeDir$(zsf))
   else
     print-errorMessage "java not installed"
     return $(error$(zsf))
