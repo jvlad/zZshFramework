@@ -21,9 +21,9 @@ _main_beta-sourceDir() {
   calculate() {
     print$(zsf) $((${@}))
   }
-  clcl() {
-    calculate ${@} | sysClipboardCopyVerbose-args
-  }
+  # clcl() {
+  #   calculate ${@} | sysClipboardCopyVerbose-args
+  # }
 
   isUnixOS() {
     local OS="$(uname)"
