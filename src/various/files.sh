@@ -192,6 +192,12 @@ _main_FilesOperations() {
       print-successMessage$(zsf) "$fileName file is ready at path: $1/$fileName"
     }
 
+    filePrepareDirs-paths() {
+      for path in ${@}; do
+        filePrepareDirAt-path "${path}"
+      done
+    }
+
     filePrepareDirAt-path() {
       local path="${1}"
       /bin/mkdir -p "${path}"
