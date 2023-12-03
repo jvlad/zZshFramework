@@ -55,7 +55,7 @@ _main_FilesOperations() {
       done
     }
     
-    md() {
+    md5() {
       md5_ofFiles ${@}
     }
 
@@ -298,7 +298,15 @@ _main_FilesOperations() {
     }
 
     isFileExistAt-path() {
-      [[ -a $1 ]] && return $(yes$(zsf)) || return $(no$(zsf))
+      [[ -e $1 ]] && return $(yes$(zsf)) || return $(no$(zsf))
+    }
+
+    isEmpty-dir() {
+      isFileExistAt-path "${1}" && isAbsentOrEmpty-dir "${1}"
+    }
+
+    isAbsentOrEmpty-dir() {
+      [[ -z "$(ls -A "${1}" 2>/dev/null)" ]] && return $(yes$(zsf)) || return $(no$(zsf))
     }
 
     isDir-path() {
