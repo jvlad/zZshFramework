@@ -196,7 +196,7 @@ _main_FilesOperations() {
       /bin/mkdir -p ${@}
     }
     filePrepareDirAt-path() {
-      filePrepareDirs-paths ${@}
+      fileCreateDirs-paths ${@}
     }
 
     fileOverwrite-source-destination() {
