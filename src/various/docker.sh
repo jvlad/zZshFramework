@@ -3,11 +3,9 @@
 _main_docker-sourceDir() {
     # debugLogFunc-args {$@}
     local srcDir="$1"
-    
-    alias dok="docker"
 
-    dokListContainers() {
-        dok container ls -a
+    dockerContainers() {
+      docker container ls -a
     }
     
 }

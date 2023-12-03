@@ -1,17 +1,53 @@
 #!/usr/bin/env zsh
 
-alias gr="g$(zsf) remote"
-alias gd="g$(zsf) diff"
-alias gde="g$(zsf) difftool"
-alias ga="g$(zsf) add"
-alias gco="g$(zsf) checkout"  
-alias gm="g$(zsf) merge"  
-alias gss="gitListStaged"
-alias gcm="gitCheckoutToMaster"
-alias gst="g$(zsf) stash"
-alias gstl="g$(zsf) stash list | cat"
-alias gb="g$(zsf) branch"
-alias gba="g$(zsf) branch -a"
+gr() {
+  g$(zsf) remote ${@}
+}
+
+gd() {
+  g$(zsf) diff ${@}
+}
+
+gde() {
+  g$(zsf) difftool ${@}
+}
+
+ga() {
+  g$(zsf) add ${@}
+}
+
+gco() {
+  g$(zsf) checkout ${@}
+}
+  
+gm() {
+  g$(zsf) merge ${@}
+}
+  
+gss() {
+  gitListStaged ${@}
+}
+
+gcm() {
+  gitCheckoutToMaster ${@}
+}
+
+gst() {
+  g$(zsf) stash ${@}
+}
+
+gstl() {
+  g$(zsf) stash list | cat ${@}
+}
+
+gb() {
+  g$(zsf) branch ${@}
+}
+
+gba() {
+  g$(zsf) branch -a ${@}
+}
+
 
 g$(zsf)() {
   git ${@}

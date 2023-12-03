@@ -7,7 +7,10 @@
 # adbScreenshot_name() {
 #     adbScreenshot_targetDir_targetFileName "<PATH_TO_YOUR_DESKTOP_DIR>" "$1"
 # }
-# alias screenshot="adbScreenshot_name"
+# screenshot() {
+#   adbScreenshot_name ${@}
+# }
+
 # ```
 # 
 # And then use it like: 

@@ -1,7 +1,6 @@
 #!/usr/bin/env zsh  
 
 _main_android() {
-  alias ad="adb devices"  
     
     androidSDKDir() {
         print$(zsf) "$(userLibraryDir)/Android/sdk"
@@ -164,8 +163,14 @@ _main_android() {
         print$(zsf) "$(androidToolsExtraDir)/sdkmanager"
     }
 
-    alias android="$(androidToolsDir)/android"
-    alias androidEmulator="$(androidToolsDir)/emulator"
+    android() {
+      $(androidToolsDir)/android ${@}
+    }
+
+    androidEmulator() {
+      $(androidToolsDir)/emulator ${@}
+    }
+
 
     androidDeabfuscate_logFile_mappingFile_outputFile() {
         retrace -verbose "$2" "$1" > "$3"
@@ -178,7 +183,10 @@ _main_android() {
     androidPlatformToolsDir() {
         print$(zsf) "$(androidSDKDir)/platform-tools"
     }
-    alias adb="$(androidPlatformToolsDir)/adb"
+    adb() {
+      $(androidPlatformToolsDir)/adb ${@}
+    }
+
 
     adbScreenshot_filePath() {
         local targetPath="$1.png"

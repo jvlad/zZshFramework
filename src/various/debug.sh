@@ -41,7 +41,20 @@ _main_DebugShell() {
       for i in {1.."${#@[@]}"}; do
         argsInfo+="<arg $i>$@[$i]</arg $i>\n"
       done
-      debugLog ">>>>>>>>>DEBUG: entered func <$funcstack[2] <- $funcstack[3] <- $funcstack[4] <- $funcstack[5]>\n$argsInfo"
+      
+      debugLog ">>>>>>>>>DEBUG: entered func $(stacktrace-offset$(zsf) 1)\n${argsInfo}"
+    }
+
+    stacktrace-offset$(zsf)() {
+      # [@arg offset] allows to exclude items from the top of the stacktrace  
+      local offset=${1}
+      ((offset+=2))
+      local stacktrace="\n[$funcstack[${offset}]\n"
+      local last=${#funcstack[@]}
+      for (( i=((offset+=1)); i<=${last}; i++ )); do
+        stacktrace+="  <- ${funcstack[${i}]}\n"
+      done
+      print "${stacktrace}]\n"
     }
 
     debugCacheClean() {

@@ -51,7 +51,10 @@ _main_gitLog() {
         _gitLogExtract_logRetrieverFunc_upToCommit_numberOfCommits_prefix_postfix \
             gitLogShortToConsole "$1" "$2"
     }
-    alias glsc="gitLogShort_upToCommit_numberOfCommits"
+    glsc() {
+      gitLogShort_upToCommit_numberOfCommits ${@}
+    }
+
 
     gitLogHeadline_upToCommit_numberOfCommits() {
         _gitLogExtract_logRetrieverFunc_upToCommit_numberOfCommits_prefix_postfix \
@@ -65,12 +68,18 @@ _main_gitLog() {
         fi
         gitLogHeadline "$1"^1..
     }
-    alias glha="gitLogHeadline_startingFromCommit"
+    glha() {
+      gitLogHeadline_startingFromCommit ${@}
+    }
+
 
     gitLogHeadlineToConsole_startingFromCommit() {
         gitLogHeadline_startingFromCommit $@ | trimEndSpaces__i
     }
-    alias glhca="gitLogHeadlineToConsole_startingFromCommit"
+    glhca() {
+      gitLogHeadlineToConsole_startingFromCommit ${@}
+    }
+
 
     gitLogHeadline() {
         gitLog_format_args "* %s" $@
@@ -83,12 +92,18 @@ _main_gitLog() {
     gitLogShortCopyToClipboard_commit() {
         gitLogCopyToClipboard_logRetrieverFunc_commit "gitLogShort_commit" "$1"
     }
-    alias glscp="gitLogShortCopyToClipboard_commit"
+    glscp() {
+      gitLogShortCopyToClipboard_commit ${@}
+    }
+
 
     gitLogCopyToClipboard_commit() {
         gitLogCopyToClipboard_logRetrieverFunc_commit "gitLog_commit" "$1"
     }
-    alias glcp="gitLogCopyToClipboard_commit"
+    glcp() {
+      gitLogCopyToClipboard_commit ${@}
+    }
+
 
     gitLogCopyToClipboard_logRetrieverFunc_commit() {
         copyToClipboard_args__i "$("$1" "$2")"
@@ -121,27 +136,42 @@ _main_gitLog() {
         local args=${@:2} 
         gitLog_upToCommit_numberOfCommits HEAD "$1" "$args"
     }
-    alias glc="gitLogLatestCommits_count"
+    glc() {
+      gitLogLatestCommits_count ${@}
+    }
+
 
     gitLogShortLatestCommits_count() {
         gitLogShort_upToCommit_numberOfCommits HEAD "$1"
     }
-    alias glslc="gitLogShortLatestCommits_count"
+    glslc() {
+      gitLogShortLatestCommits_count ${@}
+    }
+
 
     gitLogHeadlineLatestCommits_count() {
         gitLogHeadline_upToCommit_numberOfCommits HEAD "$1"
     }
-    alias glhlc="gitLogHeadlineLatestCommits_count"
+    glhlc() {
+      gitLogHeadlineLatestCommits_count ${@}
+    }
+
 
     gitLogLatestCommit() {
         gitLogLatestCommits_count 1 \-\-stat
     }
-    alias gll="gitLogLatestCommit"
+    gll() {
+      gitLogLatestCommit ${@}
+    }
+
 
     gitLogShortToConsole_fromCommit() {
         gitLogShort_startingFromCommit $@ | trimEndSpaces__i
     }
-    alias glsca="gitLogShortToConsole_fromCommit" # 'a' stays for 'after'
+    glsca() {
+      gitLogShortToConsole_fromCommit ${@}
+    }
+ # 'a' stays for 'after'
 
     gitLogShort_startingFromCommit() {
         if isEmpty_String__i $1 ;then
@@ -150,7 +180,10 @@ _main_gitLog() {
         fi
         gitLogShort "$1"^1..
     }
-    alias glsa="gitLogShort_startingFromCommit" # 'a' stays for 'after'
+    glsa() {
+      gitLogShort_startingFromCommit ${@}
+    }
+ # 'a' stays for 'after'
 
     gitLogToConsole() {
         gitLog_args $@ | trimEndSpaces__i
@@ -165,7 +198,10 @@ _main_gitLog() {
         local repo_name=$(basename $repo_top_level)
         gitLog_format_args "%h  %ad $repo_name  %s" $@
     }
-    alias gls="gitLogShort"
+    gls() {
+      gitLogShort ${@}
+    }
+
 
     gitLog_format_args() {
         # debugLogFunc-args "$@"

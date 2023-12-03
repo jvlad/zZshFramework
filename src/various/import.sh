@@ -36,7 +36,6 @@ _import_shFile_args() {
     fileMakeExecutable-filePaths ${fileToImport}
     source "${fileToImport}" "${@:2}"
 }
-alias _import="_import_shFile_args"
 
 #/* 2021-12-01 12:57:32 TODO: @DexHo: rename to _unset_functions$(zsf) across all the framework */
 _unset_functions() {

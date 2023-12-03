@@ -54,7 +54,10 @@ _main_FilesOperations() {
         fi
       done
     }
-    alias md="md5_ofFiles"
+    
+    md() {
+      md5_ofFiles ${@}
+    }
 
     md5_ofDir() {
       find -s "$1" -type f -exec md5 -q {} \; | md5 -q
@@ -83,15 +86,19 @@ _main_FilesOperations() {
       sysClipboardCopy-args "$md5hash" && \
       print-successMessage$(zsf) "$md5hash is copied to clipboard"
     }
-    alias mdc="copyMD5ToClipboard_files"
+    mdc() {
+      copyMD5ToClipboard_files ${@}
+    }
+
 
     fileCopyPathToClipboard_file() {
       local pathToCopy;
       pathToCopy="$(fileAbsolutePathOf:File $1)"
       sysClipboardCopyVerbose-args "$pathToCopy"
     }
-    alias cl="fileCopyPathToClipboard_file"
-
+    cl() {
+      fileCopyPathToClipboard_file ${@}
+    }
 
     fileSizeOfEachFileIn:Dir() {
       local IFS=$'\n'
@@ -140,7 +147,10 @@ _main_FilesOperations() {
     fileCopyPathOfEnclosingDir:RelativePathToFile() {
       sysClipboardCopy-args "$(fileEnclosingDirPath_relativePath $1)"
     }
-    alias cld="fileCopyPathOfEnclosingDir:RelativePathToFile"
+    cld() {
+      fileCopyPathOfEnclosingDir:RelativePathToFile ${@}
+    }
+
 
     fileEnclosingDirPath_relativePath() {
       if isPointsToCurrentDir:Path "$1" ;then
@@ -259,12 +269,15 @@ _main_FilesOperations() {
         clean:Dir $targetDirectory
       fi
     }
-    alias cleanDir="cleanDirectoryContent"
+    cleanDir() {
+      cleanDirectoryContent ${@}
+    }
+
 
     clean:Dir() {
       specifiedDirectory=$1
       fileMoveToTrash-filePaths $specifiedDirectory
-      mkdir $specifiedDirectory
+      filePrepareDirAt-path $specifiedDirectory
     }
 
     cleanCurrentDirectory() {
