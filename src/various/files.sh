@@ -130,7 +130,7 @@ _main_FilesOperations() {
       if isPointsToCurrentDir:Path "$1"; then
           print$(zsf) "$(pwd)"
       else
-          print$(zsf) "$(realpath "$1")"
+          print$(zsf) "$(realpath ${1})"
       fi
     }
 
@@ -192,15 +192,11 @@ _main_FilesOperations() {
       print-successMessage$(zsf) "$fileName file is ready at path: $1/$fileName"
     }
 
-    filePrepareDirs-paths() {
-      for path in ${@}; do
-        filePrepareDirAt-path "${path}"
-      done
+    fileCreateDirs-paths() {
+      /bin/mkdir -p ${@}
     }
-
     filePrepareDirAt-path() {
-      local path="${1}"
-      /bin/mkdir -p "${path}"
+      filePrepareDirs-paths ${@}
     }
 
     fileOverwrite-source-destination() {

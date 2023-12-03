@@ -54,6 +54,14 @@ _main_beta-sourceDir() {
     fi
   }
 
+  askUserFor-file() {
+    local requiredFile="$1"
+    while ! [[ -a ${requiredFile} ]] ;do
+      print$(zsf) "Add [${requiredFile}] file and press Enter to continue..."
+      read -k1 -s
+    done
+  }
+
   sysProcessId() {
     echo \[$$\]
   #   # ps  -ef | grep $$ | grep -v grep
