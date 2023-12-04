@@ -42,7 +42,7 @@ _main_DebugShell() {
         argsInfo+="<arg $i>$@[$i]</arg $i>\n"
       done
       
-      debugLog ">>>>>>>>>DEBUG: entered func $(stacktrace-offset$(zsf) 1)\n${argsInfo}"
+      debugLog "DEBUG: entered func $(stacktrace-offset$(zsf) 1)\n${argsInfo}"
     }
 
     stacktrace-offset$(zsf)() {
