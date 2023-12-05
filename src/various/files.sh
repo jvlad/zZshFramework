@@ -2,7 +2,7 @@
 
 _main_FilesOperations() {  
 
-    fileRemoveWithOvverride-dirOrFile$(useWithCaution)$(zsf)() {
+    fileRemoveWithOvverride-dirOrFile$(useWithCaution)$(z39)() {
       chmod -R u+w ${1} && \
         find ${1} -type f -exec shred --remove=wipe {} + && \
         rm -r ${1}
@@ -69,7 +69,7 @@ _main_FilesOperations() {
 
     md5Short-filePath-outputLength() {
       local outputLength=${2}
-      print$(zsf) "$(md5_ofFile "${1}" | colrm $((${outputLength}+1)))"
+      print$(z39) "$(md5_ofFile "${1}" | colrm $((${outputLength}+1)))"
     }
     
     md5Short() {
@@ -84,7 +84,7 @@ _main_FilesOperations() {
     copyMD5ToClipboard_files() {
       local md5hash=$(md5_ofFiles $@)
       sysClipboardCopy-args "$md5hash" && \
-      print-successMessage$(zsf) "$md5hash is copied to clipboard"
+      printSuccessOrError-msg$(z39) "$md5hash is copied to clipboard"
     }
     mdc() {
       copyMD5ToClipboard_files ${@}
@@ -123,25 +123,25 @@ _main_FilesOperations() {
     fileName:Path() {
       local absolutePath=$(fileAbsolutePathOf:File "$1")
       local fileName=$(fileLastPartOf:Path "$absolutePath")
-      print$(zsf) "$fileName"
+      print$(z39) "$fileName"
     }
 
     fileAbsolutePathOf:File() {
       if isPointsToCurrentDir:Path "$1"; then
-          print$(zsf) "$(pwd)"
+          print$(z39) "$(pwd)"
       else
-          print$(zsf) "$(realpath ${1})"
+          print$(z39) "$(realpath ${1})"
       fi
     }
 
     # todo: rename to isRelativePathToCurrentDir
     isPointsToCurrentDir:Path() {
-      is-stringEqualTo-string "$1" "." || isEmpty-string$(zsf) "$1" && return 0 || return 1;
+      is-stringEqualTo-string "$1" "." || isEmpty-string$(z39) "$1" && return 0 || return 1;
     }
 
     filePrint:Text:ToFile() {
       fileCreateAt_path "$2"
-      print$(zsf) "$1" >> "$2"
+      print$(z39) "$1" >> "$2"
     }
 
     fileCopyPathOfEnclosingDir:RelativePathToFile() {
@@ -161,7 +161,7 @@ _main_FilesOperations() {
     }
 
     fileCurrentDirPath() {
-      print$(zsf) $(pwd)
+      print$(z39) $(pwd)
     }
 
     fileEnclosingDirName_Path() {
@@ -189,7 +189,7 @@ _main_FilesOperations() {
       if ! isFileExistAt-path "$1/$fileName" ;then
         fileCreateNewWith:Name "$1/$fileName"
       fi
-      print-successMessage$(zsf) "$fileName file is ready at path: $1/$fileName"
+      printSuccessOrError-msg$(z39) "$fileName file is ready at path: $1/$fileName"
     }
 
     fileCreateDirs-paths() {
@@ -208,14 +208,14 @@ _main_FilesOperations() {
       local destination="${1}"
       filePrepareDirAt-path "${destination}"
       cp -rv "${@:2}" "${destination}" && \
-        print-successMessage$(zsf) "Copied to\n${destination}" && \
+        printSuccessOrError-msg$(z39) "Copied to\n${destination}" && \
         lsa "${destination}"
     }
 
     fileCopy-source-destination() {
       cp -r "${1}" "${2}" && \
       local fileName=$(fileLastPartOf:Path "${1}") && \
-      print-successMessage$(zsf) "Copied ${fileName} -->\n${2}"
+      printSuccessOrError-msg$(z39) "Copied ${fileName} -->\n${2}"
     }
 
     fileMoveChangingNameToUnique-filePath-destinationDir() {
@@ -224,7 +224,7 @@ _main_FilesOperations() {
       mv "$1" "$uniqueName"
       mv "$uniqueName" "$2"
       local fileName=$(fileLastPartOf:Path "$uniqueName")
-      # print-successMessage$(zsf) "Moved $fileName -->\n$2"
+      # printSuccessOrError-msg$(z39) "Moved $fileName -->\n$2"
     }
 
     fileCreateNewWith:Name() {
@@ -233,8 +233,8 @@ _main_FilesOperations() {
 
     fileCreateNewAt:Path:InitialContent() {
       fileCreateAt_path ${1}
-      print$(zsf) "$2" > "$1"
-      # print-successMessage$(zsf) "File created"
+      print$(z39) "$2" > "$1"
+      # printSuccessOrError-msg$(z39) "File created"
     }
 
     fileMoveToTrash-filePaths() {
@@ -257,7 +257,7 @@ _main_FilesOperations() {
 
     fileInsertToBeginning:TextToInsert:FilePath() {
       local originalContent=$(cat "$2")
-      print$(zsf) "$1\n$originalContent" > "$2"
+      print$(z39) "$1\n$originalContent" > "$2"
     #    sed -i '' '1i\
     #    \$1
     #    ' "$2"
@@ -298,7 +298,7 @@ _main_FilesOperations() {
     }
 
     isFileExistAt-path() {
-      [[ -e $1 ]] && return $(yes$(zsf)) || return $(no$(zsf))
+      [[ -e $1 ]] && return $(yes$(z39)) || return $(no$(z39))
     }
 
     isEmpty-dir() {
@@ -306,11 +306,11 @@ _main_FilesOperations() {
     }
 
     isAbsentOrEmpty-dir() {
-      [[ -z "$(ls -A "${1}" 2>/dev/null)" ]] && return $(yes$(zsf)) || return $(no$(zsf))
+      [[ -z "$(ls -A "${1}" 2>/dev/null)" ]] && return $(yes$(z39)) || return $(no$(z39))
     }
 
     isDir-path() {
-      [[ -d $1 ]] && return $(yes$(zsf)) || return $(no$(zsf))
+      [[ -d $1 ]] && return $(yes$(z39)) || return $(no$(z39))
     }
 }
 _callAndForget_functions _main_FilesOperations

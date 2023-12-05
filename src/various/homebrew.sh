@@ -1,11 +1,11 @@
 #!/usr/bin/env zsh
 
 _main_homebrew-sourceDir() {
-  # debugLogFunc-args {$@}
+  # debugLogFunc-args$(z39) {$@}
   local srcDir="$1"
   
-  addHombrewToPath$(zsf)() {
-    # print$(zsf) "!Adding homebrew to PATH"
+  addHombrewToPath$(z39)() {
+    # print$(z39) "!Adding homebrew to PATH"
     eval "$(/opt/homebrew/bin/brew shellenv)"
   }
 

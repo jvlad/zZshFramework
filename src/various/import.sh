@@ -6,7 +6,7 @@ _callAndForget-function-args() {
 }
 
 _callAndForget_functions() {
-    # debugLogFunc-args "$@"
+    # debugLogFunc-args$(z39) "$@"
     for func in $@; do
         "$func"
     done
@@ -14,14 +14,14 @@ _callAndForget_functions() {
 }
 
 _import_shFilesPaths() {
-    # debugLogFunc-args "$@"
+    # debugLogFunc-args$(z39) "$@"
     for file in ${@}; do
         _import_shFile_args "$file"
     done
 }
 
 _importFrom-parentDir-shFilesNames() {
-    # debugLogFunc-args "$@"   
+    # debugLogFunc-args$(z39) "$@"   
     for file in ${@:2} ;do
         _import_shFilesPaths ${1}/${file}
     done
@@ -37,15 +37,15 @@ _import_shFile_args() {
     source "${fileToImport}" "${@:2}"
 }
 
-#/* 2021-12-01 12:57:32 TODO: @DexHo: rename to _unset_functions$(zsf) across all the framework */
+#/* 2021-12-01 12:57:32 TODO: @DexHo: rename to _unset_functions$(z39) across all the framework */
 _unset_functions() {
     for func in $@; do
-        # print$(zsf) "unsetting func $func"
+        # print$(z39) "unsetting func $func"
         unset -f "$func" 2> /dev/null
     done
 }
 
-shellAddToPath_paths$(zsf)() {
+shellAddToPath_paths$(z39)() {
     for _path in ${@}; do
         export PATH="${_path}:$PATH"
     done

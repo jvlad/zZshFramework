@@ -1,48 +1,40 @@
 #!/usr/bin/env zsh
-
-# How to enable zZshFramework on Unix based system:  
+## 
+# How to import zZshFramework to Zsh on a Unix-based system:  
 #
-# 1. locate or create `.zhsrc` file at your user home directory 
+# 1. locate or create `.zhsrc` file at your user-home dir
 #
 # 2. open .zshrc in any text editor and add to the end:  
-#   source "<PATH_TO_THIS_FILE_DIR>/main_zZshFramework.sh"
+#   source "${PATH_TO_THIS_DIR}/mainzZshFramework.sh"
 #
 #   E. g. 
-#     source "/Users/JohnDoe/zZshFramework/src/main-zZshFramework.sh"
+#     source "/Users/${your-user-name}/zZshFramework/src/mainzZshFramework.sh"
 #
-# 3. Reopen your terminal or relaunch ZSH 
-#   Alternatively, run:  
+# 3. Reopen your terminal or relaunch Zsh. Alternatively, run:  
 #   source ~/.zshrc
 #
-# 4. Recheck zZshFramework enabled by running:  
-#   version$(zsf)
+# 4. Recheck zZshFramework imported by running:  
+#   version$(z39)
 #
 #   Expected output:  
 #       zZshFramework x.x.x.xxxxxxxx
-#
 
-#/**
-#* Framework-namespace identifier, used as function-name postfix to avoid conflicts in 
-#* a global zsh-functions namespace
-#*/
-zsf() {
+z39() {
+## Framework-namespace identifier, used as function-name postfix to avoid conflicts in 
+# a global zsh-functions namespace
+  
   local e=${?}
   print "__zsf"
   return ${e}
 }
 
-useWithCaution() {
-  local e=${?}
-  print "__useWithCaution"
-  return ${e}
+version$(z39)() {
+  print$(z39) "zZshFramework 8.1.30.20231205"  
 }
 
-version$(zsf)() {
-  print$(zsf) "zZshFramework 7.1.29.20221013-zzfr-zshl"  
-}
-
-_main-zZshFramework-srcDir$(zsf)() {
+_main-zZshFramework-srcDir$(z39)() {
   _initPrivateUtils
+  ! isShellSupported && abortBecauseOf-reason-timeoutSec$(z39) "Current shell is NOT supported. This framework runs properly on zsh only." 5
   local srcDir=${1}
   local v="${srcDir}/various"
   source "${v}/import.sh"
@@ -61,149 +53,110 @@ _main-zZshFramework-srcDir$(zsf)() {
     "${v}/gpg" \
     "${v}/homebrew" \
     "${v}/shell" \
-    "${srcDir}/iOS/iOS_main" \
+    "${v}/iOS" \
     "${srcDir}/git/gitLog" \
     "${srcDir}/git/gitHooks" \
     "${srcDir}/git/gitBasic" \
     "${srcDir}/android/android" \
     "${srcDir}/android/macOS-android" \
   
-  if ! isShellSupported ;then
-    abortBecauseOf-reason$(zsf) "Current Shell is NOT supported. Zsh is excepted."  
-  fi
-
-  #/**
-  #* In bigger files it can be handy to user editor folding/unfolding feature for blocks of code
-  #* For that a function that contains just declaration of other functions is used – a so called grouping-function
-  #* Each grouping-function has a name with the following prefix
-  #* 
-  #* E. g.
-  #* ```
-  #* backend$(scopeZsf)() { # the start of a folding area
-  #*     backendRemoteSources() {
-  #*         ...
-  #*     }
-  #*
-  #*     backendEdit() {
-  #*         ...
-  #*     }
-  #* }; _callAndForget_functions backend$(scopeZsf) # the end of the folding area  
-  #* ```
-  #*/
-  scopeZsf() {
-    print$(zsf) "scope__zsf"
-  }
 }
 
 _initPrivateUtils() {
-
-  #/**
-  #* Logical "yes" in zZshFramework
-  #*/
-  yes$(zsf)() {
-    print$(zsf) 0
+  
+  yes$(z39)() {
+  ## Logical "yes"
+    
+    print$(z39) 0
   }
 
-  #/**
-  #* Logical "no" in zZshFramework
-  #*/
-  no$(zsf)() {
-    print$(zsf) 20211201
+  no$(z39)() {
+  ## Logical "no"
+    
+    print$(z39) 20211201
   }
 
-  #/**
-  #* General error in zZshFramework
-  #*/
-  error$(zsf)() {
-    print$(zsf) 20220516
+  s39() {
+  ## This function doesn't have $(z39) name postfix by purpose. It itself is used as 
+  # a name postfix for folding/unfolding blocks of code in an editor.
+  # In bigger files it can be handy to user editor folding/unfolding feature for blocks of code
+  # For that a function that contains just declaration of other functions is used – a so called grouping-function
+  # Each grouping-function has a name with the following prefix
+  # 
+  # E. g.
+  # ```
+  # backend$(s39)() { # the start of a folding area
+  #     # ... some code probably related to the backend
+  # }; _callAndForget_functions backend$(s39) # the end of the folding area
+  # ```
+
+    local e=${?}
+    print "__zsfScope" 
+    return ${e}
   }
 
-  #/**
-  #* Return normally in zZshFramework
-  #*/
-  return$(zsf)() {
-    yes$(zsf)
+  error$(z39)() {
+  ## General error
+    
+    print$(z39) 20220516
+  }
+
+  useWithCaution() {
+    local e=${?}
+    print "__useWithCaution"
+    return ${e}
   }
 
   isShellSupported() {
-    if [ -z "${ZSH_NAME}" ] ;then
-      return $(errorGeneral$(zsf)) # NO
-    else 
-      return 0
-    fi
+    [ -z "${ZSH_NAME}" ] && return 1 || return 0
   }
 
-  printShellNotSupportedError() {
-    printf "ERROR: Unsupported shell. Please use z-shell, aka ZSH.\n\
-The easiest way to install zsh on MacOS is to run:
-brew install zsh
-
-Then run zsh and from there run 
-source <PATH_TO_THIS_SCRIPT>
-
-If you don't have brew, check https://brew.sh/
-
-"
-  }
-
-  abortBecauseOf-reason$(zsf)() {
-      print "ERROR: ${1}" 
-      abort$(zsf)
+  abortBecauseOf-reason-timeoutSec$(z39)() {
+    print "${1}\nKILLING this process in ${2} seconds"
+    sleep ${2}
+    exitAndKillProcess$(z39)
   }
 
   isExecutedFromAnotherScript() {
-    if ! isEmpty-string$(zsf) $funcstack[3] ;then
-      return $(yes$(zsf))
-    else
-      return $(no$(zsf))
-    fi
+    isEmpty-string$(z39) ${funcstack[3]} && return $(no$(z39)) || return $(yes$(z39))
   }
 
-  abort$(zsf)() {
-      exit 1
+  exitAndKillProcess$(z39)() {
+    exit 1
   }
 
   userLibraryDir() {
-      print$(zsf) "$(userHomeDir)/Library"
+    print$(z39) "$(userHomeDir)/Library"
   }
 
   userPrefsDir() {
-      print$(zsf) "$(userLibraryDir)/Preferences"
+    print$(z39) "$(userLibraryDir)/Preferences"
   }
 
   userHomeDir() {
-      print$(zsf) "/Users/$(whoami)"
+    print$(z39) "/Users/$(whoami)"
   }
 
   userDesktopDir() {
-      print$(zsf) "$(userHomeDir)/Desktop"
+    print$(z39) "$(userHomeDir)/Desktop"
   }
 
   userAppsDir() {
-      print$(zsf) "$(userHomeDir)/Applications"
+    print$(z39) "$(userHomeDir)/Applications"
   }
 
   userTrashDir() {
-    print$(zsf) "$(userHomeDir)/.Trash"
+    print$(z39) "$(userHomeDir)/.Trash"
   }
 
-  install$(zsf)() {
-      # /* TODO: @VladZams: abstract from macOS */
-      brew ${@}
+  edit$(z39)() {
+    "${EDITOR}" "${@}"
   }
 
-  source-dir() {
-      print$(zsf) "$(dirname ${1})"  
-  }
-
-  edit$(zsf)() {
-      "${EDITOR}" "${@}"
-  }
-
-  tempDir$(zsf)() {
-      print$(zsf) "/Users/$(whoami)/.zZshFramework/temp"
+  tempDir$(z39)() {
+    print$(z39) "/Users/$(whoami)/.zZshFramework/temp"
   }
 }
 
-_main-zZshFramework-srcDir$(zsf) "$(dirname ${0})"  
-_unset_functions _main-zZshFramework-srcDir$(zsf)
+_main-zZshFramework-srcDir$(z39) "$(dirname ${0})"  
+_unset_functions _main-zZshFramework-srcDir$(z39)

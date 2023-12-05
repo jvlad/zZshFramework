@@ -1,27 +1,27 @@
 #!/usr/bin/env zsh
 
 gr() {
-  g$(zsf) remote ${@}
+  g$(z39) remote ${@}
 }
 
 gd() {
-  g$(zsf) diff ${@}
+  g$(z39) diff ${@}
 }
 
 gde() {
-  g$(zsf) difftool ${@}
+  g$(z39) difftool ${@}
 }
 
 ga() {
-  g$(zsf) add ${@}
+  g$(z39) add ${@}
 }
 
 gco() {
-  g$(zsf) checkout ${@}
+  g$(z39) checkout ${@}
 }
   
 gm() {
-  g$(zsf) merge ${@}
+  g$(z39) merge ${@}
 }
   
 gss() {
@@ -33,133 +33,133 @@ gcm() {
 }
 
 gst() {
-  g$(zsf) stash ${@}
+  g$(z39) stash ${@}
 }
 
 gstl() {
-  g$(zsf) stash list | cat ${@}
+  g$(z39) stash list | cat ${@}
 }
 
 gb() {
-  g$(zsf) branch ${@}
+  g$(z39) branch ${@}
 }
 
 gba() {
-  g$(zsf) branch -a ${@}
+  g$(z39) branch -a ${@}
 }
 
 
-g$(zsf)() {
+g$(z39)() {
   git ${@}
 }
 
-gitIndexDirName$(zsf)() {
-  print$(zsf) ".git"
+gitIndexDirName$(z39)() {
+  print$(z39) ".git"
 }
 
 ggpush() {
-  g$(zsf) push --set-upstream origin HEAD ${@}
+  g$(z39) push --set-upstream origin HEAD ${@}
 }
 
 gitConfigGPGEnableSigningByDefault() {
   git config commit.gpgSign true
 }
 
-gitConfigSet-signingKeyId$(zsf)() {
+gitConfigSet-signingKeyId$(z39)() {
   local signingKey="$1"
-  g$(zsf) config user.signingkey ${signingKey} && \
-    print-successMessage$(zsf) "Key is set to: " && \
-    g$(zsf) config user.signingkey
+  g$(z39) config user.signingkey ${signingKey} && \
+    printSuccessOrError-msg$(z39) "Key is set to: " && \
+    g$(z39) config user.signingkey
 }
 
 gitUser() {
-  g$(zsf) config user.name
-  g$(zsf) config user.email
+  g$(z39) config user.name
+  g$(z39) config user.email
 }
 
 gitCheckoutToUpdated_branch() {
-  g$(zsf) checkout "$1" && ggpull
+  g$(z39) checkout "$1" && ggpull
 }
 
 gitMergeCurrentBranchOnto-sharedBranch-newMergedBranchName_optional() {
   local sourceBranch="$(gitCurrentBranch)"
   local baseBranch=${1}
-  local newMergedBranch=$(_nameForNewBranchAfterMerge-sourceBranch-baseBranch-customNewName_optional$(zsf) \
+  local newMergedBranch=$(_nameForNewBranchAfterMerge-sourceBranch-baseBranch-customNewName_optional$(z39) \
     ${sourceBranch} ${baseBranch} ${3})
-  g$(zsf) checkout ${baseBranch}
-  g$(zsf) pull origin ${baseBranch} || return $(error$(zsf))
-  g$(zsf) checkout ${sourceBranch}
+  g$(z39) checkout ${baseBranch}
+  g$(z39) pull origin ${baseBranch} || return $(error$(z39))
+  g$(z39) checkout ${sourceBranch}
   gitMergeCurrentBranchOnto-localBranch-newMergedBranchName_optional ${baseBranch} ${newMergedBranch}
 }
 
 gitMerge-sharedBranchOnto-sharedBranch-newMergedBranchName_optional() {
   local sourceBranch=${1}
   local baseBranch=${2}
-  local newMergedBranch=$(_nameForNewBranchAfterMerge-sourceBranch-baseBranch-customNewName_optional$(zsf) \
+  local newMergedBranch=$(_nameForNewBranchAfterMerge-sourceBranch-baseBranch-customNewName_optional$(z39) \
     ${sourceBranch} ${baseBranch} ${3})
-  g$(zsf) checkout ${sourceBranch}  
-  g$(zsf) pull origin ${sourceBranch} || return $(error$(zsf))
+  g$(z39) checkout ${sourceBranch}  
+  g$(z39) pull origin ${sourceBranch} || return $(error$(z39))
   gitMergeCurrentBranchOnto-sharedBranch-newMergedBranchName_optional ${baseBranch} ${newMergedBranch}
 }
 
 grc() { grb --continue ${@} }
-grb() { g$(zsf) rebase ${@} }
+grb() { g$(z39) rebase ${@} }
 
 gitMergeCurrentBranchOnto-localBranch-newMergedBranchName_optional() {
   local sourceBranch="$(gitCurrentBranch)"
   local baseBranch=${1}
-  local newMergedBranch=$(_nameForNewBranchAfterMerge-sourceBranch-baseBranch-customNewName_optional$(zsf) \
+  local newMergedBranch=$(_nameForNewBranchAfterMerge-sourceBranch-baseBranch-customNewName_optional$(z39) \
     ${sourceBranch} ${baseBranch} ${3})
-  printStarted-scriptName$(zsf) "Rebasing ${sourceBranch} onto ${baseBranch} and storing result in ${newMergedBranch}"
-  g$(zsf) checkout ${baseBranch}
-  g$(zsf) checkout -b ${newMergedBranch}
-  g$(zsf) checkout ${sourceBranch}
-  g$(zsf) rebase ${newMergedBranch} || gitStatus
+  printStarted-scriptName$(z39) "Rebasing ${sourceBranch} onto ${baseBranch} and storing result in ${newMergedBranch}"
+  g$(z39) checkout ${baseBranch}
+  g$(z39) checkout -b ${newMergedBranch}
+  g$(z39) checkout ${sourceBranch}
+  g$(z39) rebase ${newMergedBranch} || gitStatus
   gitLogLatestCommits_count 1
-  g$(zsf) checkout ${newMergedBranch}
-  g$(zsf) merge ${sourceBranch}
+  g$(z39) checkout ${newMergedBranch}
+  g$(z39) merge ${sourceBranch}
 }
 
 gs() {
   gitStatus ${@}
 }; gitStatus() {
-  g$(zsf) status ${@}
+  g$(z39) status ${@}
 }
 
-_nameForNewBranchAfterMerge-sourceBranch-baseBranch-customNewName_optional$(zsf)() {
+_nameForNewBranchAfterMerge-sourceBranch-baseBranch-customNewName_optional$(z39)() {
   local sourceBranch=${1}
   local baseBranch=${2}
   local customNewName_optional=${3}
-  if ! isEmpty-string$(zsf) ${customNewName_optional} ;then
-    print$(zsf) ${customNewName_optional}
+  if ! isEmpty-string$(z39) ${customNewName_optional} ;then
+    print$(z39) ${customNewName_optional}
   else
-    # newMergedBranch="${merged}-${sourceBranch}-on-${baseBranch}-$(timestamp$(zsf))"
-    print$(zsf) "merged-${sourceBranch}-__on__-${baseBranch}"
+    # newMergedBranch="${merged}-${sourceBranch}-on-${baseBranch}-$(timestamp$(z39))"
+    print$(z39) "merged-${sourceBranch}-__on__-${baseBranch}"
   fi
 }
 
 gitListStaged() {
-    g$(zsf) diff --name-status --cached | cat
+    g$(z39) diff --name-status --cached | cat
 }
 
 ggpull() {
-    g$(zsf) pull --rebase --no-edit origin $(gitCurrentBranch)
+    g$(z39) pull --rebase --no-edit origin $(gitCurrentBranch)
 }
 
 gitSshSetKey_privateKeyFile() {
-    g$(zsf) config core.sshCommand "ssh -i $1"
+    g$(z39) config core.sshCommand "ssh -i $1"
 }
 
 gitCurrentBranch() {
-  local ref=$(g$(zsf) symbolic-ref --quiet HEAD 2> /dev/null)
+  local ref=$(g$(z39) symbolic-ref --quiet HEAD 2> /dev/null)
 	local ret=$?
 	if [[ $ret != 0 ]] ;then
 		[[ $ret == 128 ]] && return
-		ref=$(g$(zsf) rev-parse --short HEAD 2> /dev/null) || return
+		ref=$(g$(z39) rev-parse --short HEAD 2> /dev/null) || return
 	fi
 	echo ${ref#refs/heads/}
 }
 
 gitDiffUncommittedChanges_args() {
-  g$(zsf) difftool --no-prompt ${@}
+  g$(z39) difftool --no-prompt ${@}
 }

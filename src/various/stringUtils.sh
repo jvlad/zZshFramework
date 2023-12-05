@@ -8,37 +8,37 @@ _main_string_manipulations() {
 
     is-substringOf-string() {
       if test "${2#*$1}" != "$2" ;then
-        return $(yes$(zsf))
+        return $(yes$(z39))
       else
-        return $(no$(zsf))
+        return $(no$(z39))
       fi
     }
 
     is-stringStartsWith-prefix() {
-      [[ ${1} = ${2}* ]] && return $(yes$(zsf)) || return $(no$(zsf))
+      [[ ${1} = ${2}* ]] && return $(yes$(z39)) || return $(no$(z39))
     }
 
     is-stringEndsWith-postfix() {
-      [[ ${1} = *${2} ]] && return $(yes$(zsf)) || return $(no$(zsf))
+      [[ ${1} = *${2} ]] && return $(yes$(z39)) || return $(no$(z39))
     }
 
     is-stringEqualTo-string() {
-      [[ ${1} = ${2} ]] && return $(yes$(zsf)) || return $(no$(zsf))
+      [[ ${1} = ${2} ]] && return $(yes$(z39)) || return $(no$(z39))
     }
 
-    isEmpty-string$(zsf)() {
+    isEmpty-string$(z39)() {
         if [[ -z $1 ]] ;then
-            return $(yes$(zsf))
+            return $(yes$(z39))
         else
-            return $(no$(zsf))
+            return $(no$(z39))
         fi
     }
 
-    # filterNotIncludingAfter_matchingString() {
+    # filterNotIncludingAfter-spitterStr() {
     #     sed -e '/'"$1"'/,$d'
     # }
 
-    # filterLinesThatStartWith_commentChar() {
+    # filterLinesThatStartWith-prefixStr() {
     #     sed -e '/^'"$1"'/d'
     # }
 }

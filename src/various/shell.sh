@@ -1,14 +1,14 @@
 #!/usr/bin/env zsh
 
 _main_shell-sourceDir() {
-  # debugLogFunc-args {$@}
+  # debugLogFunc-args$(z39) {$@}
   local srcDir="$1"
   
-  isLastCommandSucceed$(zsf)() {
+  isLastCommandSucceed$(z39)() {
     if [[ $? -eq 0 ]] ;then
-      return $(yes$(zsf))
+      return $(yes$(z39))
     else
-      return $(no$(zsf))
+      return $(no$(z39))
     fi
   }
   

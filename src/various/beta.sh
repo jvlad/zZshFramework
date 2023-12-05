@@ -1,25 +1,25 @@
 #!/usr/bin/env zsh
 
 _main_beta-sourceDir() {
-#    debugLogFunc-args {$@}
+#    debugLogFunc-args$(z39) {$@}
   local srcDir="$1"
 
   sysWifiListNetworks() {
     /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -s
   }
 
-  _print-fileExcludingLinesThatStartWith-character$(zsf)() {
+  _print-fileExcludingLinesThatStartWith-character$(z39)() {
     cat "$1" | sed -e '/^'"$2"'/d'
   }
 
   #/* 2023-02-08 21:10:02 TODO: @VladZams: Implementation */
-  timestamp$(zsf)() {
-    print-errorMessage$(zsf) "NOT implemented"
-    return $(error$(zsf))
+  timestamp$(z39)() {
+    print-errorMessage$(z39) "NOT implemented"
+    return $(error$(z39))
   }
 
   calculate() {
-    print$(zsf) $((${@}))
+    print$(z39) $((${@}))
   }
   # clcl() {
   #   calculate ${@} | sysClipboardCopyVerbose-args
@@ -28,9 +28,9 @@ _main_beta-sourceDir() {
   isUnixOS() {
     local OS="$(uname)"
     if [[ "${OS}" == "Linux" || "${OS}" == "Darwin" ]] ;then
-      return $(yes$(zsf))
+      return $(yes$(z39))
     else
-      return $(no$(zsf))
+      return $(no$(z39))
     fi
   }
 
@@ -40,30 +40,30 @@ _main_beta-sourceDir() {
   #*/ 
   isEmpty-file() {
     if [[ -s $1 ]] ;then
-      return $(no$(zsf))
+      return $(no$(z39))
     else 
-      return $(yes$(zsf))
+      return $(yes$(z39))
     fi
   }
 
   isCommandExist-command() {
     if ${1} --version > /dev/null 2>&1 ;then
-      return $(yes$(zsf))
+      return $(yes$(z39))
     else
-      return $(no$(zsf))
+      return $(no$(z39))
     fi
   }
 
   askUserFor-file() {
     local requiredFile="$1"
     while ! [[ -a ${requiredFile} ]] ;do
-      print$(zsf) "Add [${requiredFile}] file and press Enter to continue..."
+      print$(z39) "Add [${requiredFile}] file and press Enter to continue..."
       read -k1 -s
     done
   }
 
   sysProcessId() {
-    echo \[$$\]
+    print$(z39) \[$$\]
   #   # ps  -ef | grep $$ | grep -v grep
     # print without parent-process ID
   }

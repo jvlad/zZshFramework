@@ -1,92 +1,66 @@
 #!/usr/bin/env zsh
 
-_main_DebugShell() {
-
-    debugTurnON() {
-      export _IS_DEBUG_ENABLED="YES"
-      debugPrintEnabledStatus
-    }
-
-    debugTurnOFF() {
-      export _IS_DEBUG_ENABLED="NO"
-      debugPrintEnabledStatus
-    }
-
-    isDebugEnabled() {
-      if is-substringOf-string "YES" ${_IS_DEBUG_ENABLED}; then
-        return $(yes$(zsf))
-      fi
-      return $(no$(zsf))
-    }
-
-    debugPrintEnabledStatus() {
-        if isDebugEnabled; then
-            print$(zsf) "DEBUG is ON"
-        else 
-            print$(zsf) "DEBUG is OFF"
-        fi
-    }
-
-    debugFuncInit-args() {
-      debugCacheClean
-      debugLogFunc-args ${@}
-      debugCacheEdit
-    }
-
-    debugLogFunc-args() {
-      # if ! isDebugEnabled; then
-      #     return $(error$(zsf))
-      # fi
-      local argsInfo=""
-      for i in {1.."${#@[@]}"}; do
-        argsInfo+="<arg $i>$@[$i]</arg $i>\n"
-      done
-      
-      debugLog "DEBUG: entered func $(stacktrace-offset$(zsf) 1)\n${argsInfo}"
-    }
-
-    stacktrace-offset$(zsf)() {
-      # [@arg offset] allows to exclude items from the top of the stacktrace  
-      local offset=${1}
-      ((offset+=2))
-      local stacktrace="\n[$funcstack[${offset}]\n"
-      local last=${#funcstack[@]}
-      for (( i=((offset+=1)); i<=${last}; i++ )); do
-        stacktrace+="  <- ${funcstack[${i}]}\n"
-      done
-      print "${stacktrace}]\n"
-    }
-
-    debugCacheClean() {
-      del "$(debugLogFile$(zsf))"
-      print$(zsf) "# `date`" >> "`debugLogFile$(zsf)`"
-      print$(zsf) "Cleaned" >> "$(debugLogFile$(zsf))"
-    }
-
-    debugCacheAppendDivider() {
-      if ! isDebugEnabled; then
-        return $(error$(zsf))
-      fi
-      print$(zsf) "\n\n===========================\n===========================\n===========================" >> "$(debugLogFile$(zsf))"
-    }
-
-    debugLog() {
-      if ! isDebugEnabled; then
-        return $(error$(zsf))
-      fi
-      local cacheDir="$(debugLogFile$(zsf))"
-      filePrepareDirAt-path "$(fileBasePartOf:Path "$cacheDir")"
-      print$(zsf) "\n# $(date)" >> "$(debugLogFile$(zsf))"
-      print$(zsf) "$@" >> "$(debugLogFile$(zsf))"
-    }
-
-    debugCacheEdit() {
-      edit__zsf "$(debugLogFile$(zsf))"    
-    }
-
-    debugLogFile$(zsf)() {
-      print$(zsf) "$(tempPersonalDir)/shellScriptsDebugOutput.log"
-    }
-
+debugLogFile$(z39)() {
+  print$(z39) "$(userHomeDir)/zZshFramework.log"
 }
-_callAndForget_functions _main_DebugShell
+
+debugConsoleTurnON() {
+  export _IS_DEBUG_ENABLED="YES"
+  debugPrintEnabledStatus$(z39)
+}
+
+debugConsoleTurnOFF() {
+  export _IS_DEBUG_ENABLED="NO"
+  debugPrintEnabledStatus$(z39)
+}
+
+isConsoleDebugEnabled$(z39)() {
+  is-substringOf-string "YES" ${_IS_DEBUG_ENABLED} && return $(yes$(z39)) || return $(no$(z39))
+}
+
+debugPrintEnabledStatus$(z39)() {
+  isConsoleDebugEnabled$(z39) && print$(z39) "DEBUG is ON" || print$(z39) "DEBUG is OFF"
+}
+
+debugFuncInit-args() {
+  debugCleanLogFile$(z39)
+  debugLogFunc-args$(z39) ${@}
+  debugEditLogFile$(z39)
+}
+
+debugLogFunc-args$(z39)() {
+  local argsInfo=""
+  for i in {1.."${#@[@]}"}; do
+    ! isEmpty-string$(z39) ${i} && argsInfo+="<arg $i>$@[$i]</arg $i>\n"
+  done
+  debugLog$(z39) "Entered func: $(stacktrace-offset$(z39) 1)\n${argsInfo}"
+}
+
+debugCleanLogFile$(z39)() {
+  del "$(debugLogFile$(z39))"
+  debugLog$(z39) "Cleaned log"
+}
+
+debugLog$(z39)() {
+  local msg="[${1} \n  stacktrace: $(stacktrace-offset$(z39) 1)]"
+  filePrepareDirAt-path $(fileBasePartOf:Path $(debugLogFile$(z39)))
+  print$(z39) "\n# $(date)\n$msg}" >> "$(debugLogFile$(z39))"
+  isConsoleDebugEnabled$(z39) && print$(z39) "\n[${msg}\n]"
+}
+
+stacktrace-offset$(z39)() {
+  local offset=${1}
+  ((offset+=2))
+  local stacktrace="\n  [$funcstack[${offset}]"
+  if true ;then
+    local last=${#funcstack[@]}
+    for (( i=((offset+=1)); i<=${last}; i++ )); do
+      stacktrace+="\n    <- ${funcstack[${i}]}"
+    done
+  fi
+  print "${stacktrace}]\n"
+}
+
+debugEditLogFile$(z39)() {
+  edit$(z39) "$(debugLogFile$(z39))"    
+}
