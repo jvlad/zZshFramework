@@ -2,10 +2,9 @@
 
 _main_FilesOperations() {  
 
-    fileRemoveWithOvverride-dirOrFile$(useWithCaution)$(z39)() {
+    fileRemoveWithOverwrite-dirOrFile$(useWithCaution)$(z39)() {
       chmod -R u+w ${1} && \
-        find ${1} -type f -exec shred --remove=wipe {} + && \
-        rm -r ${1}
+        find ${1} -type f -exec shred --remove=wipe {} + && rm -r ${1}
     }
 
     fileFind_name() {
@@ -40,7 +39,7 @@ _main_FilesOperations() {
       local linkPath="${1}"
       local targetFile="${2}"
       filePrepareDirAt-path "$(fileBasePartOf:Path "${linkPath}")"
-      del "${linkPath}"
+      fileMoveToTrash-filePaths "${linkPath}"
       rm "${linkPath}" > /dev/null 2>&1
       ln -s "${targetFile}" "${linkPath}"
     }
@@ -147,10 +146,6 @@ _main_FilesOperations() {
     fileCopyPathOfEnclosingDir:RelativePathToFile() {
       sysClipboardCopy-args "$(fileEnclosingDirPath_relativePath $1)"
     }
-    cld() {
-      fileCopyPathOfEnclosingDir:RelativePathToFile ${@}
-    }
-
 
     fileEnclosingDirPath_relativePath() {
       if isPointsToCurrentDir:Path "$1" ;then
@@ -221,10 +216,12 @@ _main_FilesOperations() {
     fileMoveChangingNameToUnique-filePath-destinationDir() {
       local timeStamp=$(date)
       local uniqueName="${1}_${timeStamp}"
-      mv "$1" "$uniqueName"
-      mv "$uniqueName" "$2"
-      local fileName=$(fileLastPartOf:Path "$uniqueName")
-      # printSuccessOrError-msg$(z39) "Moved $fileName -->\n$2"
+      fileMove-sourceFiles-destination$(z39) "$1" "$uniqueName"
+      fileMove-sourceFiles-destination$(z39) "$uniqueName" "$2"
+    }
+
+    fileMove-sourceFiles-destination$(z39)() {
+      mv ${@}
     }
 
     fileCreateNewWith:Name() {
@@ -234,59 +231,48 @@ _main_FilesOperations() {
     fileCreateNewAt:Path:InitialContent() {
       fileCreateAt_path ${1}
       print$(z39) "$2" > "$1"
-      # printSuccessOrError-msg$(z39) "File created"
     }
 
     fileMoveToTrash-filePaths() {
-      local userTrashDir="$(userHomeDir)/.Trash"
       for file in ${@}; do
         if isSymlink:File $file; then
           rm ${file}
         elif isFileExistAt-path $file ;then
-          fileMoveChangingNameToUnique-filePath-destinationDir ${file} ${userTrashDir}
+          fileMoveChangingNameToUnique-filePath-destinationDir ${file} "$(userTrashDir)"
         fi
       done
-    }
-    del() {
-      fileMoveToTrash-filePaths ${@}
     }
 
     isSymlink:File() {
       test -h "$1"
     }
 
-    fileInsertToBeginning:TextToInsert:FilePath() {
-      local originalContent=$(cat "$2")
-      print$(z39) "$1\n$originalContent" > "$2"
-    #    sed -i '' '1i\
-    #    \$1
-    #    ' "$2"
+    fileInsertToBeginning-text-targetFile() {
+      local tempFile="$(userTrashDir)/tempFile$(date).temp"
+      print$(z39) ${1} > ${tempFile}
+      cat ${2} >> ${tempFile}
+      fileMoveToTrash-filePaths ${2} \
+        && fileMove-sourceFiles-destination$(z39) ${tempFile} ${2}
     }
 
-    cleanDirectoryContent() {
-      targetDirectory=$1
-      if [[ -z "$targetDirectory" ]]; then
-        cleanCurrentDirectory
+    fileCleanContent-dir$(z39)() {
+      local targetDirectory=${1}
+      if is-stringEqualTo-string "" ${targetDirectory} \
+        || is-stringEqualTo-string "." ${targetDirectory} ;then
+        
+        local targetDirectory=$(pwd)
+        fileCreateAndGoto-dir$(z39) ..
+        fileCleanContent-dir$(z39) ${targetDirectory}
+        fileCreateAndGoto-dir$(z39) ${targetDirectory}
       else
-        clean:Dir $targetDirectory
+        fileMoveToTrash-filePaths ${targetDirectory}
+        filePrepareDirAt-path ${targetDirectory}
       fi
     }
-    cleanDir() {
-      cleanDirectoryContent ${@}
-    }
 
-
-    clean:Dir() {
-      specifiedDirectory=$1
-      fileMoveToTrash-filePaths $specifiedDirectory
-      filePrepareDirAt-path $specifiedDirectory
-    }
-
-    cleanCurrentDirectory() {
-      targetDirectory=$(pwd)
-      cd ..
-      fileMoveToTrash-filePaths $targetDirectory
-      makeDirectoryAndNavigateToIt $targetDirectory
+    fileCreateAndGoto-dir$(z39)() {
+      filePrepareDirAt-path ${1}
+      cd ${1}
     }
 
     fileLastPartOf:Path() {

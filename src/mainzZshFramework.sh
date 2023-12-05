@@ -43,7 +43,6 @@ _main-zZshFramework-srcDir$(z39)() {
     "${v}/debug" \
     "${v}/inputReader" \
     "${v}/beta" \
-    "${v}/path" \
     "${v}/clipboard" \
     "${v}/files" \
     "${v}/stringUtils" \

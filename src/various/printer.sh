@@ -61,7 +61,7 @@ _main_printer-sourceDir() {
     }
 
     print-headline-message$(z39)() {
-      local prefix="${1}$(isConsoleDebugEnabled$(z39) && print$(z39) " [from: $funcstack[4]]")"
+      local prefix="${1}$(isDebugConsoleEnabled$(z39) && print$(z39) " [from: $funcstack[4]]")"
       local prefix="\n>>>>>>>>>>>>>>>>>> $prefix"
       local subject="$2"
       isEmpty-string$(z39) $subject \

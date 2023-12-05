@@ -19,7 +19,7 @@ _main_homebrew-sourceDir() {
   brs() { brew search ${@} }
 
   brewRepair() {
-    del "/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core"
+    fileMoveToTrash-filePaths "/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core"
     brew tap homebrew/core
   }
 

@@ -68,7 +68,7 @@ _main_android() {
       local buildFlavour=${2}
       local apkOrBundle=${3}
       local releaseOrDebug=${4}
-      del "$(androidModuleOutputsDir-moduleName$(z39) ${moduleName})"
+      fileMoveToTrash-filePaths "$(androidModuleOutputsDir-moduleName$(z39) ${moduleName})"
     }
 
     androidCopyApksFrom-appModule-buildNumber-targetDir-buildFlavour-releaseOrDebug$(z39)() {

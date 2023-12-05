@@ -1,51 +1,49 @@
 #!/usr/bin/env zsh
 
 debugLogFile$(z39)() {
-  print$(z39) "$(userHomeDir)/zZshFramework.log"
+  print$(z39) "$(userHomeDir)/.zZshFramework.log"
 }
 
 debugConsoleTurnON() {
-  export _IS_DEBUG_ENABLED="YES"
+  export $(_debugConsoleFlag$(z39))="YES"
   debugPrintEnabledStatus$(z39)
 }
 
 debugConsoleTurnOFF() {
-  export _IS_DEBUG_ENABLED="NO"
+  export $(_debugConsoleFlag$(z39))="NO"
   debugPrintEnabledStatus$(z39)
 }
 
-isConsoleDebugEnabled$(z39)() {
-  is-substringOf-string "YES" ${_IS_DEBUG_ENABLED} && return $(yes$(z39)) || return $(no$(z39))
+isDebugConsoleEnabled$(z39)() {
+  is-substringOf-string "YES" ${(P)$(_debugConsoleFlag$(z39))} && return $(yes$(z39)) || return $(no$(z39))
 }
 
 debugPrintEnabledStatus$(z39)() {
-  isConsoleDebugEnabled$(z39) && print$(z39) "DEBUG is ON" || print$(z39) "DEBUG is OFF"
-}
-
-debugFuncInit-args() {
-  debugCleanLogFile$(z39)
-  debugLogFunc-args$(z39) ${@}
-  debugEditLogFile$(z39)
+  isDebugConsoleEnabled$(z39) && print$(z39) "DEBUG is ON" || print$(z39) "DEBUG is OFF"
 }
 
 debugLogFunc-args$(z39)() {
   local argsInfo=""
   for i in {1.."${#@[@]}"}; do
-    ! isEmpty-string$(z39) ${i} && argsInfo+="<arg $i>$@[$i]</arg $i>\n"
+    ! isEmpty-string$(z39) ${@[$i]} && argsInfo+="[arg $i [${@[$i]}]]\n"
   done
-  debugLog$(z39) "Entered func: $(stacktrace-offset$(z39) 1)\n${argsInfo}"
+  debugLog-offset-msg$(z39) 1 "Entered func [$funcstack[2]]\n${argsInfo}"
 }
 
 debugCleanLogFile$(z39)() {
-  del "$(debugLogFile$(z39))"
+  fileMoveToTrash-filePaths "$(debugLogFile$(z39))"
   debugLog$(z39) "Cleaned log"
 }
 
-debugLog$(z39)() {
-  local msg="[${1} \n  stacktrace: $(stacktrace-offset$(z39) 1)]"
+debugLog-offset-msg$(z39)() {
+  local msg="${@:2}\n  stacktrace: $(stacktrace-offset$(z39) $((${1}+1)))"
   filePrepareDirAt-path $(fileBasePartOf:Path $(debugLogFile$(z39)))
-  print$(z39) "\n# $(date)\n$msg}" >> "$(debugLogFile$(z39))"
-  isConsoleDebugEnabled$(z39) && print$(z39) "\n[${msg}\n]"
+  print$(z39) "\n[# $(date)\n${msg}]" >> "$(debugLogFile$(z39))"
+  isDebugConsoleEnabled$(z39) && print$(z39) "\n[${msg}\n]"
+}
+
+debugLog$(z39)() {
+  debugLog-offset-msg$(z39) 1 ${@}
 }
 
 stacktrace-offset$(z39)() {
@@ -63,4 +61,8 @@ stacktrace-offset$(z39)() {
 
 debugEditLogFile$(z39)() {
   edit$(z39) "$(debugLogFile$(z39))"    
+}
+
+_debugConsoleFlag$(z39)() {
+  print$(z39) "_debugConsoleFlagValue$(z39)"
 }

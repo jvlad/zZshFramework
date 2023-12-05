@@ -41,9 +41,16 @@ Some utility functions for Zsh (Z-Shell) to make it easier to deal with files, s
 Function name should be written in a camelCase with the `-` before each parameter  
 
 E. g.  
-1. `printWarning-message` means that the function expects a single parameter with 'message' semantics  
+`printWarning-message` means that the function expects a single parameter with 'message' semantics  
 
-2. `print-prefix-message` – the function expects two parameters: the prefix and the message  
+`print-prefix-message` – the function expects two parameters: the prefix and the message  
+
+#### Function Naming Interpretation
+`...-file-...` – the **full path** to a file is expected as an argument  
+`...-fileName-...` – the **last part** of a file's full path is expected as an argument  
+`...-dir-...` – the **full path** to a directory is expected as an argument  
+`...-dirName-...` – the **last part** of a directory's full path is expected as an argument  
+`is...` – a function that is expected to return non-zero code under certain conditions  
 
 Other details of the applied style are demonstrated below:  
 
