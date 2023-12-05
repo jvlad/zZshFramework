@@ -29,7 +29,7 @@ z39() {
 }
 
 version$(z39)() {
-  print$(z39) "zZshFramework 8.1.30.20231205"  
+  print$(z39) "zZshFramework 9.1.31.20231205"  
 }
 
 _main-zZshFramework-srcDir$(z39)() {
