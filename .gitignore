@@ -1,6 +1,4 @@
 
-/__test.sh
-
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
