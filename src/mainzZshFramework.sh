@@ -62,6 +62,16 @@ _main-zZshFramework-srcDir$(z39)() {
 }
 
 _initPrivateUtils() {
+
+  doc$(z39)() {
+    # Does nothing currently
+    
+    # Used for making source-code docs to be part of the source code itself (like in Python). 
+    # We can inspect the calling stack and forward it to a dedicated file along with 
+    # the arguments, in machine- or human-readable formats.  
+    # It's also handy to have docs written within a function's lexical scope, so they are 
+    # folded/unfolded and moved/deleted together with the function.
+  }
   
   yes$(z39)() {
   ## Logical "yes"
